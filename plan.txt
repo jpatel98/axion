@@ -1,0 +1,163 @@
+Project Charter & Production Plan: Axion
+Part 1: The Vision
+What is Axion?
+
+Axion is a cloud-based, multi-tenant SaaS platform designed to be the single source of truth for small to medium-sized manufacturing businesses, specifically those in CNC, VMC, and job-shop environments. It is the central nervous system for a modern manufacturing operation. It will be sold as a monthly or annual subscription.
+What Problem Does It Solve?
+
+Axion solves the fundamental problem of operational chaos. Manufacturers struggle with disconnected systems: spreadsheets for quoting, whiteboards for scheduling, paper travelers on the shop floor, and accounting software that doesn't talk to anything else. This creates inefficiency, mistakes, and a complete lack of real-time visibility.
+
+Axion fixes this by integrating all core business and production functions into one seamless system:
+
+    Business Management: It handles everything from creating a quote for a new customer to tracking the profitability of that job once it's complete.
+
+    Production Management: It takes an approved quote and turns it into a trackable job, schedules it on a machine, manages the inventory needed to produce it, and tracks its progress on the shop floor.
+
+    Operational Visibility: It gives business owners a live, real-time dashboard showing exactly what's happening in their shop, how much jobs are actually costing, and where the bottlenecks are.
+
+Part 2: The Strategy
+How We'll Build It: The "Vertical Slice" Method
+
+This is the most critical part of the plan. We will not build the entire user interface first and then try to connect it all at the end. That approach is fragile and leads to massive integration failures.
+
+Instead, we will build the application in complete, working slices. Think of it like building a house one fully finished room at a time. Each slice is a testable, valuable feature, complete from the database to the button on the screen. This method ensures that at the end of every phase, we have a more valuable, working product. It is a practical, low-risk approach that guarantees we are building on a solid foundation.
+What We'll Use to Build It: The Tech Stack
+
+Our tools are modern, reliable, and built for this kind of application:
+
+    Frontend (The User Interface): Next.js with Tailwind CSS. This gives us a fast, modern, and great-looking user experience that works perfectly on desktops and mobile devices.
+
+    Backend (The Brains): Supabase Edge Functions. This is our serverless backend. It's powerful, scales automatically, and integrates perfectly with our database.
+
+    Database (The Memory): PostgreSQL via Supabase. PostgreSQL is a world-class, rock-solid database that can handle the complexity of an ERP system. Supabase makes it easy to manage.
+
+    Authentication (The Gatekeeper): Clerk. This service handles all the complexities of user sign-up, login, and organization management. It's secure, reliable, and saves us months of development time.
+
+    Specialized Tools: We will use Recharts for building charts and dashboards, and FullCalendar for the visual job scheduler.
+
+Part 3: The Step-by-Step Build Plan
+Phase 1: The Core Slice - Authentication & The Job Board
+
+Plain English Goal: Get a user logged into the system and looking at a real, working job board. This phase proves the core architecture and delivers the absolute minimum viable product.
+
+Coding Guide for AI Agent:
+
+    Backend & Database:
+
+        Set up the Supabase project and create the initial database tables: tenants, users, and jobs.
+
+        Integrate Clerk for authentication. Create the Supabase Edge Functions to sync Clerk organizations and users with your tenants and users tables.
+
+        Build the first real API endpoint: GET /api/v1/jobs. This endpoint must be secure from day one, checking the user's tenant_id and only returning jobs that belong to them.
+
+    Frontend UI:
+
+        Create a new Next.js application with Tailwind CSS.
+
+        Build the sign-in and sign-up pages using Clerk's components.
+
+        Build the main application layout (e.g., a sidebar for navigation and a main content area).
+
+        Build the Job Board page at /dashboard/jobs. This page will make a fetch call to the real /api/v1/jobs endpoint. Initially, it will show an empty state, but it will be a live, secure connection.
+
+Phase 2: The Money Slice - Quoting & Job Creation
+
+Plain English Goal: Build the core money-making workflow. A user must be able to create a customer, build a quote, and convert that approved quote into a real job that appears on the Job Board built in Phase 1.
+
+Coding Guide for AI Agent:
+
+    Backend & Database:
+
+        Add the customers, quotes, and quote_line_items tables to the database.
+
+        Build the full, secure CRUD (Create, Read, Update, Delete) API endpoints for customers and quotes (e.g., POST /api/v1/customers, GET /api/v1/quotes).
+
+        Build the critical API endpoint: POST /api/v1/jobs/from-quote. This function will take an approved quote_id, create a corresponding record in the jobs table, and update the quote's status.
+
+    Frontend UI:
+
+        Build the Customer Management page at /dashboard/customers. The forms on this page will call the real customer API endpoints.
+
+        Build the Quote Management and Quote Creator pages (/dashboard/quotes, /dashboard/quotes/new). These forms will call the real quote API endpoints.
+
+        On the Quote Details page, add a "Convert to Job" button. When clicked, it calls the POST /api/v1/jobs/from-quote endpoint. After a successful call, it should redirect the user to the Job Board, where they will see the newly created job.
+
+Phase 3: The Operations Slice - Job Execution & Live Costing
+
+Plain English Goal: Connect the front office to the shop floor. Enable operators to view their assigned tasks and log their time, which will immediately begin tracking the actual cost of a job.
+
+Coding Guide for AI Agent:
+
+    Backend & Database:
+
+        Add the job_operations and operation_logs tables.
+
+        Build the API endpoints for operators: GET /api/v1/operator/tasks and POST /api/v1/operation-logs.
+
+        Implement the business logic (likely a database trigger) that automatically updates the actual_cost field on the jobs table whenever a new operation_logs entry is created.
+
+    Frontend UI:
+
+        Build the simple, mobile-first Operator Dashboard at /operator/dashboard. This page will fetch data from the /api/v1/operator/tasks endpoint. The "Start" and "Complete" buttons will call the /api/v1/operation-logs endpoint.
+
+        Modify the Job Board card component from Phase 1. It should now display both estimated_cost and the live actual_cost, providing real-time feedback as work is completed.
+
+Phase 4: The Planning Slice - Scheduling & Inventory
+
+Plain English Goal: Add a layer of planning and foresight. Build the visual scheduler to manage shop capacity and create the inventory system to track raw materials.
+
+Coding Guide for AI Agent:
+
+    Backend & Database:
+
+        Add the machines, materials, suppliers, and purchase_orders tables.
+
+        Build the full CRUD APIs for managing these new resources.
+
+        Build the logic that connects inventory to jobs. When a job is completed, trigger a function to decrement the required materials from inventory.
+
+    Frontend UI:
+
+        Build the Scheduler page at /dashboard/scheduler using the FullCalendar library. It will fetch real machine and job data. Drag-and-drop actions will call the API to update job schedules.
+
+        Build the full Inventory section at /dashboard/inventory. This will include pages for managing materials, suppliers, and creating purchase orders. The "low stock" alerts on the main dashboard will now be driven by real data.
+
+Phase 5: The Quality & Shipping Slice
+
+Plain English Goal: Close the loop on the production process. Implement quality control checks and build the tools to manage packing and shipping finished goods.
+
+Coding Guide for AI Agent:
+
+    Backend & Database:
+
+        Add the quality_check_templates, job_quality_inspections, and shipments tables.
+
+        Build the APIs for creating QC templates, submitting inspection results, and creating shipments.
+
+        Integrate with a shipping provider API (e.g., EasyPost) to generate tracking numbers.
+
+    Frontend UI:
+
+        On the Job Details page, add a "Quality" tab that uses the new QC APIs.
+
+        Build the Shipping Management page at /dashboard/shipping. Staff can select completed, quality-passed jobs and bundle them into a shipment.
+
+        Update the Customer Portal to show shipment status and tracking numbers.
+
+Phase 6: The Intelligence & Integration Slice
+
+Plain English Goal: Evolve from an operational tool to a business intelligence platform. Build advanced analytics and connect the system to the outside world.
+
+Coding Guide for AI Agent:
+
+    Backend & Database:
+
+        Build the read-only, aggregate API endpoints for reporting and analytics (e.g., /api/v1/reports/profitability).
+
+        Build the service modules and secure API endpoints for integrating with accounting software like QuickBooks.
+
+    Frontend UI:
+
+        Build the Admin & Reporting section at /admin. Use Recharts to create charts and dashboards that consume the new analytics endpoints.
+
+        Build the Integrations settings page at /dashboard/settings/integrations, allowing users to connect their third-party accounts via OAuth.
