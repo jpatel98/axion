@@ -250,15 +250,7 @@ npm run typecheck    # Run TypeScript checks
 - Third-party integrations (QuickBooks, etc.)
 - Advanced forecasting and planning
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Development Guidelines
+## 🛠️ Development Guidelines
 
 - Follow TypeScript best practices
 - Use ESLint and Prettier for code formatting
@@ -268,7 +260,7 @@ npm run typecheck    # Run TypeScript checks
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This is proprietary software. All rights reserved. Not for public distribution or sharing.
 
 ## 🙏 Acknowledgments
 
@@ -278,9 +270,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Tailwind CSS** for rapid UI development
 - **Lucide** for beautiful icons
 
-## 📞 Support
+## 📞 Internal Notes
 
-For support, email support@axion-erp.com or join our community discussions.
+This is a private development project. All development and deployment decisions are internal.
 
 ---
 
