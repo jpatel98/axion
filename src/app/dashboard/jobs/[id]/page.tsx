@@ -20,7 +20,7 @@ interface Job {
   updated_at: string
 }
 
-export default function JobDetailsPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+export default function JobDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [job, setJob] = useState<Job | null>(null)
   const [loading, setLoading] = useState(true)

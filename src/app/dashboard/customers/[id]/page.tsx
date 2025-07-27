@@ -22,7 +22,7 @@ interface Customer {
   updated_at: string
 }
 
-export default function CustomerDetailsPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+export default function CustomerDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [customer, setCustomer] = useState<Customer | null>(null)
   const [loading, setLoading] = useState(true)

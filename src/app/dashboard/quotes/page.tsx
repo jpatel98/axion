@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Plus, FileText } from 'lucide-react'
+import { Plus, FileText, Search, Filter } from 'lucide-react'
 
 interface Quote {
   id: string
@@ -18,7 +18,10 @@ interface Quote {
 
 export default function QuotesPage() {
   const [quotes, setQuotes] = useState<Quote[]>([])
+  const [filteredQuotes, setFilteredQuotes] = useState<Quote[]>([])
   const [loading, setLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
 
   useEffect(() => {
     fetchQuotes()
@@ -30,6 +33,7 @@ export default function QuotesPage() {
       if (response.ok) {
         const data = await response.json()
         setQuotes(data.quotes || [])
+        setFilteredQuotes(data.quotes || [])
       }
     } catch (error) {
       console.error('Error fetching quotes:', error)
@@ -53,6 +57,41 @@ export default function QuotesPage() {
     })
   }
 
+  // Filter quotes based on search term and status
+  useEffect(() => {
+    let filtered = quotes
+
+    // Filter by search term
+    if (searchTerm) {
+      filtered = filtered.filter(quote => 
+        quote.quote_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        quote.customers?.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    // Filter by status
+    if (statusFilter !== 'all') {
+      filtered = filtered.filter(quote => quote.status === statusFilter)
+    }
+
+    setFilteredQuotes(filtered)
+  }, [quotes, searchTerm, statusFilter])
+
+  const getStatusCounts = () => {
+    const counts = {
+      all: quotes.length,
+      draft: quotes.filter(q => q.status === 'draft').length,
+      sent: quotes.filter(q => q.status === 'sent').length,
+      accepted: quotes.filter(q => q.status === 'accepted').length,
+      rejected: quotes.filter(q => q.status === 'rejected').length,
+      expired: quotes.filter(q => q.status === 'expired').length,
+    }
+    return counts
+  }
+
+  const statusCounts = getStatusCounts()
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -64,7 +103,7 @@ export default function QuotesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Quotes</h1>
           <p className="text-gray-600">Manage your project quotes and proposals</p>
@@ -75,8 +114,75 @@ export default function QuotesPage() {
         </Link>
       </div>
 
+      {/* Search and Filters */}
+      <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+        <div className="flex flex-col sm:flex-row gap-4">
+          {/* Search */}
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search quotes by number, title, or customer..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* Status Filter */}
+          <div className="sm:w-48">
+            <div className="relative">
+              <Filter className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              >
+                <option value="all">All Status ({statusCounts.all})</option>
+                <option value="draft">Draft ({statusCounts.draft})</option>
+                <option value="sent">Sent ({statusCounts.sent})</option>
+                <option value="accepted">Accepted ({statusCounts.accepted})</option>
+                <option value="rejected">Rejected ({statusCounts.rejected})</option>
+                <option value="expired">Expired ({statusCounts.expired})</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="text-center">
+            <div className="text-2xl font-bold text-gray-900">{statusCounts.all}</div>
+            <div className="text-sm text-gray-500">Total</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-gray-600">{statusCounts.draft}</div>
+            <div className="text-sm text-gray-500">Draft</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600">{statusCounts.sent}</div>
+            <div className="text-sm text-gray-500">Sent</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-green-600">{statusCounts.accepted}</div>
+            <div className="text-sm text-gray-500">Accepted</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-red-600">{statusCounts.rejected}</div>
+            <div className="text-sm text-gray-500">Rejected</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-orange-600">{statusCounts.expired}</div>
+            <div className="text-sm text-gray-500">Expired</div>
+          </div>
+        </div>
+      </div>
+
       {/* Quotes List */}
-      {quotes.length === 0 ? (
+      {filteredQuotes.length === 0 ? (
+        quotes.length === 0 ? (
         <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
           <div className="text-center py-12">
             <FileText className="mx-auto h-12 w-12 text-gray-400" />
@@ -90,6 +196,28 @@ export default function QuotesPage() {
             </div>
           </div>
         </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+            <div className="text-center py-12">
+              <Search className="mx-auto h-12 w-12 text-gray-400" />
+              <h3 className="mt-2 text-sm font-semibold text-gray-900">No quotes found</h3>
+              <p className="mt-1 text-sm text-gray-500">
+                No quotes match your current search criteria. Try adjusting your filters.
+              </p>
+              <div className="mt-6">
+                <button
+                  onClick={() => {
+                    setSearchTerm('')
+                    setStatusFilter('all')
+                  }}
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                >
+                  Clear all filters
+                </button>
+              </div>
+            </div>
+          </div>
+        )
       ) : (
         <div className="bg-white shadow rounded-lg overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
@@ -104,7 +232,7 @@ export default function QuotesPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {quotes.map((quote) => (
+              {filteredQuotes.map((quote) => (
                 <tr key={quote.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>

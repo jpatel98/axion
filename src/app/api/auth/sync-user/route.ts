@@ -33,9 +33,11 @@ export async function POST() {
     console.log('Creating new user and tenant...')
 
     // Get organization info if user belongs to one
-    const organizationId = user.organizationMemberships?.[0]?.organization?.id
-    const organizationName = user.organizationMemberships?.[0]?.organization?.name
-    const organizationSlug = user.organizationMemberships?.[0]?.organization?.slug
+    // Note: organizationMemberships is not available on the User type in this version
+    // We'll create a personal tenant for now
+    const organizationId = null
+    const organizationName = null
+    const organizationSlug = null
 
     let tenantId: string
 

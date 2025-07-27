@@ -4,6 +4,7 @@ import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useUserSync } from '@/hooks/useUserSync'
+import ErrorBoundary from '@/components/ui/error-boundary'
 import { 
   LayoutDashboard, 
   Briefcase, 
@@ -89,7 +90,9 @@ export default function DashboardLayout({
         {/* Page content */}
         <main className="py-6">
           <div className="px-4 sm:px-6 lg:px-8">
-            {children}
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
           </div>
         </main>
       </div>
