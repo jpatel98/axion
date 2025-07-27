@@ -101,20 +101,16 @@ export const CurrencyField: React.FC<CurrencyFieldProps> = ({
   ].filter(Boolean) as any[]
 
   return (
-    <div className="relative">
-      <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-      <ValidatedNumberInput
-        formatType="currency"
-        currency={currency}
-        className="pl-10"
-        placeholder="0.00"
-        onChange={onChange}
-        min={typeof min === 'string' ? parseFloat(min) : min}
-        max={typeof max === 'string' ? parseFloat(max) : max}
-        step={typeof step === 'string' ? parseFloat(step) : step}
-        {...props}
-      />
-    </div>
+    <ValidatedNumberInput
+      formatType="currency"
+      currency={currency}
+      placeholder="0.00"
+      onChange={onChange}
+      min={typeof min === 'string' ? parseFloat(min) : min}
+      max={typeof max === 'string' ? parseFloat(max) : max}
+      step={typeof step === 'string' ? parseFloat(step) : step}
+      {...props}
+    />
   )
 }
 
@@ -144,16 +140,12 @@ export const DateField: React.FC<DateFieldProps> = ({
   ].filter(Boolean) as any[]
 
   return (
-    <div className="relative">
-      <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-      <ValidatedInput
-        type="date"
-        min={minDate || (!allowPast ? today : undefined)}
-        max={maxDate || (!allowFuture ? today : undefined)}
-        className="pl-10"
-        {...props}
-      />
-    </div>
+    <ValidatedInput
+      type="date"
+      min={minDate || (!allowPast ? today : undefined)}
+      max={maxDate || (!allowFuture ? today : undefined)}
+      {...props}
+    />
   )
 }
 
@@ -169,10 +161,6 @@ export const NameField: React.FC<NameFieldProps> = ({
   onChange,
   ...props
 }) => {
-  const nameValidators = allowEmpty 
-    ? [validators.name()] 
-    : [validators.required('Name is required'), validators.name()]
-
   const handleChange = (value: string) => {
     // Auto-capitalize first letter of each word for person names
     if (nameType === 'person') {
@@ -192,6 +180,7 @@ export const NameField: React.FC<NameFieldProps> = ({
       autoComplete={nameType === 'person' ? 'name' : 'organization'}
       placeholder={placeholder}
       onChange={handleChange}
+      leftIcon={icon}
       {...props}
     />
   )
@@ -315,15 +304,34 @@ export const CountryStateField: React.FC<CountryStateFieldProps> = ({
     { value: 'WY', label: 'Wyoming' },
   ]
 
+  const canadianProvinces = [
+    { value: 'AB', label: 'Alberta' },
+    { value: 'BC', label: 'British Columbia' },
+    { value: 'MB', label: 'Manitoba' },
+    { value: 'NB', label: 'New Brunswick' },
+    { value: 'NL', label: 'Newfoundland and Labrador' },
+    { value: 'NT', label: 'Northwest Territories' },
+    { value: 'NS', label: 'Nova Scotia' },
+    { value: 'NU', label: 'Nunavut' },
+    { value: 'ON', label: 'Ontario' },
+    { value: 'PE', label: 'Prince Edward Island' },
+    { value: 'QC', label: 'Quebec' },
+    { value: 'SK', label: 'Saskatchewan' },
+    { value: 'YT', label: 'Yukon' },
+  ]
+
   const getOptions = () => {
     if (type === 'country') {
       return countries
     } else {
-      // For now, only provide US states. Could expand based on country selection
-      if (country === 'US' || !country) {
+      // Provide appropriate states/provinces based on country
+      if (country === 'CA') {
+        return canadianProvinces
+      } else if (country === 'US') {
         return usStates
+      } else {
+        return [{ value: '', label: 'Select state/province' }]
       }
-      return [{ value: '', label: 'Select state/province' }]
     }
   }
 

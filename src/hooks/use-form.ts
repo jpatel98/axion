@@ -116,29 +116,46 @@ export function useForm<T extends Record<string, any>>(
     }
   })
 
-  // Update validation state
-  const updateValidationState = useCallback(() => {
+
+  // Set field value with optional validation
+  const setValue = useCallback((field: keyof T, value: any) => {
+    const fieldConfig = configRef.current.fields[field]
+    
+    // Apply sanitizer if provided
+    const sanitizedValue = fieldConfig.sanitizer ? fieldConfig.sanitizer(value) : value
+    
     setState(prev => {
+      const newFields = {
+        ...prev.fields,
+        [field]: {
+          ...prev.fields[field],
+          value: sanitizedValue,
+          dirty: true,
+        },
+      }
+      
+      // Calculate validation state inline
       const errors: Record<string, string> = {}
       let isValid = true
       let isDirty = false
 
-      Object.keys(prev.fields).forEach(key => {
+      Object.keys(newFields).forEach(key => {
         const fieldKey = key as keyof T
-        const field = prev.fields[fieldKey]
+        const fieldState = newFields[fieldKey]
         
-        if (field.error) {
-          errors[key] = field.error
+        if (fieldState.error) {
+          errors[key] = fieldState.error
           isValid = false
         }
         
-        if (field.dirty) {
+        if (fieldState.dirty) {
           isDirty = true
         }
       })
 
       return {
         ...prev,
+        fields: newFields,
         errors,
         isValid,
         isDirty,
@@ -146,45 +163,45 @@ export function useForm<T extends Record<string, any>>(
     })
   }, [])
 
-  // Set field value with optional validation
-  const setValue = useCallback(async (field: keyof T, value: any) => {
-    const fieldConfig = configRef.current.fields[field]
-    
-    // Apply sanitizer if provided
-    const sanitizedValue = fieldConfig.sanitizer ? fieldConfig.sanitizer(value) : value
-    
-    setState(prev => ({
-      ...prev,
-      fields: {
-        ...prev.fields,
-        [field]: {
-          ...prev.fields[field],
-          value: sanitizedValue,
-          dirty: true,
-        },
-      },
-    }))
-
-    // Validate on change if enabled
-    if (configRef.current.validateOnChange) {
-      await validateField(field)
-    }
-  }, [])
-
   // Set field error
   const setError = useCallback((field: keyof T, error: string | null) => {
-    setState(prev => ({
-      ...prev,
-      fields: {
+    setState(prev => {
+      const newFields = {
         ...prev.fields,
         [field]: {
           ...prev.fields[field],
           error,
         },
-      },
-    }))
-    updateValidationState()
-  }, [updateValidationState])
+      }
+      
+      // Calculate validation state inline
+      const errors: Record<string, string> = {}
+      let isValid = true
+      let isDirty = false
+
+      Object.keys(newFields).forEach(key => {
+        const fieldKey = key as keyof T
+        const fieldState = newFields[fieldKey]
+        
+        if (fieldState.error) {
+          errors[key] = fieldState.error
+          isValid = false
+        }
+        
+        if (fieldState.dirty) {
+          isDirty = true
+        }
+      })
+
+      return {
+        ...prev,
+        fields: newFields,
+        errors,
+        isValid,
+        isDirty,
+      }
+    })
+  }, [])
 
   // Clear field error
   const clearError = useCallback((field: keyof T) => {
@@ -340,7 +357,7 @@ export function useForm<T extends Record<string, any>>(
       }))
       return false
     }
-  }, [state.fields, setError])
+  }, [setError, state.fields])
 
   // Debounced field validation
   const debouncedValidateField = useCallback(
@@ -368,7 +385,7 @@ export function useForm<T extends Record<string, any>>(
 
     try {
       // Touch all fields
-      Object.keys(state.fields).forEach(key => {
+      Object.keys(configRef.current.fields).forEach(key => {
         touchField(key as keyof T)
       })
 
@@ -409,7 +426,7 @@ export function useForm<T extends Record<string, any>>(
     } finally {
       setState(prev => ({ ...prev, isSubmitting: false }))
     }
-  }, [state.fields, validateAll, touchField, addToast])
+  }, [validateAll, touchField, addToast])
 
   // Reset form
   const reset = useCallback(() => {
@@ -479,7 +496,7 @@ export function useForm<T extends Record<string, any>>(
       dirty: fieldState.dirty,
       required: fieldConfig.required || false,
     }
-  }, [state.fields, setValue, touchField, validateField, debouncedValidateField])
+  }, [state.fields])
 
   // Get form data
   const getFormData = useCallback((): T => {
@@ -509,10 +526,6 @@ export function useForm<T extends Record<string, any>>(
     })
   }, [])
 
-  // Update validation state when fields change
-  useEffect(() => {
-    updateValidationState()
-  }, [state.fields, updateValidationState])
 
   // Cleanup async validations on unmount
   useEffect(() => {

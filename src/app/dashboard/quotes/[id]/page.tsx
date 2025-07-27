@@ -89,12 +89,18 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
 
   const fetchQuote = async () => {
     try {
+      console.log('Fetching quote with ID:', quoteId)
       const response = await fetch(`/api/v1/quotes/${quoteId}`)
+      console.log('Quote fetch response status:', response.status)
+      
       if (response.ok) {
         const data = await response.json()
-        setQuote(data)
-        setEditData(data)
+        console.log('Quote data received:', data)
+        setQuote(data.quote)
+        setEditData(data.quote)
       } else {
+        const errorText = await response.text()
+        console.error('Quote fetch failed:', response.status, errorText)
         setError('Quote not found')
         setTimeout(() => router.push('/dashboard/quotes'), 2000)
       }
@@ -139,7 +145,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
       quote_line_items: [
         ...(prev.quote_line_items || []),
         {
-          id: crypto.randomUUID(),
+          id: `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           description: '',
           quantity: 1,
           unit_price: 0,
@@ -159,7 +165,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
   }
 
   const calculateTotal = () => {
-    return editData.quote_line_items?.reduce((sum, item) => sum + item.line_total, 0) || 0
+    return editData.quote_line_items?.reduce((sum, item) => sum + (item.line_total || 0), 0) || 0
   }
 
   const handleSave = async () => {
@@ -198,9 +204,9 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
         throw new Error(errorData.error || 'Failed to update quote')
       }
 
-      const updatedQuote = await response.json()
-      setQuote(updatedQuote)
-      setEditData(updatedQuote)
+      const result = await response.json()
+      setQuote(result.quote)
+      setEditData(result.quote)
       setIsEditing(false)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
@@ -217,18 +223,28 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...quote,
+          title: quote?.title,
+          description: quote?.description,
+          tax_rate: quote?.tax_rate || 0,
+          valid_until: quote?.valid_until,
+          notes: quote?.notes,
+          internal_notes: quote?.internal_notes,
           status: newStatus
         }),
       })
 
       if (response.ok) {
-        const updatedQuote = await response.json()
-        setQuote(updatedQuote)
-        setEditData(updatedQuote)
+        const result = await response.json()
+        setQuote(result.quote)
+        setEditData(result.quote)
+      } else {
+        const errorData = await response.json()
+        console.error('Failed to update status:', errorData)
+        setError(`Failed to update status: ${errorData.error || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error updating quote status:', error)
+      setError('Network error while updating status')
     }
   }
 
@@ -461,7 +477,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
             </div>
             <div className="p-6">
               <div className="space-y-4">
-                {(isEditing ? editData.quote_line_items : quote.quote_line_items)?.map((item, index) => (
+                {(isEditing ? editData.quote_line_items : quote.quote_line_items || [])?.map((item, index) => (
                   <div key={item.id} className="border rounded-lg p-4">
                     {isEditing ? (
                       <div className="space-y-4">
@@ -556,17 +572,17 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
             <div className="p-6 space-y-3">
               <div>
                 <label className="block text-sm font-medium text-gray-600">Name</label>
-                <p className="text-sm text-gray-900">{quote.customers.name}</p>
+                <p className="text-sm text-gray-900">{quote.customers?.name || 'N/A'}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600">Email</label>
-                <p className="text-sm text-gray-900">{quote.customers.email}</p>
+                <p className="text-sm text-gray-900">{quote.customers?.email || 'N/A'}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-600">Phone</label>
-                <p className="text-sm text-gray-900">{quote.customers.phone}</p>
+                <p className="text-sm text-gray-900">{quote.customers?.phone || 'N/A'}</p>
               </div>
-              {quote.customers.address_line1 && (
+              {quote.customers?.address_line1 && (
                 <div>
                   <label className="block text-sm font-medium text-gray-600">Address</label>
                   <p className="text-sm text-gray-900">

@@ -50,10 +50,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Failed to fetch quote details' }, { status: 500 })
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       quote: {
         ...quote,
-        line_items: lineItems || []
+        quote_line_items: lineItems || []
       }
     })
   } catch (error) {
@@ -118,8 +118,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
           quote_id: id,
           item_number: index + 1,
           description: item.description,
-          quantity: item.quantity || 1,
-          unit_price: item.unit_price,
+          quantity: parseFloat(item.quantity) || 1,
+          unit_price: parseFloat(item.unit_price) || 0,
           notes: item.notes
         }))
 
@@ -134,7 +134,62 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       }
     }
 
-    return NextResponse.json({ quote })
+    // Manually calculate and update totals if line items were updated
+    if (line_items && Array.isArray(line_items)) {
+      const subtotal = line_items.reduce((sum, item) => sum + (parseFloat(item.quantity) * parseFloat(item.unit_price)), 0)
+      const taxAmount = subtotal * (tax_rate || 0)
+      const total = subtotal + taxAmount
+
+      await supabase
+        .from('quotes')
+        .update({
+          subtotal,
+          tax_amount: taxAmount,
+          total
+        })
+        .eq('id', id)
+    }
+
+    // Get updated quote with line items for response
+    const { data: updatedQuote, error: fetchError } = await supabase
+      .from('quotes')
+      .select(`
+        *,
+        customers (
+          id,
+          name,
+          email,
+          phone,
+          address_line1,
+          address_line2,
+          city,
+          state,
+          postal_code,
+          country,
+          contact_person
+        )
+      `)
+      .eq('id', id)
+      .eq('tenant_id', user.tenant_id)
+      .single()
+
+    if (fetchError) {
+      return NextResponse.json({ quote })
+    }
+
+    // Get updated line items
+    const { data: updatedLineItems } = await supabase
+      .from('quote_line_items')
+      .select('*')
+      .eq('quote_id', id)
+      .order('item_number', { ascending: true })
+
+    return NextResponse.json({
+      quote: {
+        ...updatedQuote,
+        quote_line_items: updatedLineItems || []
+      }
+    })
   } catch (error) {
     console.error('API Error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
