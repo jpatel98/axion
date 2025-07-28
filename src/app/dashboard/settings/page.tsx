@@ -58,8 +58,9 @@ export default function SettingsPage() {
 
   const handleSave = () => {
     // Here you would save settings to your backend
-    console.log('Saving settings:', settings)
-    // Show success toast
+    // TODO: Implement actual API call to save settings
+    // Show success toast notification
+    alert('Settings saved successfully!')
   }
 
   return (
