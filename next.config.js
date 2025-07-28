@@ -37,8 +37,8 @@ const nextConfig = {
   },
   
   experimental: {
-    // Enable better error messages in development
-    optimizeCss: process.env.NODE_ENV === 'production',
+    // Disable CSS optimization to avoid critters dependency issue
+    optimizeCss: false,
   },
   
   // Better source maps for debugging in development
