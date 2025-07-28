@@ -19,6 +19,12 @@
       "Bash(npm run typecheck:*)",
       "Bash(npm run lint)",
       "Bash(npx tsc:*)",
+      "Bash(chmod:*)",
+      "Bash(rm:*)",
+      "Bash(ls:*)",
+      "Bash(/dev/null)",
+      "Bash(./scripts/new-feature.sh:*)",
+      "Bash(git checkout:*)",
       "Bash(git merge:*)"
     ],
     "deny": []

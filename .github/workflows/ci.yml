@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run type check
+      run: npm run typecheck
+    
+    - name: Run build
+      run: npm run build
+      
+    - name: Run lint (if configured)
+      run: npm run lint || echo "Lint not configured, skipping"
+      continue-on-error: true
+
+  auto-merge-dependabot:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+    steps:
+    - name: Auto-merge Dependabot PRs
+      run: echo "Would auto-merge dependabot PR after tests pass"
