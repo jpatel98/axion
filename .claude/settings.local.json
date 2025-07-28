@@ -20,7 +20,9 @@
       "Bash(npm run lint)",
       "Bash(npx tsc:*)",
       "Bash(chmod:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(ls:*)",
+      "Bash(/dev/null)"
     ],
     "deny": []
   }

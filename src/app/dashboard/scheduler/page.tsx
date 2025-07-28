@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Calendar, Clock, Users, Briefcase, Plus, Filter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -30,7 +30,12 @@ const mockJobs = [
 
 export default function SchedulerPage() {
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar')
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+
+  // Initialize date on client side to avoid hydration mismatch
+  useEffect(() => {
+    setSelectedDate(new Date())
+  }, [])
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -42,7 +47,7 @@ export default function SchedulerPage() {
   }
 
   return (
-    <div>
+    <div suppressHydrationWarning>
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
