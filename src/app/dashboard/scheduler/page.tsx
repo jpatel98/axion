@@ -4,29 +4,7 @@ import { useState, useEffect } from 'react'
 import { Calendar, Clock, Users, Briefcase, Plus, Filter } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-// Mock data for demonstration
-const mockJobs = [
-  {
-    id: '1',
-    job_number: 'JOB-00001',
-    customer_name: 'Acme Corp',
-    description: 'Custom machined parts',
-    due_date: '2024-02-15',
-    estimated_hours: 24,
-    status: 'in_progress',
-    assigned_to: 'John Smith'
-  },
-  {
-    id: '2', 
-    job_number: 'JOB-00002',
-    customer_name: 'Tech Industries',
-    description: 'Precision components',
-    due_date: '2024-02-20',
-    estimated_hours: 16,
-    status: 'pending',
-    assigned_to: 'Sarah Wilson'
-  }
-]
+// Note: This will be replaced with actual job data from your database
 
 export default function SchedulerPage() {
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar')
@@ -86,132 +64,95 @@ export default function SchedulerPage() {
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Clock className="h-8 w-8 text-blue-500" />
+      {/* Scheduler Coming Soon */}
+      <div className="bg-white shadow rounded-lg mb-8">
+        <div className="px-4 py-5 sm:p-6">
+          <div className="text-center py-16">
+            <Calendar className="mx-auto h-20 w-20 text-gray-400" />
+            <h3 className="mt-4 text-xl font-medium text-gray-900">Production Scheduler Coming Soon</h3>
+            <p className="mt-2 text-sm text-gray-500 max-w-md mx-auto">
+              Schedule and track manufacturing jobs, manage worker assignments, and optimize your production capacity.
+            </p>
+            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <Clock className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Job Scheduling</p>
+                <p className="text-xs text-gray-400">Timeline management</p>
               </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Jobs This Week
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">12</dd>
-                </dl>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <Users className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Worker Assignment</p>
+                <p className="text-xs text-gray-400">Resource allocation</p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Users className="h-8 w-8 text-green-500" />
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <Briefcase className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Priority Management</p>
+                <p className="text-xs text-gray-400">Deadline tracking</p>
               </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Available Workers
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">8</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Briefcase className="h-8 w-8 text-yellow-500" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Overdue Jobs
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">3</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Calendar className="h-8 w-8 text-purple-500" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Capacity Utilization
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">85%</dd>
-                </dl>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <Calendar className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Capacity Planning</p>
+                <p className="text-xs text-gray-400">Utilization optimization</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Planned Features */}
       <div className="bg-white shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
-          {viewMode === 'calendar' ? (
+          <h3 className="text-lg font-medium text-gray-900 mb-6">Scheduler Features in Development</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <div className="text-center py-12">
-                <Calendar className="mx-auto h-12 w-12 text-gray-400" />
-                <h3 className="mt-2 text-sm font-semibold text-gray-900">Production Calendar</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Advanced calendar scheduling will be implemented here
-                </p>
-                <div className="mt-6 text-xs text-gray-400">
-                  Integration planned with FullCalendar for drag-and-drop scheduling
-                </div>
-              </div>
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                <Calendar className="h-5 w-5 mr-2 text-blue-500" />
+                Calendar View
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>• Drag-and-drop job scheduling</li>
+                <li>• Visual timeline management</li>
+                <li>• Resource conflict detection</li>
+                <li>• Multi-day job tracking</li>
+              </ul>
             </div>
-          ) : (
             <div>
-              <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-                Scheduled Jobs
-              </h3>
-              <div className="space-y-4">
-                {mockJobs.map((job) => (
-                  <div key={job.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3">
-                          <h4 className="text-sm font-medium text-gray-900">
-                            {job.job_number}
-                          </h4>
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(job.status)}`}>
-                            {job.status.replace('_', ' ')}
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-600 mt-1">{job.customer_name}</p>
-                        <p className="text-sm text-gray-500 mt-1">{job.description}</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-medium text-gray-900">
-                          Due: {new Date(job.due_date).toLocaleDateString()}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {job.estimated_hours}h • {job.assigned_to}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                <Users className="h-5 w-5 mr-2 text-green-500" />
+                Resource Management
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>• Worker skill matching</li>
+                <li>• Machine availability tracking</li>
+                <li>• Workload balancing</li>
+                <li>• Overtime optimization</li>
+              </ul>
             </div>
-          )}
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                <Clock className="h-5 w-5 mr-2 text-yellow-500" />
+                Time Management
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>• Estimated vs actual time tracking</li>
+                <li>• Deadline monitoring</li>
+                <li>• Rush job prioritization</li>
+                <li>• Delivery date optimization</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                <Briefcase className="h-5 w-5 mr-2 text-purple-500" />
+                Job Management
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>• Job status tracking</li>
+                <li>• Progress monitoring</li>
+                <li>• Dependency management</li>
+                <li>• Quality checkpoint integration</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -22,7 +22,9 @@
       "Bash(chmod:*)",
       "Bash(rm:*)",
       "Bash(ls:*)",
-      "Bash(/dev/null)"
+      "Bash(/dev/null)",
+      "Bash(./scripts/new-feature.sh:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": []
   }

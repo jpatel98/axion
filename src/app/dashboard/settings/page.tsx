@@ -5,20 +5,13 @@ import {
   Settings, 
   User, 
   Bell, 
-  Shield, 
-  Database, 
-  Palette,
-  Mail,
-  Save,
-  Eye,
-  EyeOff
+  Save
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile')
-  const [showApiKey, setShowApiKey] = useState(false)
   const [settings, setSettings] = useState({
     // Profile settings
     companyName: 'Acme Manufacturing',
@@ -38,18 +31,13 @@ export default function SettingsPage() {
     dateFormat: 'MM/DD/YYYY',
     numberFormat: 'en-CA',
     
-    // Security settings
-    twoFactorEnabled: false,
-    sessionTimeout: 60,
-    apiKey: 'axn_live_1234567890abcdef'
+    // Future: Security and integration settings will be added here
   })
 
   const tabs = [
     { id: 'profile', name: 'Company Profile', icon: User },
     { id: 'notifications', name: 'Notifications', icon: Bell },
-    { id: 'system', name: 'System', icon: Settings },
-    { id: 'security', name: 'Security', icon: Shield },
-    { id: 'integrations', name: 'Integrations', icon: Database }
+    { id: 'system', name: 'System', icon: Settings }
   ]
 
   const handleSettingChange = (key: string, value: any) => {
@@ -271,108 +259,6 @@ export default function SettingsPage() {
                 </div>
               )}
 
-              {/* Security Tab */}
-              {activeTab === 'security' && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Security Settings
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Manage your account security and API access.
-                    </p>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h4 className="text-sm font-medium text-gray-900">Two-Factor Authentication</h4>
-                        <p className="text-sm text-gray-500">Add an extra layer of security to your account</p>
-                      </div>
-                      <Button variant="outline" size="sm">
-                        {settings.twoFactorEnabled ? 'Disable' : 'Enable'} 2FA
-                      </Button>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Session Timeout (minutes)
-                      </label>
-                      <Input
-                        type="number"
-                        value={settings.sessionTimeout}
-                        onChange={(e) => handleSettingChange('sessionTimeout', parseInt(e.target.value))}
-                        className="mt-1 max-w-xs"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        API Key
-                      </label>
-                      <div className="mt-1 flex items-center gap-2">
-                        <Input
-                          type={showApiKey ? 'text' : 'password'}
-                          value={settings.apiKey}
-                          readOnly
-                          className="font-mono"
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setShowApiKey(!showApiKey)}
-                        >
-                          {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          Regenerate
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Integrations Tab */}
-              {activeTab === 'integrations' && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Third-Party Integrations
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Connect with external tools and services.
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    {[
-                      { name: 'QuickBooks', description: 'Sync financial data', status: 'Not Connected' },
-                      { name: 'Slack', description: 'Get notifications in Slack', status: 'Connected' },
-                      { name: 'Zapier', description: 'Automate workflows', status: 'Not Connected' }
-                    ].map((integration) => (
-                      <div key={integration.name} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                        <div>
-                          <h4 className="text-sm font-medium text-gray-900">{integration.name}</h4>
-                          <p className="text-sm text-gray-500">{integration.description}</p>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            integration.status === 'Connected' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {integration.status}
-                          </span>
-                          <Button variant="outline" size="sm">
-                            {integration.status === 'Connected' ? 'Disconnect' : 'Connect'}
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* Save Button */}
               <div className="pt-6 border-t border-gray-200">

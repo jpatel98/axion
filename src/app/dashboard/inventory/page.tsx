@@ -5,51 +5,7 @@ import { Package, Plus, Search, AlertTriangle, TrendingUp, TrendingDown, Filter 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-// Mock inventory data
-const mockInventory = [
-  {
-    id: '1',
-    name: 'Steel Rod 1/2"',
-    sku: 'STL-ROD-05',
-    category: 'Raw Materials',
-    quantity: 250,
-    unit: 'pieces',
-    min_stock: 100,
-    max_stock: 500,
-    cost_per_unit: 12.50,
-    location: 'A-1-2',
-    supplier: 'Steel Supply Co',
-    last_updated: '2024-01-15'
-  },
-  {
-    id: '2',
-    name: 'Aluminum Sheet 16ga',
-    sku: 'ALU-SHT-16',
-    category: 'Raw Materials', 
-    quantity: 45,
-    unit: 'sheets',
-    min_stock: 50,
-    max_stock: 200,
-    cost_per_unit: 28.75,
-    location: 'B-2-1',
-    supplier: 'Metro Metals',
-    last_updated: '2024-01-14'
-  },
-  {
-    id: '3',
-    name: 'Cutting Fluid - Premium',
-    sku: 'CUT-FLD-001',
-    category: 'Consumables',
-    quantity: 12,
-    unit: 'gallons',
-    min_stock: 10,
-    max_stock: 50,
-    cost_per_unit: 45.00,
-    location: 'C-1-3',
-    supplier: 'Industrial Supply',
-    last_updated: '2024-01-13'
-  }
-]
+// Note: This will be replaced with real inventory data from your database
 
 export default function InventoryPage() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -71,15 +27,7 @@ export default function InventoryPage() {
     }
   }
 
-  const filteredInventory = mockInventory.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.sku.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
-
-  const lowStockItems = mockInventory.filter(item => item.quantity <= item.min_stock).length
-  const totalValue = mockInventory.reduce((sum, item) => sum + (item.quantity * item.cost_per_unit), 0)
+  // Note: Inventory filtering and calculations will be implemented when database is connected
 
   return (
     <div>
@@ -99,186 +47,74 @@ export default function InventoryPage() {
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Package className="h-8 w-8 text-blue-500" />
+      {/* Inventory Coming Soon */}
+      <div className="bg-white shadow rounded-lg mb-8">
+        <div className="px-4 py-5 sm:p-6">
+          <div className="text-center py-16">
+            <Package className="mx-auto h-20 w-20 text-gray-400" />
+            <h3 className="mt-4 text-xl font-medium text-gray-900">Inventory Management Coming Soon</h3>
+            <p className="mt-2 text-sm text-gray-500 max-w-md mx-auto">
+              Start adding your raw materials, tools, and finished goods to track stock levels, set reorder points, and manage your inventory efficiently.
+            </p>
+            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <Package className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Raw Materials</p>
+                <p className="text-xs text-gray-400">Steel, aluminum, etc.</p>
               </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Items
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {mockInventory.length}
-                  </dd>
-                </dl>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <AlertTriangle className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Stock Alerts</p>
+                <p className="text-xs text-gray-400">Low stock warnings</p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <AlertTriangle className="h-8 w-8 text-red-500" />
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <TrendingUp className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Value Tracking</p>
+                <p className="text-xs text-gray-400">Total inventory value</p>
               </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Low Stock Alerts
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {lowStockItems}
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <TrendingUp className="h-8 w-8 text-green-500" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Value
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    ${totalValue.toLocaleString()}
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <TrendingDown className="h-8 w-8 text-yellow-500" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Reorder Soon
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">5</dd>
-                </dl>
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                <TrendingDown className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">Reorder Points</p>
+                <p className="text-xs text-gray-400">Automated alerts</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Filters and Search */}
-      <div className="bg-white shadow rounded-lg mb-6">
+      {/* Future Feature Preview */}
+      <div className="bg-white shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Search items by name or SKU..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+          <h3 className="text-lg font-medium text-gray-900 mb-4">Planned Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+              <Search className="h-5 w-5 text-gray-400 mt-1" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Advanced Search & Filtering</p>
+                <p className="text-xs text-gray-500">Search by name, SKU, category, location</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-gray-400" />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category === 'all' ? 'All Categories' : category}
-                  </option>
-                ))}
-              </select>
+            <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+              <AlertTriangle className="h-5 w-5 text-gray-400 mt-1" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Stock Level Monitoring</p>
+                <p className="text-xs text-gray-500">Automatic low stock alerts</p>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Inventory Table */}
-      <div className="bg-white shadow rounded-lg overflow-hidden">
-        <div className="px-4 py-5 sm:p-6">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Item
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    SKU
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Stock Level
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Value
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredInventory.map((item) => {
-                  const stockStatus = getStockStatus(item.quantity, item.min_stock, item.max_stock)
-                  return (
-                    <tr key={item.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                        <div className="text-sm text-gray-500">{item.supplier}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {item.sku}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {item.category}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-gray-900">
-                            {item.quantity} {item.unit}
-                          </span>
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStockStatusColor(stockStatus)}`}>
-                            {stockStatus === 'low' ? 'Low Stock' : stockStatus === 'high' ? 'Overstocked' : 'Normal'}
-                          </span>
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          Min: {item.min_stock} • Max: {item.max_stock}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {item.location}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        ${(item.quantity * item.cost_per_unit).toLocaleString()}
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
+            <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+              <Package className="h-5 w-5 text-gray-400 mt-1" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Barcode Integration</p>
+                <p className="text-xs text-gray-500">Scan items for quick updates</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+              <TrendingUp className="h-5 w-5 text-gray-400 mt-1" />
+              <div>
+                <p className="text-sm font-medium text-gray-900">Usage Analytics</p>
+                <p className="text-xs text-gray-500">Track consumption patterns</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -32,17 +32,8 @@ export default function ReportsPage() {
     { value: '365', label: 'Last year' }
   ]
 
-  // Mock data for charts
-  const mockStats = {
-    totalRevenue: 125450,
-    completedJobs: 47,
-    avgJobValue: 2667,
-    onTimeDelivery: 92,
-    revenueGrowth: 12.5,
-    jobsGrowth: 8.3,
-    valueGrowth: 3.8,
-    deliveryGrowth: 2.1
-  }
+  // Note: This page will show real analytics once you have job data
+  // For now, it serves as a placeholder for future reporting features
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-CA', {
@@ -102,99 +93,31 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <DollarSign className="h-8 w-8 text-green-500" />
+      {/* Key Metrics - Coming Soon */}
+      <div className="bg-white shadow rounded-lg mb-8">
+        <div className="px-4 py-5 sm:p-6">
+          <div className="text-center py-12">
+            <BarChart3 className="mx-auto h-16 w-16 text-gray-400" />
+            <h3 className="mt-4 text-lg font-medium text-gray-900">Analytics Dashboard Coming Soon</h3>
+            <p className="mt-2 text-sm text-gray-500 max-w-md mx-auto">
+              Once you start creating jobs and customers, this page will display comprehensive analytics including revenue trends, job completion rates, and performance metrics.
+            </p>
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div className="border rounded-lg p-3">
+                <DollarSign className="h-6 w-6 text-gray-400 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Total Revenue</p>
               </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Revenue
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {formatCurrency(mockStats.totalRevenue)}
-                  </dd>
-                  <dd className="text-sm text-green-600 flex items-center">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +{mockStats.revenueGrowth}%
-                  </dd>
-                </dl>
+              <div className="border rounded-lg p-3">
+                <Activity className="h-6 w-6 text-gray-400 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Completed Jobs</p>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Activity className="h-8 w-8 text-blue-500" />
+              <div className="border rounded-lg p-3">
+                <BarChart3 className="h-6 w-6 text-gray-400 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">Avg Job Value</p>
               </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Completed Jobs
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {mockStats.completedJobs}
-                  </dd>
-                  <dd className="text-sm text-green-600 flex items-center">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +{mockStats.jobsGrowth}%
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <BarChart3 className="h-8 w-8 text-purple-500" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Avg Job Value
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {formatCurrency(mockStats.avgJobValue)}
-                  </dd>
-                  <dd className="text-sm text-green-600 flex items-center">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +{mockStats.valueGrowth}%
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Clock className="h-8 w-8 text-yellow-500" />
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    On-Time Delivery
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {mockStats.onTimeDelivery}%
-                  </dd>
-                  <dd className="text-sm text-green-600 flex items-center">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +{mockStats.deliveryGrowth}%
-                  </dd>
-                </dl>
+              <div className="border rounded-lg p-3">
+                <Clock className="h-6 w-6 text-gray-400 mx-auto mb-1" />
+                <p className="text-xs text-gray-500">On-Time Delivery</p>
               </div>
             </div>
           </div>
@@ -240,51 +163,20 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Recent Activity */}
+      {/* Performance Insights - Coming Soon */}
       <div className="bg-white shadow rounded-lg">
         <div className="px-4 py-5 sm:p-6">
           <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-            Recent Performance Insights
+            Performance Insights
           </h3>
-          <div className="space-y-4">
-            <div className="border-l-4 border-green-400 bg-green-50 p-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <TrendingUp className="h-5 w-5 text-green-400" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-green-700">
-                    <strong>Great performance!</strong> Your on-time delivery rate improved by 2.1% this month.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-l-4 border-blue-400 bg-blue-50 p-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <BarChart3 className="h-5 w-5 text-blue-400" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-blue-700">
-                    <strong>Revenue growth:</strong> Monthly revenue increased by 12.5% compared to last month.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-l-4 border-yellow-400 bg-yellow-50 p-4">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <Clock className="h-5 w-5 text-yellow-400" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-yellow-700">
-                    <strong>Opportunity:</strong> 3 jobs are currently overdue. Consider reviewing your scheduling process.
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="text-center py-8">
+            <Activity className="mx-auto h-12 w-12 text-gray-400" />
+            <p className="mt-2 text-sm text-gray-500">
+              Performance insights and recommendations will appear here as you complete jobs
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              AI-powered insights to help optimize your business operations
+            </p>
           </div>
         </div>
       </div>
