@@ -131,7 +131,7 @@ CREATE INDEX idx_audit_logs_record ON audit_logs(table_name, record_id);
 CREATE OR REPLACE VIEW v_table_stats AS
 SELECT 
     schemaname,
-    tablename,
+    relname as tablename,
     n_live_tup as live_rows,
     n_dead_tup as dead_rows,
     last_vacuum,
