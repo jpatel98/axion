@@ -46,8 +46,13 @@ interface Quote {
   title: string
   description: string
   status: 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired'
+  subtotal: number
+  tax_rate: number
+  tax_amount: number
   total: number
   valid_until: string
+  notes?: string | null
+  internal_notes?: string | null
   created_at: string
   updated_at: string
   customers: Customer

@@ -10,25 +10,71 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: quotes, error } = await supabase
+    // Parse query parameters
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const pageSize = parseInt(searchParams.get('pageSize') || '20')
+    const sortBy = searchParams.get('sortBy') || 'created_at'
+    const sortOrder = searchParams.get('sortOrder') || 'desc'
+    const status = searchParams.get('status')
+    const search = searchParams.get('search')
+
+    // Calculate offset
+    const offset = (page - 1) * pageSize
+
+    // Build query
+    let query = supabase
       .from('quotes')
       .select(`
-        *,
-        customers (
+        id,
+        quote_number,
+        title,
+        description,
+        status,
+        subtotal,
+        tax_amount,
+        total,
+        valid_until,
+        created_at,
+        customers!inner (
           id,
           name,
           email
         )
-      `)
+      `, { count: 'exact' })
       .eq('tenant_id', user.tenant_id)
-      .order('created_at', { ascending: false })
+
+    // Apply filters
+    if (status && status !== 'all') {
+      query = query.eq('status', status)
+    }
+
+    if (search) {
+      query = query.or(`quote_number.ilike.%${search}%,title.ilike.%${search}%,description.ilike.%${search}%,customers.name.ilike.%${search}%`)
+    }
+
+    // Apply sorting
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' })
+
+    // Apply pagination
+    query = query.range(offset, offset + pageSize - 1)
+
+    const { data: quotes, error, count } = await query
 
     if (error) {
       console.error('Error fetching quotes:', error)
       return NextResponse.json({ error: 'Failed to fetch quotes' }, { status: 500 })
     }
 
-    return NextResponse.json({ quotes: quotes || [] })
+    return NextResponse.json({ 
+      quotes: quotes || [],
+      pagination: {
+        page,
+        pageSize,
+        total: count || 0,
+        totalPages: Math.ceil((count || 0) / pageSize)
+      }
+    })
   } catch (error) {
     console.error('API Error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

@@ -7,8 +7,8 @@
  * Until then, fallback validation functions are provided.
  */
 
-// Zod imports (will work once zod is installed)
-// import { z } from 'zod'
+// Zod imports (now available)
+import { z } from 'zod'
 
 // Fallback validation types and functions
 export type ValidationResult = {
@@ -155,16 +155,21 @@ export const validators = {
       return null
     },
 
-  // Postal code validation (international)
+  // Postal code validation (supports Canadian and US formats)
   postalCode: (message = 'Please enter a valid postal code'): ValidatorFunction =>
     (value) => {
       if (!value) return null
-      // Basic international postal code pattern
-      const postalRegex = /^[\p{L}\p{N}\s\-]{3,12}$/u
-      if (!postalRegex.test(value)) {
-        return message
+      // Canadian postal code pattern (K1A 0A6 or K1A0A6)
+      const canadianPostalRegex = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/
+      // US ZIP code pattern (12345 or 12345-6789)
+      const usZipRegex = /^\d{5}(-\d{4})?$/
+      // General international pattern
+      const internationalRegex = /^[\p{L}\p{N}\s\-]{3,12}$/u
+      
+      if (canadianPostalRegex.test(value) || usZipRegex.test(value) || internationalRegex.test(value)) {
+        return null
       }
-      return null
+      return message
     },
 }
 
@@ -402,8 +407,7 @@ export const errorMessages = {
   server: 'Server error. Please try again later.',
 }
 
-// Zod schemas (commented out until zod is installed)
-/*
+// Zod schemas (now available)
 export const zodCustomerSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100),
   email: z.string().email().optional().or(z.literal('')),
@@ -431,35 +435,7 @@ export const zodQuoteSchema = z.object({
   line_items: z.array(zodLineItemSchema).min(1, 'At least one line item is required'),
 })
 
+// TypeScript types derived from Zod schemas
 export type CustomerFormData = z.infer<typeof zodCustomerSchema>
 export type LineItemFormData = z.infer<typeof zodLineItemSchema>
 export type QuoteFormData = z.infer<typeof zodQuoteSchema>
-*/
-
-// TypeScript types for form data (fallback)
-export interface CustomerFormData {
-  name: string
-  email?: string
-  phone?: string
-  address_line1?: string
-  address_line2?: string
-  city?: string
-  state?: string
-  postal_code?: string
-  contact_person?: string
-  notes?: string
-}
-
-export interface LineItemFormData {
-  description: string
-  quantity: number
-  unit_price: number
-}
-
-export interface QuoteFormData {
-  customer_id: string
-  title: string
-  description?: string
-  valid_until: string
-  line_items: LineItemFormData[]
-}

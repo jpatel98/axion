@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Script to apply performance indexes to Supabase database
+
+echo "🚀 Applying performance indexes to your Supabase database..."
+echo ""
+echo "You have several options to apply the indexes:"
+echo ""
+echo "Option 1: Using Supabase Dashboard (Recommended)"
+echo "=========================================="
+echo "1. Go to: https://supabase.com/dashboard/project/xngvzozmxzxobkbkixtm/sql"
+echo "2. Copy the contents of database/performance-indexes.sql"
+echo "3. Paste and run in the SQL editor"
+echo ""
+echo "Option 2: Using Supabase CLI"
+echo "============================"
+echo "1. Install Supabase CLI if not already installed:"
+echo "   npm install -g supabase"
+echo ""
+echo "2. Login to Supabase:"
+echo "   supabase login"
+echo ""
+echo "3. Link your project:"
+echo "   supabase link --project-ref xngvzozmxzxobkbkixtm"
+echo ""
+echo "4. Run the indexes:"
+echo "   supabase db push database/performance-indexes.sql"
+echo ""
+echo "Option 3: Direct PostgreSQL Connection"
+echo "====================================="
+echo "To get your database connection string:"
+echo "1. Go to: https://supabase.com/dashboard/project/xngvzozmxzxobkbkixtm/settings/database"
+echo "2. Copy the connection string"
+echo "3. Run: psql 'your-connection-string' -f database/performance-indexes.sql"
+echo ""
+echo "Press Enter to open your Supabase SQL editor in the browser..."
+read -r
+
+# Open Supabase SQL editor
+xdg-open "https://supabase.com/dashboard/project/xngvzozmxzxobkbkixtm/sql" 2>/dev/null || open "https://supabase.com/dashboard/project/xngvzozmxzxobkbkixtm/sql" 2>/dev/null || echo "Please open: https://supabase.com/dashboard/project/xngvzozmxzxobkbkixtm/sql"

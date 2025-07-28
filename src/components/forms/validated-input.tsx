@@ -19,6 +19,7 @@ export interface ValidatedInputProps extends Omit<React.InputHTMLAttributes<HTML
   error?: string | null
   touched?: boolean
   validating?: boolean
+  dirty?: boolean
   required?: boolean
   helperText?: string
   showError?: boolean
@@ -28,6 +29,8 @@ export interface ValidatedInputProps extends Omit<React.InputHTMLAttributes<HTML
   labelClassName?: string
   errorClassName?: string
   helperClassName?: string
+  leftIcon?: React.ReactNode
+  rightIcon?: React.ReactNode
 }
 
 export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputProps>(
@@ -46,7 +49,10 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
     labelClassName,
     errorClassName,
     helperClassName,
+    leftIcon,
+    rightIcon,
     id,
+    dirty,
     ...props
   }, ref) => {
     const inputId = id || `input-${React.useId()}`
@@ -74,6 +80,13 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
         )}
         
         <div className="relative">
+          {/* Left icon */}
+          {leftIcon && (
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+              {leftIcon}
+            </div>
+          )}
+          
           <Input
             ref={ref}
             id={inputId}
@@ -87,11 +100,19 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
             }
             className={cn(
               hasError && 'border-red-500 focus:border-red-500 focus:ring-red-500',
-              'pr-8',
+              leftIcon ? 'pl-10' : '',
+              (rightIcon || !className?.includes('pr-')) ? 'pr-8' : '',
               className
             )}
             {...props}
           />
+          
+          {/* Right icon */}
+          {rightIcon && (
+            <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10">
+              {rightIcon}
+            </div>
+          )}
           
           {/* Validation indicator */}
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
@@ -176,6 +197,7 @@ export interface ValidatedTextareaProps extends Omit<React.TextareaHTMLAttribute
   error?: string | null
   touched?: boolean
   validating?: boolean
+  dirty?: boolean
   required?: boolean
   helperText?: string
   showError?: boolean
@@ -195,6 +217,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
     error,
     touched,
     validating,
+    dirty,
     required,
     helperText,
     showError = true,
@@ -318,6 +341,7 @@ export interface ValidatedSelectProps extends Omit<React.SelectHTMLAttributes<HT
   error?: string | null
   touched?: boolean
   validating?: boolean
+  dirty?: boolean
   required?: boolean
   helperText?: string
   showError?: boolean
@@ -337,6 +361,7 @@ export const ValidatedSelect = React.forwardRef<HTMLSelectElement, ValidatedSele
     error,
     touched,
     validating,
+    dirty,
     required,
     helperText,
     showError = true,

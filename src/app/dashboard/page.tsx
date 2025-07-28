@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { ContentSkeleton } from '@/components/ui/skeleton'
+import { StatCard } from '@/components/ui/stat-card'
 
 interface DashboardStats {
   activeJobs: number
@@ -26,10 +28,15 @@ export default function DashboardPage() {
 
   const fetchDashboardStats = async () => {
     try {
-      // Fetch jobs data
-      const jobsResponse = await fetch('/api/v1/jobs')
-      if (jobsResponse.ok) {
-        const jobsData = await jobsResponse.json()
+      // Parallel fetch for better performance
+      const [jobsResponse, quotesResponse] = await Promise.allSettled([
+        fetch('/api/v1/jobs?pageSize=1000'), // Get all jobs for stats
+        fetch('/api/v1/quotes?pageSize=1000') // Get all quotes for stats
+      ])
+
+      // Process jobs data
+      if (jobsResponse.status === 'fulfilled' && jobsResponse.value.ok) {
+        const jobsData = await jobsResponse.value.json()
         const jobs = jobsData.jobs || []
         
         // Calculate job stats
@@ -62,25 +69,19 @@ export default function DashboardPage() {
         }))
       }
 
-      // Fetch quotes data (when we have quotes implemented)
-      try {
-        const quotesResponse = await fetch('/api/v1/quotes')
-        if (quotesResponse.ok) {
-          const quotesData = await quotesResponse.json()
-          const quotes = quotesData.quotes || []
-          
-          const pendingQuotes = quotes.filter((quote: any) => 
-            quote.status === 'draft' || quote.status === 'sent'
-          ).length
+      // Process quotes data
+      if (quotesResponse.status === 'fulfilled' && quotesResponse.value.ok) {
+        const quotesData = await quotesResponse.value.json()
+        const quotes = quotesData.quotes || []
+        
+        const pendingQuotes = quotes.filter((quote: any) => 
+          quote.status === 'draft' || quote.status === 'sent'
+        ).length
 
-          setStats(prev => ({
-            ...prev,
-            pendingQuotes
-          }))
-        }
-      } catch (error) {
-        // Quotes not implemented yet, ignore error
-        console.log('Quotes not yet implemented')
+        setStats(prev => ({
+          ...prev,
+          pendingQuotes
+        }))
       }
 
     } catch (error) {
@@ -91,10 +92,14 @@ export default function DashboardPage() {
   }
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-CA', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'CAD',
     }).format(amount)
+  }
+
+  if (loading) {
+    return <ContentSkeleton type="dashboard" />
   }
 
   return (
@@ -107,109 +112,37 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Active Jobs */}
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">J</span>
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Active Jobs
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {loading ? '...' : stats.activeJobs}
-                  </dd>
-                  <dd className="text-xs text-gray-500">
-                    pending & in progress
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Completed Jobs */}
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">✓</span>
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Completed Jobs
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {loading ? '...' : stats.completedJobs}
-                  </dd>
-                  <dd className="text-xs text-gray-500">
-                    completed & shipped
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Pending Quotes */}
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">Q</span>
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Pending Quotes
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {loading ? '...' : stats.pendingQuotes}
-                  </dd>
-                  <dd className="text-xs text-gray-500">
-                    draft & sent
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Revenue This Month */}
-        <div className="bg-white overflow-hidden shadow rounded-lg">
-          <div className="p-5">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
-                  <span className="text-white text-sm font-medium">$</span>
-                </div>
-              </div>
-              <div className="ml-5 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">
-                    Revenue This Month
-                  </dt>
-                  <dd className="text-lg font-medium text-gray-900">
-                    {loading ? '...' : formatCurrency(stats.revenueThisMonth)}
-                  </dd>
-                  <dd className="text-xs text-gray-500">
-                    completed jobs
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
+        <StatCard
+          title="Active Jobs"
+          value={stats.activeJobs}
+          subtitle="pending & in progress"
+          icon={<span className="text-white text-sm font-medium">J</span>}
+          iconBgColor="bg-blue-500"
+        />
+        
+        <StatCard
+          title="Completed Jobs"
+          value={stats.completedJobs}
+          subtitle="completed & shipped"
+          icon={<span className="text-white text-sm font-medium">✓</span>}
+          iconBgColor="bg-green-500"
+        />
+        
+        <StatCard
+          title="Pending Quotes"
+          value={stats.pendingQuotes}
+          subtitle="draft & sent"
+          icon={<span className="text-white text-sm font-medium">Q</span>}
+          iconBgColor="bg-yellow-500"
+        />
+        
+        <StatCard
+          title="Revenue This Month"
+          value={formatCurrency(stats.revenueThisMonth)}
+          subtitle="completed jobs"
+          icon={<span className="text-white text-sm font-medium">$</span>}
+          iconBgColor="bg-purple-500"
+        />
       </div>
 
       <div className="mt-8">

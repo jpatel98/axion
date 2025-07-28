@@ -1,40 +1,105 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { 
+  FormWrapper,
+  FormSection, 
+  FormGrid,
+  ValidatedInput,
+  ValidatedTextarea,
+  QuantityField,
+  CurrencyField,
+  DateField,
+  useForm,
+  validators
+} from '@/components/forms'
+
+interface JobFormData {
+  job_number: string
+  customer_name: string
+  part_number: string
+  description: string
+  quantity: number
+  estimated_cost: number
+  due_date: string
+}
 
 export default function NewJobPage() {
   const router = useRouter()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [nextJobNumber, setNextJobNumber] = useState('')
+  const [loadingJobNumber, setLoadingJobNumber] = useState(true)
 
-  const [formData, setFormData] = useState({
-    job_number: '',
-    customer_name: '',
-    part_number: '',
-    description: '',
-    quantity: 1,
-    estimated_cost: '',
-    due_date: '',
-  })
+  useEffect(() => {
+    // Fetch the next job number on component mount
+    const fetchNextJobNumber = async () => {
+      try {
+        const response = await fetch('/api/v1/jobs/next-number')
+        if (response.ok) {
+          const data = await response.json()
+          setNextJobNumber(data.next_job_number)
+        }
+      } catch (error) {
+        console.error('Error fetching next job number:', error)
+        setNextJobNumber('JOB-001') // Fallback
+      } finally {
+        setLoadingJobNumber(false)
+      }
+    }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
+    fetchNextJobNumber()
+  }, [])
 
-    try {
+  const [formState, formActions] = useForm<JobFormData>({
+    fields: {
+      job_number: {
+        validators: [],
+        required: false,
+        initialValue: nextJobNumber || '',
+      },
+      customer_name: {
+        validators: [validators.name()],
+        required: false,
+        initialValue: '',
+      },
+      part_number: {
+        validators: [],
+        required: false,
+        initialValue: '',
+      },
+      description: {
+        validators: [validators.maxLength(1000)],
+        required: false,
+        initialValue: '',
+      },
+      quantity: {
+        validators: [validators.positive(), validators.integer()],
+        required: false,
+        initialValue: 1,
+      },
+      estimated_cost: {
+        validators: [validators.currency(), validators.positive()],
+        required: false,
+        initialValue: 0,
+      },
+      due_date: {
+        validators: [validators.dateRange(new Date())],
+        required: false,
+        initialValue: '',
+      },
+    },
+    onSubmit: async (data) => {
       const response = await fetch('/api/v1/jobs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
-          estimated_cost: formData.estimated_cost ? parseFloat(formData.estimated_cost) : null,
-          due_date: formData.due_date || null,
+          ...data,
+          job_number: nextJobNumber || data.job_number,
+          due_date: data.due_date || null,
         }),
       })
 
@@ -44,20 +109,11 @@ export default function NewJobPage() {
       }
 
       router.push('/dashboard/jobs')
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
-    } finally {
-      setLoading(false)
-    }
-  }
+    },
+    validateOnChange: false,
+    validateOnBlur: true,
+  })
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
 
   return (
     <div>
@@ -78,138 +134,88 @@ export default function NewJobPage() {
 
       {/* Form */}
       <div className="max-w-2xl">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="rounded-md bg-red-50 p-4">
-              <div className="text-sm text-red-700">{error}</div>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label htmlFor="job_number" className="block text-sm font-medium text-gray-700">
-                Job Number *
-              </label>
-              <input
-                type="text"
-                name="job_number"
-                id="job_number"
-                required
-                value={formData.job_number}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="e.g., JOB-001"
+        <FormWrapper
+          isSubmitting={formState.isSubmitting}
+          isValid={formState.isValid}
+          isDirty={formState.isDirty}
+          errors={formState.errors}
+          onSubmit={formActions.submit}
+          onReset={formActions.reset}
+          showResetButton={formState.isDirty}
+          submitText="Create Job"
+          resetText="Clear Form"
+        >
+          <FormSection title="Job Details">
+            <FormGrid columns={2}>
+              <ValidatedInput
+                label="Job Number"
+                placeholder="Auto-generating..."
+                helperText="Auto-generated based on sequence"
+                value={nextJobNumber || 'Loading...'}
+                readOnly
+                disabled={loadingJobNumber}
               />
-            </div>
-
-            <div>
-              <label htmlFor="customer_name" className="block text-sm font-medium text-gray-700">
-                Customer Name
-              </label>
-              <input
-                type="text"
-                name="customer_name"
-                id="customer_name"
-                value={formData.customer_name}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="e.g., Acme Corp"
+              
+              <ValidatedInput
+                label="Customer Name"
+                placeholder="Acme Manufacturing"
+                value={formState.fields?.customer_name?.value || ''}
+                onChange={(value) => formActions.setValue('customer_name', value)}
+                error={formState.fields?.customer_name?.error}
+                touched={formState.fields?.customer_name?.touched}
               />
-            </div>
-
-            <div>
-              <label htmlFor="part_number" className="block text-sm font-medium text-gray-700">
-                Part Number
-              </label>
-              <input
-                type="text"
-                name="part_number"
-                id="part_number"
-                value={formData.part_number}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="e.g., PART-123"
+              
+              <ValidatedInput
+                label="Part Number"
+                placeholder="PART-123"
+                value={formState.fields?.part_number?.value || ''}
+                onChange={(value) => formActions.setValue('part_number', value)}
+                error={formState.fields?.part_number?.error}
+                touched={formState.fields?.part_number?.touched}
               />
-            </div>
-
-            <div>
-              <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
-                Quantity
-              </label>
-              <input
-                type="number"
-                name="quantity"
-                id="quantity"
-                min="1"
-                value={formData.quantity}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              
+              <QuantityField
+                label="Quantity"
+                value={formState.fields?.quantity?.value || 0}
+                onChange={(value) => formActions.setValue('quantity', value)}
+                error={formState.fields?.quantity?.error}
+                touched={formState.fields?.quantity?.touched}
               />
-            </div>
-
-            <div>
-              <label htmlFor="estimated_cost" className="block text-sm font-medium text-gray-700">
-                Estimated Cost
-              </label>
-              <input
-                type="number"
-                name="estimated_cost"
-                id="estimated_cost"
-                step="0.01"
-                min="0"
-                value={formData.estimated_cost}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-                placeholder="0.00"
+              
+              <CurrencyField
+                label="Estimated Cost"
+                currency="CAD"
+                value={formState.fields?.estimated_cost?.value || 0}
+                onChange={(value) => formActions.setValue('estimated_cost', value)}
+                error={formState.fields?.estimated_cost?.error}
+                touched={formState.fields?.estimated_cost?.touched}
               />
-            </div>
-
-            <div>
-              <label htmlFor="due_date" className="block text-sm font-medium text-gray-700">
-                Due Date
-              </label>
-              <input
-                type="date"
-                name="due_date"
-                id="due_date"
-                value={formData.due_date}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              
+              <DateField
+                label="Due Date"
+                allowPast={false}
+                value={formState.fields?.due_date?.value || ''}
+                onChange={(value) => formActions.setValue('due_date', value)}
+                error={formState.fields?.due_date?.error}
+                touched={formState.fields?.due_date?.touched}
               />
-            </div>
-          </div>
+            </FormGrid>
+          </FormSection>
 
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <textarea
-              name="description"
-              id="description"
-              rows={4}
-              value={formData.description}
-              onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+          <FormSection title="Description">
+            <ValidatedTextarea
+              label="Work Description"
               placeholder="Describe the work to be done..."
+              rows={4}
+              maxLength={1000}
+              showCharCount={true}
+              value={formState.fields?.description?.value || ''}
+              onChange={(value) => formActions.setValue('description', value)}
+              error={formState.fields?.description?.error}
+              touched={formState.fields?.description?.touched}
             />
-          </div>
-
-          <div className="flex justify-end space-x-3">
-            <Link
-              href="/dashboard/jobs"
-              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              Cancel
-            </Link>
-            <button
-              type="submit"
-              disabled={loading}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
-            >
-              {loading ? 'Creating...' : 'Create Job'}
-            </button>
-          </div>
-        </form>
+          </FormSection>
+        </FormWrapper>
       </div>
     </div>
   )

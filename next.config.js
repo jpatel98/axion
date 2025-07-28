@@ -1,23 +1,67 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Production optimizations
+  compress: true,
+  poweredByHeader: false,
+  
+  // Image optimization
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+  },
+  
+  // Security headers
+  async headers() {
+    if (process.env.NODE_ENV === 'production') {
+      return [
+        {
+          source: '/(.*)',
+          headers: [
+            {
+              key: 'X-Frame-Options',
+              value: 'DENY'
+            },
+            {
+              key: 'X-Content-Type-Options', 
+              value: 'nosniff'
+            },
+            {
+              key: 'Referrer-Policy',
+              value: 'strict-origin-when-cross-origin'
+            }
+          ]
+        }
+      ]
+    }
+    return []
+  },
+  
   experimental: {
     // Enable better error messages in development
-    optimizeCss: false,
+    optimizeCss: process.env.NODE_ENV === 'production',
   },
-  // Better source maps for debugging
+  
+  // Better source maps for debugging in development
   webpack: (config, { dev, isServer }) => {
     if (dev && !isServer) {
       config.devtool = 'cheap-module-source-map'
     }
+    
+    // Production optimizations
+    if (!dev) {
+      config.optimization.splitChunks.chunks = 'all'
+    }
+    
     return config
   },
-  // Suppress hydration warnings during development if they're not critical
-  onDemandEntries: {
-    // Period (in ms) where the server will keep pages in the buffer
-    maxInactiveAge: 25 * 1000,
-    // Number of pages that should be kept simultaneously without being disposed
-    pagesBufferLength: 2,
-  },
+  
+  // Development-only configuration
+  ...(process.env.NODE_ENV === 'development' && {
+    onDemandEntries: {
+      maxInactiveAge: 25 * 1000,
+      pagesBufferLength: 2,
+    },
+  })
 }
 
 module.exports = nextConfig

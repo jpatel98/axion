@@ -5,6 +5,7 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { ErrorBoundary, MinimalErrorFallback } from '@/components/ui/error-boundary'
+import { FormErrorBoundary } from '@/components/ui/error-boundaries'
 import { cn } from '@/lib/utils'
 import { AlertCircle, Save, X } from 'lucide-react'
 
@@ -156,15 +157,6 @@ export const FormWrapper = React.forwardRef<HTMLFormElement, FormWrapperProps>(
               )}
             </div>
 
-            {/* Keyboard shortcut hint */}
-            {submitOnEnter && (
-              <div className="flex items-center text-xs text-muted-foreground sm:ml-auto">
-                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-                  <span className="text-xs">⌘</span>↵
-                </kbd>
-                <span className="ml-1">to submit</span>
-              </div>
-            )}
           </div>
         )}
       </form>
@@ -172,9 +164,9 @@ export const FormWrapper = React.forwardRef<HTMLFormElement, FormWrapperProps>(
 
     if (errorBoundary) {
       return (
-        <ErrorBoundary fallback={<MinimalErrorFallback />}>
+        <FormErrorBoundary onReset={onReset}>
           {formContent}
-        </ErrorBoundary>
+        </FormErrorBoundary>
       )
     }
 

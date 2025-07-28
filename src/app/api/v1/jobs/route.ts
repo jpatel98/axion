@@ -11,22 +11,55 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'User not found. Please refresh the page.' }, { status: 404 })
     }
 
-    console.log('User found:', { id: user.id, tenant_id: user.tenant_id })
+    // Parse query parameters
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const pageSize = parseInt(searchParams.get('pageSize') || '20')
+    const sortBy = searchParams.get('sortBy') || 'created_at'
+    const sortOrder = searchParams.get('sortOrder') || 'desc'
+    const status = searchParams.get('status')
+    const search = searchParams.get('search')
 
-    // Get jobs for the user's tenant
-    const { data: jobs, error: jobsError } = await supabase
+    // Calculate offset
+    const offset = (page - 1) * pageSize
+
+    // Build query
+    let query = supabase
       .from('jobs')
-      .select('*')
+      .select('id, job_number, customer_name, part_number, description, quantity, estimated_cost, actual_cost, status, due_date, created_at', { count: 'exact' })
       .eq('tenant_id', user.tenant_id)
-      .order('created_at', { ascending: false })
+
+    // Apply filters
+    if (status && status !== 'all') {
+      query = query.eq('status', status)
+    }
+
+    if (search) {
+      query = query.or(`job_number.ilike.%${search}%,customer_name.ilike.%${search}%,part_number.ilike.%${search}%,description.ilike.%${search}%`)
+    }
+
+    // Apply sorting
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' })
+
+    // Apply pagination
+    query = query.range(offset, offset + pageSize - 1)
+
+    const { data: jobs, error: jobsError, count } = await query
 
     if (jobsError) {
       console.error('Error fetching jobs:', jobsError)
       return NextResponse.json({ error: 'Failed to fetch jobs: ' + jobsError.message }, { status: 500 })
     }
 
-    console.log('Jobs fetched successfully:', jobs?.length || 0)
-    return NextResponse.json({ jobs: jobs || [] })
+    return NextResponse.json({ 
+      jobs: jobs || [],
+      pagination: {
+        page,
+        pageSize,
+        total: count || 0,
+        totalPages: Math.ceil((count || 0) / pageSize)
+      }
+    })
   } catch (error) {
     console.error('API Error:', error)
     return NextResponse.json({ 
