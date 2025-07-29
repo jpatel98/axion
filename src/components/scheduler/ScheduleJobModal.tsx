@@ -164,165 +164,193 @@ export function ScheduleJobModal({ isOpen, onClose, onScheduled, selectedDate }:
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Schedule Job Operation" size="lg">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Job Selection */}
-          <div>
-            <Label htmlFor="jobId" className="flex items-center gap-2">
-              <Calendar className="h-4 w-4" />
-              Job
+      <div className="p-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Job and Work Center Selection */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="jobId" className="flex items-center gap-2 text-sm font-medium text-slate-800">
+                <Calendar className="h-4 w-4 text-slate-800" />
+                Job
+              </Label>
+              <select
+                id="jobId"
+                value={formData.jobId}
+                onChange={(e) => setFormData({ ...formData, jobId: e.target.value })}
+                className="w-full h-10 rounded-md border border-slate-300 bg-white shadow-sm text-slate-800 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:outline-none"
+                required
+              >
+                <option value="">Select a job...</option>
+                {jobs.map((job) => (
+                  <option key={job.id} value={job.id}>
+                    {job.job_number} - {job.customer_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="workCenterId" className="flex items-center gap-2 text-sm font-medium text-slate-800">
+                <Settings className="h-4 w-4 text-slate-800" />
+                Work Center
+              </Label>
+              <select
+                id="workCenterId"
+                value={formData.workCenterId}
+                onChange={(e) => setFormData({ ...formData, workCenterId: e.target.value })}
+                className="w-full h-10 rounded-md border border-slate-300 bg-white shadow-sm text-slate-800 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:outline-none"
+                required
+              >
+                <option value="">Select work center...</option>
+                {workCenters.map((center) => (
+                  <option key={center.id} value={center.id}>
+                    {center.name} ({center.machine_type})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Operation Name */}
+          <div className="space-y-2">
+            <Label htmlFor="operationName" className="text-sm font-medium text-slate-800">
+              Operation Name
+            </Label>
+            <Input
+              id="operationName"
+              value={formData.operationName}
+              onChange={(e) => setFormData({ ...formData, operationName: e.target.value })}
+              placeholder="e.g., Rough machining, Setup, Finishing"
+              className="h-10 border border-slate-300 bg-white shadow-sm"
+              required
+            />
+          </div>
+
+          {/* Timing Details */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <div className="mb-2">
+                <Label htmlFor="estimatedHours" className="flex items-center gap-2 text-sm font-medium text-slate-800">
+                  <Clock className="h-4 w-4 text-slate-800" />
+                  Estimated Hours
+                </Label>
+              </div>
+              <Input
+                id="estimatedHours"
+                type="number"
+                step="0.5"
+                min="0.5"
+                value={formData.estimatedHours}
+                onChange={(e) => setFormData({ ...formData, estimatedHours: e.target.value })}
+                placeholder="4.0"
+                className="h-9 leading-none flex items-center text-sm [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [appearance:textfield]"
+                required
+              />
+            </div>
+
+            <div>
+              <div className="mb-2">
+                <Label htmlFor="scheduledDate" className="text-sm font-medium text-slate-800 block">
+                  Scheduled Date
+                </Label>
+              </div>
+              <Input
+                id="scheduledDate"
+                type="date"
+                value={formData.scheduledDate}
+                onChange={(e) => setFormData({ ...formData, scheduledDate: e.target.value })}
+                className="h-9 leading-none flex items-center text-sm"
+                required
+              />
+            </div>
+
+            <div>
+              <div className="mb-2">
+                <Label htmlFor="startTime" className="text-sm font-medium text-slate-800 block">
+                  Start Time
+                </Label>
+              </div>
+              <Input
+                id="startTime"
+                type="time"
+                value={formData.startTime}
+                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                className="h-9 leading-none flex items-center text-sm"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Worker Assignment */}
+          <div className="space-y-2">
+            <Label htmlFor="workerId" className="flex items-center gap-2 text-sm font-medium text-slate-800">
+              <User className="h-4 w-4 text-slate-800" />
+              Worker Assignment (Optional)
             </Label>
             <select
-              id="jobId"
-              value={formData.jobId}
-              onChange={(e) => setFormData({ ...formData, jobId: e.target.value })}
-              className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
-              required
+              id="workerId"
+              value={formData.workerId}
+              onChange={(e) => setFormData({ ...formData, workerId: e.target.value })}
+              className="w-full h-10 rounded-md border border-slate-300 bg-white shadow-sm text-slate-800 px-3 py-2 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:outline-none"
             >
-              <option value="">Select a job...</option>
-              {jobs.map((job) => (
-                <option key={job.id} value={job.id}>
-                  {job.job_number} - {job.customer_name}
+              <option value="">Assign later...</option>
+              {workers.map((worker) => (
+                <option key={worker.id} value={worker.id}>
+                  {worker.name}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Work Center Selection */}
-          <div>
-            <Label htmlFor="workCenterId" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              Work Center
+          {/* Notes */}
+          <div className="space-y-2">
+            <Label htmlFor="notes" className="text-sm font-medium text-slate-800">
+              Notes & Instructions
             </Label>
-            <select
-              id="workCenterId"
-              value={formData.workCenterId}
-              onChange={(e) => setFormData({ ...formData, workCenterId: e.target.value })}
-              className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
-              required
+            <textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              rows={3}
+              className="w-full rounded-md border border-slate-300 bg-white shadow-sm text-slate-800 px-3 py-2 text-sm placeholder:text-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:outline-none resize-none"
+              placeholder="Any special instructions, setup requirements, or notes for this operation..."
+            />
+          </div>
+
+          {/* Warning for missing work centers */}
+          {workCenters.length === 0 && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <Settings className="h-5 w-5 text-yellow-600" />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-yellow-800">
+                    Work Centers Required
+                  </h3>
+                  <p className="text-sm text-yellow-700 mt-1">
+                    No work centers found. You need to set up work centers first to schedule operations.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Actions */}
+          <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
+            <Button type="button" variant="outline" onClick={handleClose} className="px-4 py-2">
+              Cancel
+            </Button>
+            <Button 
+              type="submit" 
+              disabled={loading || workCenters.length === 0}
+              className="px-6 py-2"
             >
-              <option value="">Select work center...</option>
-              {workCenters.map((center) => (
-                <option key={center.id} value={center.id}>
-                  {center.name} ({center.machine_type})
-                </option>
-              ))}
-            </select>
+              {loading ? 'Scheduling...' : 'Schedule Operation'}
+            </Button>
           </div>
-        </div>
-
-        {/* Operation Name */}
-        <div>
-          <Label htmlFor="operationName">Operation Name</Label>
-          <Input
-            id="operationName"
-            value={formData.operationName}
-            onChange={(e) => setFormData({ ...formData, operationName: e.target.value })}
-            placeholder="e.g., Rough machining, Setup, Finishing"
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Estimated Hours */}
-          <div>
-            <Label htmlFor="estimatedHours" className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              Est. Hours
-            </Label>
-            <Input
-              id="estimatedHours"
-              type="number"
-              step="0.5"
-              min="0.5"
-              value={formData.estimatedHours}
-              onChange={(e) => setFormData({ ...formData, estimatedHours: e.target.value })}
-              placeholder="4.0"
-              required
-            />
-          </div>
-
-          {/* Scheduled Date */}
-          <div>
-            <Label htmlFor="scheduledDate">Date</Label>
-            <Input
-              id="scheduledDate"
-              type="date"
-              value={formData.scheduledDate}
-              onChange={(e) => setFormData({ ...formData, scheduledDate: e.target.value })}
-              required
-            />
-          </div>
-
-          {/* Start Time */}
-          <div>
-            <Label htmlFor="startTime">Start Time</Label>
-            <Input
-              id="startTime"
-              type="time"
-              value={formData.startTime}
-              onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
-              required
-            />
-          </div>
-        </div>
-
-        {/* Worker Selection */}
-        <div>
-          <Label htmlFor="workerId" className="flex items-center gap-2">
-            <User className="h-4 w-4" />
-            Worker (Optional)
-          </Label>
-          <select
-            id="workerId"
-            value={formData.workerId}
-            onChange={(e) => setFormData({ ...formData, workerId: e.target.value })}
-            className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
-          >
-            <option value="">Assign later...</option>
-            {workers.map((worker) => (
-              <option key={worker.id} value={worker.id}>
-                {worker.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Notes */}
-        <div>
-          <Label htmlFor="notes">Notes</Label>
-          <textarea
-            id="notes"
-            value={formData.notes}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-            rows={3}
-            className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
-            placeholder="Any special instructions or notes..."
-          />
-        </div>
-
-        {/* Warning for missing work centers */}
-        {workCenters.length === 0 && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-            <p className="text-yellow-800 text-sm">
-              No work centers found. You need to set up work centers first to schedule operations.
-            </p>
-          </div>
-        )}
-
-        {/* Actions */}
-        <div className="flex justify-end space-x-3 pt-4 border-t">
-          <Button type="button" variant="outline" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button 
-            type="submit" 
-            disabled={loading || workCenters.length === 0}
-          >
-            {loading ? 'Scheduling...' : 'Schedule Operation'}
-          </Button>
-        </div>
-      </form>
+        </form>
+      </div>
     </Modal>
   )
 }
