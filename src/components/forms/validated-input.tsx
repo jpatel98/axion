@@ -117,7 +117,7 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
           {/* Validation indicator */}
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center">
             {showValidating && (
-              <Spinner className="h-4 w-4 text-gray-600" />
+              <Spinner className="h-4 w-4 text-gray-900" />
             )}
             {hasError && !showValidating && (
               <AlertCircle className="h-4 w-4 text-red-500" />
@@ -129,7 +129,7 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
         {helperText && !hasError && (
           <p 
             id={`${inputId}-helper`}
-            className={cn('text-xs text-gray-600', helperClassName)}
+            className={cn('text-xs text-gray-900', helperClassName)}
           >
             {helperText}
           </p>
@@ -174,7 +174,7 @@ export const ValidatedPasswordInput = React.forwardRef<HTMLInputElement, Validat
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-8 top-1/2 -translate-y-1/2 p-1 text-gray-600 hover:text-foreground"
+            className="absolute right-8 top-1/2 -translate-y-1/2 p-1 text-gray-900 hover:text-foreground"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? (
@@ -274,7 +274,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
               undefined
             }
             className={cn(
-              'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+              'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
               hasError && 'border-red-500 focus:border-red-500 focus:ring-red-500',
               className
             )}
@@ -285,7 +285,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
           {(showValidating || hasError) && (
             <div className="absolute right-2 top-2 flex items-center">
               {showValidating && (
-                <Spinner className="h-4 w-4 text-gray-600" />
+                <Spinner className="h-4 w-4 text-gray-900" />
               )}
               {hasError && !showValidating && (
                 <AlertCircle className="h-4 w-4 text-red-500" />
@@ -300,7 +300,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
             {helperText && !hasError && (
               <p 
                 id={`${inputId}-helper`}
-                className={cn('text-xs text-gray-600', helperClassName)}
+                className={cn('text-xs text-gray-900', helperClassName)}
               >
                 {helperText}
               </p>
@@ -321,7 +321,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
           {showCharCount && maxLength && (
             <p className={cn(
               'text-xs ml-2 shrink-0',
-              charCount > maxLength * 0.9 ? 'text-yellow-600' : 'text-gray-600',
+              charCount > maxLength * 0.9 ? 'text-yellow-600' : 'text-gray-900',
               charCount >= maxLength && 'text-red-600'
             )}>
               {charCount}/{maxLength}
@@ -436,7 +436,7 @@ export const ValidatedSelect = React.forwardRef<HTMLSelectElement, ValidatedSele
           {/* Validation indicator */}
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
             {showValidating && (
-              <Spinner className="h-4 w-4 text-gray-600" />
+              <Spinner className="h-4 w-4 text-gray-900" />
             )}
             {hasError && !showValidating && (
               <AlertCircle className="h-4 w-4 text-red-500" />
@@ -448,7 +448,7 @@ export const ValidatedSelect = React.forwardRef<HTMLSelectElement, ValidatedSele
         {helperText && !hasError && (
           <p 
             id={`${inputId}-helper`}
-            className={cn('text-xs text-gray-600', helperClassName)}
+            className={cn('text-xs text-gray-900', helperClassName)}
           >
             {helperText}
           </p>

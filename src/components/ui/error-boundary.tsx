@@ -48,7 +48,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <h2 className="text-lg font-semibold text-gray-900 mb-2">
               Something went wrong
             </h2>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-sm text-gray-900 mb-4">
               {process.env.NODE_ENV === 'development' 
                 ? this.state.error?.message || 'An unexpected error occurred'
                 : 'An unexpected error occurred. Please try again.'
@@ -65,7 +65,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </Button>
             {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-4 text-left">
-                <summary className="cursor-pointer text-xs text-gray-500">
+                <summary className="cursor-pointer text-xs text-gray-900">
                   Technical Details
                 </summary>
                 <pre className="mt-2 text-xs bg-gray-100 p-2 rounded overflow-auto">

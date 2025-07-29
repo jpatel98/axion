@@ -35,7 +35,7 @@ export const PageErrorBoundary: React.FC<{
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
           Unable to load {pageTitle}
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-900 mb-6">
           We encountered an error while loading this page. This might be due to a 
           temporary issue or a problem with your internet connection.
         </p>

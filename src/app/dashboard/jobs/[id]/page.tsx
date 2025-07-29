@@ -124,7 +124,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
       <div className="flex items-center justify-center py-12">
         <div className="flex items-center space-x-2">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-          <div className="text-gray-500">Loading job details...</div>
+          <div className="text-gray-900">Loading job details...</div>
         </div>
       </div>
     )
@@ -135,7 +135,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
       <div>
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-700 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
@@ -155,7 +155,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
       <div className="mb-8">
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-700 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
@@ -164,14 +164,14 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{job.job_number}</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 text-sm text-gray-900">
               Created {formatDate(job.created_at)}
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Link
               href={`/dashboard/jobs/${jobId}/edit`}
-              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               <Edit className="h-4 w-4 mr-2" />
               Edit Job
@@ -197,9 +197,9 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {job.customer_name && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Customer</label>
+                  <label className="block text-sm font-medium text-gray-900">Customer</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <User className="h-4 w-4 text-gray-400" />
+                    <User className="h-4 w-4 text-gray-900" />
                     <span className="text-sm text-gray-900">{job.customer_name}</span>
                   </div>
                 </div>
@@ -207,24 +207,24 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
 
               {job.part_number && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Part Number</label>
+                  <label className="block text-sm font-medium text-gray-900">Part Number</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <Package className="h-4 w-4 text-gray-400" />
+                    <Package className="h-4 w-4 text-gray-900" />
                     <span className="text-sm text-gray-900">{job.part_number}</span>
                   </div>
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-500">Quantity</label>
+                <label className="block text-sm font-medium text-gray-900">Quantity</label>
                 <div className="mt-1 text-sm text-gray-900">{job.quantity}</div>
               </div>
 
               {job.due_date && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Due Date</label>
+                  <label className="block text-sm font-medium text-gray-900">Due Date</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-gray-400" />
+                    <Calendar className="h-4 w-4 text-gray-900" />
                     <span className="text-sm text-gray-900">{formatDate(job.due_date)}</span>
                   </div>
                 </div>
@@ -233,9 +233,9 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
 
             {job.description && (
               <div className="mt-6">
-                <label className="block text-sm font-medium text-gray-500">Description</label>
+                <label className="block text-sm font-medium text-gray-900">Description</label>
                 <div className="mt-1 flex items-start gap-2">
-                  <FileText className="h-4 w-4 text-gray-400 mt-0.5" />
+                  <FileText className="h-4 w-4 text-gray-900 mt-0.5" />
                   <p className="text-sm text-gray-900">{job.description}</p>
                 </div>
               </div>
@@ -255,7 +255,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     job.status === status
                       ? getStatusColor(status)
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                   } disabled:opacity-50`}
                 >
                   {status.replace('_', ' ')}
@@ -273,9 +273,9 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-500">Estimated Cost</label>
+                <label className="block text-sm font-medium text-gray-900">Estimated Cost</label>
                 <div className="mt-1 flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-gray-400" />
+                  <DollarSign className="h-4 w-4 text-gray-900" />
                   <span className="text-lg font-semibold text-gray-900">
                     {formatCurrency(job.estimated_cost)}
                   </span>
@@ -283,9 +283,9 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-500">Actual Cost</label>
+                <label className="block text-sm font-medium text-gray-900">Actual Cost</label>
                 <div className="mt-1 flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-gray-400" />
+                  <DollarSign className="h-4 w-4 text-gray-900" />
                   <span className="text-lg font-semibold text-gray-900">
                     {formatCurrency(job.actual_cost)}
                   </span>
@@ -294,7 +294,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
 
               {job.estimated_cost && job.estimated_cost > 0 && (
                 <div className="pt-2 border-t">
-                  <label className="block text-sm font-medium text-gray-500">Variance</label>
+                  <label className="block text-sm font-medium text-gray-900">Variance</label>
                   <div className="mt-1">
                     {(() => {
                       const variance = job.actual_cost - job.estimated_cost
@@ -319,14 +319,14 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
             
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm">
-                <Clock className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-500">Created:</span>
+                <Clock className="h-4 w-4 text-gray-900" />
+                <span className="text-gray-900">Created:</span>
                 <span className="text-gray-900">{formatDate(job.created_at)}</span>
               </div>
               
               <div className="flex items-center gap-2 text-sm">
-                <Clock className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-500">Last Updated:</span>
+                <Clock className="h-4 w-4 text-gray-900" />
+                <span className="text-gray-900">Last Updated:</span>
                 <span className="text-gray-900">{formatDate(job.updated_at)}</span>
               </div>
             </div>

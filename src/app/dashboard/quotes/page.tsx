@@ -90,7 +90,7 @@ export default function QuotesPage() {
       render: (value, record) => (
         <div>
           <div className="font-medium text-gray-900">{value}</div>
-          <div className="text-sm text-gray-600 truncate max-w-[200px]">{record.title}</div>
+          <div className="text-sm text-gray-900 truncate max-w-[200px]">{record.title}</div>
         </div>
       )
     },
@@ -125,7 +125,7 @@ export default function QuotesPage() {
       title: 'Created',
       sortable: true,
       render: (value) => (
-        <span className="text-sm text-gray-700">
+        <span className="text-sm text-gray-900">
           {formatDate(value)}
         </span>
       )
@@ -161,7 +161,7 @@ export default function QuotesPage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Quotes</h1>
-            <p className="text-gray-600">Manage your project quotes and proposals</p>
+            <p className="text-gray-900">Manage your project quotes and proposals</p>
           </div>
           <Link href="/dashboard/quotes/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-flex items-center">
             <Plus className="mr-2 h-4 w-4" />
@@ -174,27 +174,27 @@ export default function QuotesPage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-900">{statusCounts.all}</div>
-              <div className="text-sm text-gray-500">Total</div>
+              <div className="text-sm text-gray-900">Total</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-600">{statusCounts.draft}</div>
-              <div className="text-sm text-gray-500">Draft</div>
+              <div className="text-2xl font-bold text-gray-900">{statusCounts.draft}</div>
+              <div className="text-sm text-gray-900">Draft</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-600">{statusCounts.sent}</div>
-              <div className="text-sm text-gray-500">Sent</div>
+              <div className="text-sm text-gray-900">Sent</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{statusCounts.accepted}</div>
-              <div className="text-sm text-gray-500">Accepted</div>
+              <div className="text-sm text-gray-900">Accepted</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-red-600">{statusCounts.rejected}</div>
-              <div className="text-sm text-gray-500">Rejected</div>
+              <div className="text-sm text-gray-900">Rejected</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">{statusCounts.expired}</div>
-              <div className="text-sm text-gray-500">Expired</div>
+              <div className="text-sm text-gray-900">Expired</div>
             </div>
           </div>
         </div>

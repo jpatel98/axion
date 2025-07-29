@@ -76,7 +76,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
       <div className="flex items-center justify-center py-12">
         <div className="flex items-center space-x-2">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-          <div className="text-gray-500">Loading customer details...</div>
+          <div className="text-gray-900">Loading customer details...</div>
         </div>
       </div>
     )
@@ -87,7 +87,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
       <div>
         <Link
           href="/dashboard/customers"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-700 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Customers
@@ -107,7 +107,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
       <div className="mb-8">
         <Link
           href="/dashboard/customers"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-500 hover:text-gray-700 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Customers
@@ -116,7 +116,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{customer.name}</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 text-sm text-gray-900">
               Customer since {formatDate(customer.created_at)}
             </p>
           </div>
@@ -140,9 +140,9 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {customer.email && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Email</label>
+                  <label className="block text-sm font-medium text-gray-900">Email</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-gray-500" />
+                    <Mail className="h-4 w-4 text-gray-800" />
                     <a 
                       href={`mailto:${customer.email}`}
                       className="text-sm text-blue-600 hover:text-blue-500"
@@ -155,9 +155,9 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
 
               {customer.phone && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-500">Phone</label>
+                  <label className="block text-sm font-medium text-gray-900">Phone</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-gray-500" />
+                    <Phone className="h-4 w-4 text-gray-800" />
                     <a 
                       href={`tel:${customer.phone}`}
                       className="text-sm text-blue-600 hover:text-blue-500"
@@ -170,9 +170,9 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
 
               {customer.contact_person && (
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-500">Primary Contact</label>
+                  <label className="block text-sm font-medium text-gray-900">Primary Contact</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <User className="h-4 w-4 text-gray-500" />
+                    <User className="h-4 w-4 text-gray-800" />
                     <span className="text-sm text-gray-900">{customer.contact_person}</span>
                   </div>
                 </div>
@@ -186,7 +186,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
               <h3 className="text-lg font-medium text-gray-900 mb-4">Address</h3>
               
               <div className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
+                <MapPin className="h-4 w-4 text-gray-800 mt-0.5" />
                 <div className="text-sm text-gray-900">
                   {customer.address_line1 && <div>{customer.address_line1}</div>}
                   {customer.address_line2 && <div>{customer.address_line2}</div>}
@@ -211,7 +211,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
               <h3 className="text-lg font-medium text-gray-900 mb-4">Notes</h3>
               
               <div className="flex items-start gap-2">
-                <FileText className="h-4 w-4 text-gray-500 mt-0.5" />
+                <FileText className="h-4 w-4 text-gray-800 mt-0.5" />
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">{customer.notes}</p>
               </div>
             </div>
@@ -247,14 +247,14 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
             
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm">
-                <Calendar className="h-4 w-4 text-gray-500" />
-                <span className="text-gray-500">Created:</span>
+                <Calendar className="h-4 w-4 text-gray-800" />
+                <span className="text-gray-900">Created:</span>
                 <span className="text-gray-900">{formatDate(customer.created_at)}</span>
               </div>
               
               <div className="flex items-center gap-2 text-sm">
-                <Calendar className="h-4 w-4 text-gray-500" />
-                <span className="text-gray-500">Updated:</span>
+                <Calendar className="h-4 w-4 text-gray-800" />
+                <span className="text-gray-900">Updated:</span>
                 <span className="text-gray-900">{formatDate(customer.updated_at)}</span>
               </div>
             </div>
@@ -264,7 +264,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
           <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Related</h3>
             
-            <div className="space-y-2 text-sm text-gray-500">
+            <div className="space-y-2 text-sm text-gray-900">
               <div>Quotes: Coming soon</div>
               <div>Jobs: Coming soon</div>
               <div>Orders: Coming soon</div>

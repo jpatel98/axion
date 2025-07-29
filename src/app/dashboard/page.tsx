@@ -106,7 +106,7 @@ export default function DashboardPage() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="mt-2 text-sm text-gray-700">
+        <p className="mt-2 text-sm text-gray-900">
           Welcome to Axion - your manufacturing command center
         </p>
       </div>
@@ -151,7 +151,7 @@ export default function DashboardPage() {
             <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
               Getting Started
             </h3>
-            <div className="prose text-sm text-gray-600">
+            <div className="prose text-sm text-gray-900">
               <p>Welcome to Axion! Here's how to get started:</p>
               <ol className="list-decimal list-inside mt-4 space-y-2">
                 <li>Go to the <strong>Jobs</strong> section to view and manage your manufacturing jobs</li>

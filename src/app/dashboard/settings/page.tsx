@@ -116,7 +116,7 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-        <p className="mt-2 text-sm text-gray-700">
+        <p className="mt-2 text-sm text-gray-900">
           Manage your account, notifications, and system preferences
         </p>
       </div>
@@ -132,7 +132,7 @@ export default function SettingsPage() {
                 className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   activeTab === tab.id
                     ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    : 'text-gray-900 hover:text-gray-900 hover:bg-gray-50'
                 }`}
               >
                 <tab.icon className="h-5 w-5 mr-3" />
@@ -153,14 +153,14 @@ export default function SettingsPage() {
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                       Company Information
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-900">
                       Update your company details and contact information.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Company Name
                       </label>
                       <Input
@@ -171,7 +171,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Contact Email
                       </label>
                       <Input
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Phone Number
                       </label>
                       <Input
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Address
                       </label>
                       <textarea
@@ -215,7 +215,7 @@ export default function SettingsPage() {
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                       Notification Preferences
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-900">
                       Choose what notifications you want to receive.
                     </p>
                   </div>
@@ -230,7 +230,7 @@ export default function SettingsPage() {
                       <div key={notification.key} className="flex items-center justify-between">
                         <div>
                           <h4 className="text-sm font-medium text-gray-900">{notification.label}</h4>
-                          <p className="text-sm text-gray-500">{notification.description}</p>
+                          <p className="text-sm text-gray-900">{notification.description}</p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
@@ -264,14 +264,14 @@ export default function SettingsPage() {
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
                       System Preferences
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-900">
                       Configure system-wide settings and defaults.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Currency
                       </label>
                       <select
@@ -286,7 +286,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Timezone
                       </label>
                       <select
@@ -302,7 +302,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-medium text-gray-900">
                         Date Format
                       </label>
                       <select

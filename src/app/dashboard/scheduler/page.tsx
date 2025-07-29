@@ -145,7 +145,7 @@ export default function SchedulerPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Production Scheduler</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 text-sm text-gray-900">
               Plan and track manufacturing jobs across your production floor
             </p>
           </div>
@@ -237,9 +237,9 @@ export default function SchedulerPage() {
           <div className="px-4 py-5 sm:p-6">
             {scheduledOperations.length === 0 ? (
               <div className="text-center py-16">
-                <Calendar className="mx-auto h-20 w-20 text-gray-400" />
+                <Calendar className="mx-auto h-20 w-20 text-gray-900" />
                 <h3 className="mt-4 text-xl font-medium text-gray-900">No Scheduled Operations</h3>
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-gray-900">
                   Start scheduling jobs to see them appear here.
                 </p>
                 <Button className="mt-4" onClick={handleScheduleJob}>
@@ -266,22 +266,22 @@ export default function SchedulerPage() {
                             {operation.job_operations.status}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600 mb-1">
+                        <p className="text-sm text-gray-900 mb-1">
                           {operation.job_operations.name}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-900">
                           Customer: {operation.job_operations.jobs.customer_name}
                         </p>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-900">
                           Work Center: {operation.work_centers.name}
                         </p>
                         {operation.workers && (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-900">
                             Worker: {operation.workers.name}
                           </p>
                         )}
                       </div>
-                      <div className="text-right text-sm text-gray-500">
+                      <div className="text-right text-sm text-gray-900">
                         <div>{new Date(operation.scheduled_start).toLocaleDateString()}</div>
                         <div>
                           {new Date(operation.scheduled_start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 

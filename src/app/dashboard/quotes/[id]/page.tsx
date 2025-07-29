@@ -314,7 +314,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
     return (
       <div className="text-center py-12">
         <h3 className="text-lg font-semibold text-gray-900">Error</h3>
-        <p className="text-gray-500 mt-2">{error}</p>
+        <p className="text-gray-900 mt-2">{error}</p>
         <Link href="/dashboard/quotes">
           <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4 inline" />
@@ -343,7 +343,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                 {quote.status.charAt(0).toUpperCase() + quote.status.slice(1)}
               </span>
             </h1>
-            <p className="text-gray-600">{quote.title}</p>
+            <p className="text-gray-900">{quote.title}</p>
           </div>
         </div>
         
@@ -410,7 +410,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
               {isEditing ? (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">Title *</label>
                     <input
                       type="text"
                       value={editData.title || ''}
@@ -419,7 +419,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">Description</label>
                     <textarea
                       value={editData.description || ''}
                       onChange={(e) => setEditData(prev => ({ ...prev, description: e.target.value }))}
@@ -428,7 +428,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Valid Until</label>
+                    <label className="block text-sm font-medium text-gray-900 mb-2">Valid Until</label>
                     <input
                       type="date"
                       value={editData.valid_until?.split('T')[0] || ''}
@@ -440,20 +440,20 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
               ) : (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600">Title</label>
+                    <label className="block text-sm font-medium text-gray-900">Title</label>
                     <p className="text-sm text-gray-900">{quote.title}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600">Description</label>
+                    <label className="block text-sm font-medium text-gray-900">Description</label>
                     <p className="text-sm text-gray-900">{quote.description || 'No description provided'}</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-600">Valid Until</label>
+                      <label className="block text-sm font-medium text-gray-900">Valid Until</label>
                       <p className="text-sm text-gray-900">{formatDate(quote.valid_until)}</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-600">Total Amount</label>
+                      <label className="block text-sm font-medium text-gray-900">Total Amount</label>
                       <p className="text-lg font-semibold text-gray-900">{formatCurrency(quote.total)}</p>
                     </div>
                   </div>
@@ -501,7 +501,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                         
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                           <div className="sm:col-span-2">
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <label className="block text-sm font-medium text-gray-900 mb-1">Description</label>
                             <input
                               type="text"
                               value={item.description}
@@ -510,7 +510,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                            <label className="block text-sm font-medium text-gray-900 mb-1">Quantity</label>
                             <input
                               type="number"
                               min="0"
@@ -521,7 +521,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Unit Price</label>
+                            <label className="block text-sm font-medium text-gray-900 mb-1">Unit Price</label>
                             <input
                               type="number"
                               min="0"
@@ -534,7 +534,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                         </div>
                         
                         <div className="text-right">
-                          <span className="text-sm text-gray-600">Line Total: </span>
+                          <span className="text-sm text-gray-900">Line Total: </span>
                           <span className="font-semibold text-gray-900">{formatCurrency(item.line_total)}</span>
                         </div>
                       </div>
@@ -544,7 +544,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                           <h4 className="font-medium text-gray-900">{item.description}</h4>
                           <span className="font-semibold text-gray-900">{formatCurrency(item.line_total)}</span>
                         </div>
-                        <div className="text-sm text-gray-600">
+                        <div className="text-sm text-gray-900">
                           {item.quantity} × {formatCurrency(item.unit_price)}
                         </div>
                       </div>
@@ -576,20 +576,20 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
             </div>
             <div className="p-6 space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-600">Name</label>
+                <label className="block text-sm font-medium text-gray-900">Name</label>
                 <p className="text-sm text-gray-900">{quote.customers?.name || 'N/A'}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600">Email</label>
+                <label className="block text-sm font-medium text-gray-900">Email</label>
                 <p className="text-sm text-gray-900">{quote.customers?.email || 'N/A'}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600">Phone</label>
+                <label className="block text-sm font-medium text-gray-900">Phone</label>
                 <p className="text-sm text-gray-900">{quote.customers?.phone || 'N/A'}</p>
               </div>
               {quote.customers?.address_line1 && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-600">Address</label>
+                  <label className="block text-sm font-medium text-gray-900">Address</label>
                   <p className="text-sm text-gray-900">
                     {quote.customers.address_line1}<br />
                     {quote.customers.city}, {quote.customers.state}
@@ -651,11 +651,11 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
             </div>
             <div className="p-6 space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-600">Created</label>
+                <label className="block text-sm font-medium text-gray-900">Created</label>
                 <p className="text-sm text-gray-900">{formatDate(quote.created_at)}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600">Last Updated</label>
+                <label className="block text-sm font-medium text-gray-900">Last Updated</label>
                 <p className="text-sm text-gray-900">{formatDate(quote.updated_at)}</p>
               </div>
             </div>

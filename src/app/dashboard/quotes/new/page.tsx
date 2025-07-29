@@ -190,7 +190,7 @@ export default function NewQuotePage() {
         </Link>
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Create New Quote</h1>
-          <p className="text-gray-600">
+          <p className="text-gray-900">
             Create a new quote for your customer
             {quoteNumber && <span className="ml-2 text-sm font-mono bg-gray-100 px-2 py-1 rounded">#{quoteNumber}</span>}
           </p>
@@ -337,7 +337,7 @@ export default function NewQuotePage() {
                   </Button>
                   
                   <div className="text-right">
-                    <div className="text-sm text-gray-600">Quote Total</div>
+                    <div className="text-sm text-gray-900">Quote Total</div>
                     <div className="text-lg font-bold">{formatCurrency(calculateTotal())}</div>
                   </div>
                 </div>
@@ -372,20 +372,20 @@ export default function NewQuotePage() {
               {selectedCustomer ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-600">Name</label>
+                    <label className="block text-sm font-medium text-gray-900">Name</label>
                     <p className="text-sm text-gray-900">{selectedCustomer.name}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600">Email</label>
+                    <label className="block text-sm font-medium text-gray-900">Email</label>
                     <p className="text-sm text-gray-900">{selectedCustomer.email}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-600">Phone</label>
+                    <label className="block text-sm font-medium text-gray-900">Phone</label>
                     <p className="text-sm text-gray-900">{selectedCustomer.phone}</p>
                   </div>
                   {selectedCustomer.address_line1 && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-600">Address</label>
+                      <label className="block text-sm font-medium text-gray-900">Address</label>
                       <p className="text-sm text-gray-900">
                         {selectedCustomer.address_line1}<br />
                         {selectedCustomer.city}, {selectedCustomer.state}
@@ -402,7 +402,7 @@ export default function NewQuotePage() {
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-900">
                   Select a customer to view their information
                 </p>
               )}

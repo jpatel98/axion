@@ -49,7 +49,7 @@ export default function ReportsPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Reports & Analytics</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 text-sm text-gray-900">
               Analyze your business performance and identify opportunities
             </p>
           </div>
@@ -83,7 +83,7 @@ export default function ReportsPage() {
               className={`flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 selectedReport === type.id
                   ? 'bg-white text-blue-600 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  : 'text-gray-900 hover:text-gray-900'
               }`}
             >
               <type.icon className="h-4 w-4 mr-2" />
@@ -97,27 +97,27 @@ export default function ReportsPage() {
       <div className="bg-white shadow rounded-lg mb-8">
         <div className="px-4 py-5 sm:p-6">
           <div className="text-center py-12">
-            <BarChart3 className="mx-auto h-16 w-16 text-gray-400" />
+            <BarChart3 className="mx-auto h-16 w-16 text-gray-900" />
             <h3 className="mt-4 text-lg font-medium text-gray-900">Analytics Dashboard Coming Soon</h3>
-            <p className="mt-2 text-sm text-gray-500 max-w-md mx-auto">
+            <p className="mt-2 text-sm text-gray-900 max-w-md mx-auto">
               Once you start creating jobs and customers, this page will display comprehensive analytics including revenue trends, job completion rates, and performance metrics.
             </p>
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               <div className="border rounded-lg p-3">
-                <DollarSign className="h-6 w-6 text-gray-400 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Total Revenue</p>
+                <DollarSign className="h-6 w-6 text-gray-900 mx-auto mb-1" />
+                <p className="text-xs text-gray-900">Total Revenue</p>
               </div>
               <div className="border rounded-lg p-3">
-                <Activity className="h-6 w-6 text-gray-400 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Completed Jobs</p>
+                <Activity className="h-6 w-6 text-gray-900 mx-auto mb-1" />
+                <p className="text-xs text-gray-900">Completed Jobs</p>
               </div>
               <div className="border rounded-lg p-3">
-                <BarChart3 className="h-6 w-6 text-gray-400 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">Avg Job Value</p>
+                <BarChart3 className="h-6 w-6 text-gray-900 mx-auto mb-1" />
+                <p className="text-xs text-gray-900">Avg Job Value</p>
               </div>
               <div className="border rounded-lg p-3">
-                <Clock className="h-6 w-6 text-gray-400 mx-auto mb-1" />
-                <p className="text-xs text-gray-500">On-Time Delivery</p>
+                <Clock className="h-6 w-6 text-gray-900 mx-auto mb-1" />
+                <p className="text-xs text-gray-900">On-Time Delivery</p>
               </div>
             </div>
           </div>
@@ -133,11 +133,11 @@ export default function ReportsPage() {
               Revenue Trend
             </h3>
             <div className="text-center py-12">
-              <BarChart3 className="mx-auto h-12 w-12 text-gray-400" />
-              <p className="mt-2 text-sm text-gray-500">
+              <BarChart3 className="mx-auto h-12 w-12 text-gray-900" />
+              <p className="mt-2 text-sm text-gray-900">
                 Interactive revenue chart will be displayed here
               </p>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-gray-900 mt-2">
                 Integration with Recharts or Chart.js planned
               </p>
             </div>
@@ -151,11 +151,11 @@ export default function ReportsPage() {
               Job Status Distribution
             </h3>
             <div className="text-center py-12">
-              <PieChart className="mx-auto h-12 w-12 text-gray-400" />
-              <p className="mt-2 text-sm text-gray-500">
+              <PieChart className="mx-auto h-12 w-12 text-gray-900" />
+              <p className="mt-2 text-sm text-gray-900">
                 Job status pie chart will be displayed here
               </p>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-gray-900 mt-2">
                 Shows breakdown of pending, in-progress, and completed jobs
               </p>
             </div>
@@ -170,11 +170,11 @@ export default function ReportsPage() {
             Performance Insights
           </h3>
           <div className="text-center py-8">
-            <Activity className="mx-auto h-12 w-12 text-gray-400" />
-            <p className="mt-2 text-sm text-gray-500">
+            <Activity className="mx-auto h-12 w-12 text-gray-900" />
+            <p className="mt-2 text-sm text-gray-900">
               Performance insights and recommendations will appear here as you complete jobs
             </p>
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-gray-900 mt-2">
               AI-powered insights to help optimize your business operations
             </p>
           </div>

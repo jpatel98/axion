@@ -117,19 +117,23 @@ export default function JobsPage() {
       key: 'customer_name',
       title: 'Customer',
       sortable: true,
-      render: (value) => value || 'N/A'
+      render: (value) => (
+        <div className="text-gray-900">{value || 'N/A'}</div>
+      )
     },
     {
       key: 'part_number',
       title: 'Part Number',
       sortable: true,
-      render: (value) => value || 'N/A'
+      render: (value) => (
+        <div className="text-gray-900">{value || 'N/A'}</div>
+      )
     },
     {
       key: 'description',
       title: 'Description',
       render: (value) => (
-        <div className="max-w-xs truncate" title={value}>
+        <div className="max-w-xs truncate text-gray-900" title={value}>
           {value || 'N/A'}
         </div>
       )
@@ -138,7 +142,10 @@ export default function JobsPage() {
       key: 'quantity',
       title: 'Quantity',
       sortable: true,
-      align: 'center' as const
+      align: 'center' as const,
+      render: (value) => (
+        <div className="text-gray-900">{value}</div>
+      )
     },
     {
       key: 'status',
@@ -155,14 +162,16 @@ export default function JobsPage() {
       title: 'Estimated Cost',
       sortable: true,
       align: 'right' as const,
-      render: (value) => formatCurrency(value)
+      render: (value) => (
+        <div className="text-gray-900">{formatCurrency(value)}</div>
+      )
     },
     {
       key: 'due_date',
       title: 'Due Date',
       sortable: true,
       render: (value) => (
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 text-gray-900">
           <Calendar className="h-3 w-3" />
           {formatDate(value)}
         </div>
@@ -180,7 +189,7 @@ export default function JobsPage() {
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Jobs</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-2 text-sm text-gray-900">
               Manage your manufacturing jobs from start to finish
             </p>
           </div>
@@ -220,7 +229,7 @@ export default function JobsPage() {
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Jobs</h1>
-          <p className="mt-2 text-sm text-gray-700">
+          <p className="mt-2 text-sm text-gray-900">
             Manage your manufacturing jobs from start to finish
           </p>
         </div>
@@ -292,18 +301,18 @@ export default function JobsPage() {
           showActions
           emptyMessage={
             <div className="text-center py-8">
-              <Package className="mx-auto h-12 w-12 text-gray-500" />
+              <Package className="mx-auto h-12 w-12 text-gray-900" />
               <h3 className="mt-2 text-sm font-semibold text-gray-900">No jobs yet</h3>
-              <p className="mt-1 text-sm text-gray-500">Get started by creating your first job.</p>
+              <p className="mt-1 text-sm text-gray-900">Get started by creating your first job.</p>
             </div>
           }
         />
       ) : (
         jobs.length === 0 ? (
           <div className="text-center py-12">
-            <Package className="mx-auto h-12 w-12 text-gray-400" />
+            <Package className="mx-auto h-12 w-12 text-gray-900" />
             <h3 className="mt-2 text-sm font-semibold text-gray-900">No jobs yet</h3>
-            <p className="mt-1 text-sm text-gray-500">Get started by creating your first job.</p>
+            <p className="mt-1 text-sm text-gray-900">Get started by creating your first job.</p>
             <div className="mt-6">
               <Link
                 href="/dashboard/jobs/new"
@@ -338,34 +347,34 @@ export default function JobsPage() {
                 <div className="space-y-3">
                   {job.customer_name && (
                     <div>
-                      <p className="text-sm font-medium text-gray-600">Customer</p>
+                      <p className="text-sm font-medium text-gray-900">Customer</p>
                       <p className="text-sm text-gray-900">{job.customer_name}</p>
                     </div>
                   )}
 
                   {job.part_number && (
                     <div>
-                      <p className="text-sm font-medium text-gray-600">Part Number</p>
+                      <p className="text-sm font-medium text-gray-900">Part Number</p>
                       <p className="text-sm text-gray-900">{job.part_number}</p>
                     </div>
                   )}
 
                   {job.description && (
                     <div>
-                      <p className="text-sm font-medium text-gray-600">Description</p>
+                      <p className="text-sm font-medium text-gray-900">Description</p>
                       <p className="text-sm text-gray-900 line-clamp-2">{job.description}</p>
                     </div>
                   )}
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-600">Quantity</p>
+                      <p className="text-sm font-medium text-gray-900">Quantity</p>
                       <p className="text-sm text-gray-900">{job.quantity}</p>
                     </div>
 
                     {job.due_date && (
                       <div>
-                        <p className="text-sm font-medium text-gray-600">Due Date</p>
+                        <p className="text-sm font-medium text-gray-900">Due Date</p>
                         <p className="text-sm text-gray-900 flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {formatDate(job.due_date)}
@@ -377,14 +386,14 @@ export default function JobsPage() {
                   <div className="border-t pt-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm font-medium text-gray-600">Estimated</p>
+                        <p className="text-sm font-medium text-gray-900">Estimated</p>
                         <p className="text-sm text-gray-900 flex items-center gap-1">
                           <DollarSign className="h-3 w-3" />
                           {formatCurrency(job.estimated_cost)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-600">Actual</p>
+                        <p className="text-sm font-medium text-gray-900">Actual</p>
                         <p className="text-sm text-gray-900 flex items-center gap-1">
                           <DollarSign className="h-3 w-3" />
                           {formatCurrency(job.actual_cost)}

@@ -31,14 +31,14 @@ export const StatCard = React.memo(function StatCard({
             </div>
             <div className="ml-5 w-0 flex-1">
               <dl>
-                <dt className="text-sm font-medium text-gray-500 truncate">
+                <dt className="text-sm font-medium text-gray-900 truncate">
                   {title}
                 </dt>
                 <dd className="text-lg font-medium text-gray-900">
                   {value}
                 </dd>
                 {subtitle && (
-                  <dd className="text-xs text-gray-500">
+                  <dd className="text-xs text-gray-900">
                     {subtitle}
                   </dd>
                 )}

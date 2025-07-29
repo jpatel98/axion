@@ -90,7 +90,7 @@ export const FormWrapper = React.forwardRef<HTMLFormElement, FormWrapperProps>(
               </h2>
             )}
             {description && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-900">
                 {description}
               </p>
             )}
@@ -212,7 +212,7 @@ export const Fieldset: React.FC<FieldsetProps> = ({
         )}>
           {legend}
           {description && (
-            <p className="text-sm font-normal text-gray-600 mt-1">
+            <p className="text-sm font-normal text-gray-900 mt-1">
               {description}
             </p>
           )}
@@ -261,7 +261,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
               {title}
             </h3>
             {description && (
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-gray-900 mt-1">
                 {description}
               </p>
             )}

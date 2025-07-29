@@ -72,7 +72,7 @@ export const HelpButton: React.FC<HelpButtonProps> = ({
       <button
         onClick={handleClick}
         className={cn(
-          'inline-flex items-center justify-center rounded-md text-gray-600 hover:text-foreground transition-colors',
+          'inline-flex items-center justify-center rounded-md text-gray-900 hover:text-foreground transition-colors',
           variant === 'icon' && 'p-1',
           variant !== 'icon' && 'px-2 py-1 text-xs',
           className
@@ -118,7 +118,7 @@ export const HelpPopover: React.FC<HelpPopoverProps> = ({
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <h3 className="font-semibold text-sm">{helpContent.title}</h3>
-          <p className="text-xs text-gray-600 mt-1">
+          <p className="text-xs text-gray-900 mt-1">
             {helpContent.description}
           </p>
         </div>
@@ -141,7 +141,7 @@ export const HelpPopover: React.FC<HelpPopoverProps> = ({
 
       {/* Keyboard shortcut */}
       {helpContent.shortcut && (
-        <div className="flex items-center gap-2 text-xs text-gray-600">
+        <div className="flex items-center gap-2 text-xs text-gray-900">
           <Keyboard className="h-3 w-3" />
           <span>Shortcut:</span>
           <div className="flex items-center gap-1">
@@ -193,7 +193,7 @@ export const HelpPopover: React.FC<HelpPopoverProps> = ({
       {/* Related topics */}
       {relatedHelp.length > 0 && (
         <div className="space-y-2">
-          <div className="text-xs font-medium text-gray-600">Related:</div>
+          <div className="text-xs font-medium text-gray-900">Related:</div>
           <div className="space-y-1">
             {relatedHelp.slice(0, 3).map((related) => (
               <button
@@ -292,7 +292,7 @@ export const HelpSidebar: React.FC<HelpSidebarProps> = ({ className }) => {
       {/* Search */}
       <div className="p-4 border-b border-gray-200">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-600" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-900" />
           <Input
             placeholder="Search help topics..."
             value={searchQuery}
@@ -316,12 +316,12 @@ export const HelpSidebar: React.FC<HelpSidebarProps> = ({ className }) => {
               'flex-1 px-3 py-2 text-xs font-medium border-b-2 transition-colors',
               activeTab === tab.id
                 ? 'border-primary text-foreground'
-                : 'border-transparent text-gray-600 hover:text-foreground'
+                : 'border-transparent text-gray-900 hover:text-foreground'
             )}
           >
             {tab.label}
             {tab.count > 0 && (
-              <span className="ml-1 bg-gray-100 text-gray-600 rounded-full px-1.5 py-0.5 text-xs">
+              <span className="ml-1 bg-gray-100 text-gray-900 rounded-full px-1.5 py-0.5 text-xs">
                 {tab.count}
               </span>
             )}
@@ -355,7 +355,7 @@ export const HelpSidebar: React.FC<HelpSidebarProps> = ({ className }) => {
 
       {/* Footer */}
       <div className="p-4 border-t border-gray-200">
-        <div className="text-xs text-gray-600 space-y-1">
+        <div className="text-xs text-gray-900 space-y-1">
           <div className="flex items-center gap-2">
             <Keyboard className="h-3 w-3" />
             <span>Press Ctrl+K to open help</span>
@@ -392,7 +392,7 @@ const HelpContentList: React.FC<HelpContentListProps> = ({ helpItems, emptyMessa
 
   if (helpItems.length === 0) {
     return (
-      <div className="p-4 text-center text-sm text-gray-600">
+      <div className="p-4 text-center text-sm text-gray-900">
         {emptyMessage}
       </div>
     )
@@ -414,7 +414,7 @@ const HelpContentList: React.FC<HelpContentListProps> = ({ helpItems, emptyMessa
                   <div className="font-medium text-sm text-foreground">
                     {item.title}
                   </div>
-                  <div className="text-xs text-gray-600 mt-1 line-clamp-2">
+                  <div className="text-xs text-gray-900 mt-1 line-clamp-2">
                     {item.description}
                   </div>
                 </div>
@@ -435,7 +435,7 @@ const HelpContentList: React.FC<HelpContentListProps> = ({ helpItems, emptyMessa
                 </div>
                 
                 {item.shortcut && (
-                  <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
+                  <div className="flex items-center gap-2 mt-2 text-xs text-gray-900">
                     <Keyboard className="h-3 w-3" />
                     <span>Shortcut:</span>
                     <kbd className="px-1 py-0.5 bg-background rounded text-xs">
@@ -552,7 +552,7 @@ export const TourOverlay: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm">{currentStepData.title}</h3>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-gray-900">
                     Step {currentTourStep + 1} of {totalSteps}
                   </p>
                 </div>
@@ -569,10 +569,10 @@ export const TourOverlay: React.FC = () => {
 
               {currentStepData.tips && currentStepData.tips.length > 0 && (
                 <div className="space-y-1">
-                  <div className="text-xs font-medium text-gray-600">Tips:</div>
+                  <div className="text-xs font-medium text-gray-900">Tips:</div>
                   <ul className="space-y-1">
                     {currentStepData.tips.map((tip, index) => (
-                      <li key={index} className="text-xs text-gray-600 flex items-start gap-1">
+                      <li key={index} className="text-xs text-gray-900 flex items-start gap-1">
                         <span className="text-primary">•</span>
                         {tip}
                       </li>
@@ -636,11 +636,11 @@ export const KeyboardShortcuts: React.FC = () => {
       <div className="space-y-2">
         {shortcuts.map((shortcut, index) => (
           <div key={index} className="flex items-center justify-between text-xs">
-            <span className="text-gray-600">{shortcut.description}</span>
+            <span className="text-gray-900">{shortcut.description}</span>
             <div className="flex items-center gap-1">
               {shortcut.keys.map((key, keyIndex) => (
                 <React.Fragment key={key}>
-                  {keyIndex > 0 && <span className="text-gray-600">+</span>}
+                  {keyIndex > 0 && <span className="text-gray-900">+</span>}
                   <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">
                     {key}
                   </kbd>
