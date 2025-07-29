@@ -99,35 +99,53 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
     }
   }
 
-  const { 
-    formData, 
-    errors, 
-    isSubmitting, 
-    handleInputChange, 
-    handleSubmit, 
-    setFormData 
-  } = useForm<JobFormData>({
-    initialData: {
-      job_number: '',
-      customer_name: '',
-      part_number: '',
-      description: '',
-      quantity: 1,
-      estimated_cost: 0,
-      actual_cost: 0,
-      status: 'pending',
-      due_date: ''
-    },
-    validationRules: {
-      job_number: [validators.required()],
-      customer_name: [validators.required()],
-      part_number: [validators.required()],
-      description: [validators.required()],
-      quantity: [validators.required(), validators.min(1)],
-      estimated_cost: [validators.min(0)],
-      actual_cost: [validators.min(0)],
-      status: [validators.required()],
-      due_date: []
+  const [formState, formActions] = useForm<JobFormData>({
+    fields: {
+      job_number: {
+        validators: [validators.required()],
+        required: true,
+        initialValue: ''
+      },
+      customer_name: {
+        validators: [validators.required()],
+        required: true,
+        initialValue: ''
+      },
+      part_number: {
+        validators: [validators.required()],
+        required: true,
+        initialValue: ''
+      },
+      description: {
+        validators: [validators.required()],
+        required: true,
+        initialValue: ''
+      },
+      quantity: {
+        validators: [validators.required(), validators.min(1)],
+        required: true,
+        initialValue: 1
+      },
+      estimated_cost: {
+        validators: [validators.min(0)],
+        required: false,
+        initialValue: 0
+      },
+      actual_cost: {
+        validators: [validators.min(0)],
+        required: false,
+        initialValue: 0
+      },
+      status: {
+        validators: [validators.required()],
+        required: true,
+        initialValue: 'pending'
+      },
+      due_date: {
+        validators: [],
+        required: false,
+        initialValue: ''
+      }
     },
     onSubmit: async (data) => {
       if (!jobId) return
@@ -166,7 +184,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
   // Set form data when job is loaded
   useEffect(() => {
     if (job) {
-      setFormData({
+      formActions.setFormData({
         job_number: job.job_number,
         customer_name: job.customer_name || '',
         part_number: job.part_number || '',
@@ -178,7 +196,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         due_date: job.due_date ? job.due_date.split('T')[0] : ''
       })
     }
-  }, [job, setFormData])
+  }, [job, formActions])
 
   const handleDelete = async () => {
     if (!jobId || !confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
@@ -280,7 +298,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={formActions.submit} className="space-y-8">
         {/* Basic Information */}
         <FormSection 
           title="Basic Information" 
@@ -289,43 +307,43 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           <FormGrid>
             <ValidatedInput
               label="Job Number"
-              name="job_number"
-              value={formData.job_number}
-              onChange={handleInputChange}
-              error={errors.job_number}
               placeholder="e.g., JOB-001"
+              value={formState.fields?.job_number?.value || ''}
+              onChange={(value) => formActions.setValue('job_number', value)}
+              error={formState.fields?.job_number?.error}
+              touched={formState.fields?.job_number?.touched}
               required
             />
 
             <ValidatedInput
               label="Customer Name"
-              name="customer_name"
-              value={formData.customer_name}
-              onChange={handleInputChange}
-              error={errors.customer_name}
               placeholder="Enter customer name"
+              value={formState.fields?.customer_name?.value || ''}
+              onChange={(value) => formActions.setValue('customer_name', value)}
+              error={formState.fields?.customer_name?.error}
+              touched={formState.fields?.customer_name?.touched}
               required
             />
 
             <ValidatedInput
               label="Part Number"
-              name="part_number"
-              value={formData.part_number}
-              onChange={handleInputChange}
-              error={errors.part_number}
               placeholder="Enter part number"
+              value={formState.fields?.part_number?.value || ''}
+              onChange={(value) => formActions.setValue('part_number', value)}
+              error={formState.fields?.part_number?.error}
+              touched={formState.fields?.part_number?.touched}
               required
             />
 
             <div className="col-span-2">
               <ValidatedTextarea
                 label="Description"
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                error={errors.description}
                 placeholder="Describe the job requirements and specifications"
                 rows={3}
+                value={formState.fields?.description?.value || ''}
+                onChange={(value) => formActions.setValue('description', value)}
+                error={formState.fields?.description?.error}
+                touched={formState.fields?.description?.touched}
                 required
               />
             </div>
@@ -340,10 +358,10 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           <FormGrid>
             <QuantityField
               label="Quantity"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleInputChange}
-              error={errors.quantity}
+              value={formState.fields?.quantity?.value || 1}
+              onChange={(value) => formActions.setValue('quantity', value)}
+              error={formState.fields?.quantity?.error}
+              touched={formState.fields?.quantity?.touched}
               required
             />
 
@@ -352,9 +370,8 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                 Status <span className="text-red-500">*</span>
               </label>
               <select
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
+                value={formState.fields?.status?.value || 'pending'}
+                onChange={(e) => formActions.setValue('status', e.target.value)}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
@@ -364,33 +381,35 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
                   </option>
                 ))}
               </select>
-              {errors.status && (
-                <p className="mt-1 text-sm text-red-600">{errors.status}</p>
+              {formState.fields?.status?.error && (
+                <p className="mt-1 text-sm text-red-600">{formState.fields.status.error}</p>
               )}
             </div>
 
             <CurrencyField
               label="Estimated Cost"
-              name="estimated_cost"
-              value={formData.estimated_cost}
-              onChange={handleInputChange}
-              error={errors.estimated_cost}
+              currency="CAD"
+              value={formState.fields?.estimated_cost?.value || 0}
+              onChange={(value) => formActions.setValue('estimated_cost', value)}
+              error={formState.fields?.estimated_cost?.error}
+              touched={formState.fields?.estimated_cost?.touched}
             />
 
             <CurrencyField
               label="Actual Cost"
-              name="actual_cost"
-              value={formData.actual_cost}
-              onChange={handleInputChange}
-              error={errors.actual_cost}
+              currency="CAD"
+              value={formState.fields?.actual_cost?.value || 0}
+              onChange={(value) => formActions.setValue('actual_cost', value)}
+              error={formState.fields?.actual_cost?.error}
+              touched={formState.fields?.actual_cost?.touched}
             />
 
             <DateField
               label="Due Date"
-              name="due_date"
-              value={formData.due_date}
-              onChange={handleInputChange}
-              error={errors.due_date}
+              value={formState.fields?.due_date?.value || ''}
+              onChange={(value) => formActions.setValue('due_date', value)}
+              error={formState.fields?.due_date?.error}
+              touched={formState.fields?.due_date?.touched}
             />
           </FormGrid>
         </FormSection>
@@ -405,10 +424,10 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           </Link>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={formState.isSubmitting}
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? (
+            {formState.isSubmitting ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                 Updating...
