@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Calendar, DollarSign, Package, User, FileText, Clock } from 'lucide-react'
+import { ArrowLeft, Calendar, DollarSign, Package, User, FileText, Clock, Edit } from 'lucide-react'
 
 interface Job {
   id: string
@@ -168,13 +168,22 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
               Created {formatDate(job.created_at)}
             </p>
           </div>
-          <span
-            className={`inline-flex items-center rounded-md px-3 py-1 text-sm font-medium ${getStatusColor(
-              job.status
-            )}`}
-          >
-            {job.status.replace('_', ' ')}
-          </span>
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/dashboard/jobs/${jobId}/edit`}
+              className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              <Edit className="h-4 w-4 mr-2" />
+              Edit Job
+            </Link>
+            <span
+              className={`inline-flex items-center rounded-md px-3 py-1 text-sm font-medium ${getStatusColor(
+                job.status
+              )}`}
+            >
+              {job.status.replace('_', ' ')}
+            </span>
+          </div>
         </div>
       </div>
 
