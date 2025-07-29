@@ -24,7 +24,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
     response.headers.set(
       'Content-Security-Policy',
-      "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://challenges.cloudflare.com https://*.clerk.accounts.dev https://clerk.axiontechnologies.ca https://accounts.axiontechnologies.ca; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://*.clerk.accounts.dev https://clerk.axiontechnologies.ca https://accounts.axiontechnologies.ca https://*.supabase.co wss://*.supabase.co; frame-src https://challenges.cloudflare.com https://*.clerk.accounts.dev https://clerk.axiontechnologies.ca https://accounts.axiontechnologies.ca;"
+      "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://challenges.cloudflare.com https://*.clerk.accounts.dev https://clerk.axiontechnologies.ca https://accounts.axiontechnologies.ca; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://*.clerk.accounts.dev https://clerk.axiontechnologies.ca https://accounts.axiontechnologies.ca https://*.supabase.co wss://*.supabase.co; frame-src https://challenges.cloudflare.com https://*.clerk.accounts.dev https://clerk.axiontechnologies.ca https://accounts.axiontechnologies.ca;"
     )
     response.headers.set(
       'Permissions-Policy',

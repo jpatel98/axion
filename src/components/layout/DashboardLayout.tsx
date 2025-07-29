@@ -38,7 +38,7 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  useUserSync() // Automatically sync user when component mounts
+  const { syncStatus } = useUserSync() // Automatically sync user when component mounts
 
   const NavigationItems = ({ mobile = false }: { mobile?: boolean }) => (
     <ul role="list" className="flex flex-1 flex-col gap-y-1">
@@ -59,7 +59,7 @@ export default function DashboardLayout({
             >
               <item.icon
                 className={`h-5 w-5 shrink-0 ${
-                  isActive ? 'text-blue-600' : 'text-gray-400 group-hover:text-blue-600'
+                  isActive ? 'text-blue-600' : 'text-gray-500 group-hover:text-blue-600'
                 }`}
                 aria-hidden="true"
               />
@@ -87,7 +87,7 @@ export default function DashboardLayout({
               </Link>
               <button
                 type="button"
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-500 hover:text-gray-600"
                 onClick={() => setSidebarOpen(false)}
               >
                 <X className="h-6 w-6" aria-hidden="true" />
@@ -122,7 +122,7 @@ export default function DashboardLayout({
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
           <button
             type="button"
-            className="text-gray-400 hover:text-gray-600 lg:hidden"
+            className="text-gray-500 hover:text-gray-600 lg:hidden"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-6 w-6" aria-hidden="true" />
@@ -140,7 +140,23 @@ export default function DashboardLayout({
         <main className="py-6">
           <div className="px-4 sm:px-6 lg:px-8">
             <PageErrorBoundary>
-              {children}
+              {syncStatus === 'syncing' ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="flex items-center space-x-3">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                    <div className="text-gray-600">Setting up your account...</div>
+                  </div>
+                </div>
+              ) : syncStatus === 'error' ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="text-center">
+                    <div className="text-red-600 mb-2">Account setup failed</div>
+                    <div className="text-gray-600 text-sm">Please refresh the page to try again</div>
+                  </div>
+                </div>
+              ) : (
+                children
+              )}
             </PageErrorBoundary>
           </div>
         </main>

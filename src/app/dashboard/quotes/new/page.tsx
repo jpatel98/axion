@@ -317,7 +317,7 @@ export default function NewQuotePage() {
                       />
                       <div className="space-y-2">
                         <label className="block text-sm font-medium">Line Total</label>
-                        <div className="h-10 px-3 py-2 bg-muted rounded-md flex items-center text-sm">
+                        <div className="h-10 px-3 py-2 bg-gray-100 rounded-md flex items-center text-sm">
                           {formatCurrency(item.quantity * item.unit_price)}
                         </div>
                       </div>
@@ -337,7 +337,7 @@ export default function NewQuotePage() {
                   </Button>
                   
                   <div className="text-right">
-                    <div className="text-sm text-muted-foreground">Quote Total</div>
+                    <div className="text-sm text-gray-600">Quote Total</div>
                     <div className="text-lg font-bold">{formatCurrency(calculateTotal())}</div>
                   </div>
                 </div>

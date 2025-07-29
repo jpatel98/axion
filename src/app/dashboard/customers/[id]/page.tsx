@@ -142,7 +142,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
                 <div>
                   <label className="block text-sm font-medium text-gray-500">Email</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-gray-400" />
+                    <Mail className="h-4 w-4 text-gray-500" />
                     <a 
                       href={`mailto:${customer.email}`}
                       className="text-sm text-blue-600 hover:text-blue-500"
@@ -157,7 +157,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
                 <div>
                   <label className="block text-sm font-medium text-gray-500">Phone</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-gray-400" />
+                    <Phone className="h-4 w-4 text-gray-500" />
                     <a 
                       href={`tel:${customer.phone}`}
                       className="text-sm text-blue-600 hover:text-blue-500"
@@ -172,7 +172,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-500">Primary Contact</label>
                   <div className="mt-1 flex items-center gap-2">
-                    <User className="h-4 w-4 text-gray-400" />
+                    <User className="h-4 w-4 text-gray-500" />
                     <span className="text-sm text-gray-900">{customer.contact_person}</span>
                   </div>
                 </div>
@@ -186,7 +186,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
               <h3 className="text-lg font-medium text-gray-900 mb-4">Address</h3>
               
               <div className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-gray-400 mt-0.5" />
+                <MapPin className="h-4 w-4 text-gray-500 mt-0.5" />
                 <div className="text-sm text-gray-900">
                   {customer.address_line1 && <div>{customer.address_line1}</div>}
                   {customer.address_line2 && <div>{customer.address_line2}</div>}
@@ -211,7 +211,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
               <h3 className="text-lg font-medium text-gray-900 mb-4">Notes</h3>
               
               <div className="flex items-start gap-2">
-                <FileText className="h-4 w-4 text-gray-400 mt-0.5" />
+                <FileText className="h-4 w-4 text-gray-500 mt-0.5" />
                 <p className="text-sm text-gray-900 whitespace-pre-wrap">{customer.notes}</p>
               </div>
             </div>
@@ -247,13 +247,13 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
             
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm">
-                <Calendar className="h-4 w-4 text-gray-400" />
+                <Calendar className="h-4 w-4 text-gray-500" />
                 <span className="text-gray-500">Created:</span>
                 <span className="text-gray-900">{formatDate(customer.created_at)}</span>
               </div>
               
               <div className="flex items-center gap-2 text-sm">
-                <Calendar className="h-4 w-4 text-gray-400" />
+                <Calendar className="h-4 w-4 text-gray-500" />
                 <span className="text-gray-500">Updated:</span>
                 <span className="text-gray-900">{formatDate(customer.updated_at)}</span>
               </div>

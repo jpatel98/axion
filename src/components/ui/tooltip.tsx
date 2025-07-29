@@ -133,7 +133,7 @@ const RichTooltip: React.FC<RichTooltipProps> = ({
           {title && <div className="font-medium text-sm">{title}</div>}
         </div>
       )}
-      <div className="text-xs text-muted-foreground leading-relaxed">
+      <div className="text-xs text-gray-600 leading-relaxed">
         {description}
       </div>
       {actions && (
@@ -174,8 +174,8 @@ const KeyboardTooltip: React.FC<KeyboardTooltipProps> = ({
       <div className="flex items-center gap-1">
         {shortcuts.map((key, index) => (
           <React.Fragment key={key}>
-            {index > 0 && <span className="text-xs text-muted-foreground">+</span>}
-            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            {index > 0 && <span className="text-xs text-gray-600">+</span>}
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-600 opacity-100">
               {key}
             </kbd>
           </React.Fragment>

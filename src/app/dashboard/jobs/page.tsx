@@ -292,7 +292,7 @@ export default function JobsPage() {
           showActions
           emptyMessage={
             <div className="text-center py-8">
-              <Package className="mx-auto h-12 w-12 text-gray-400" />
+              <Package className="mx-auto h-12 w-12 text-gray-500" />
               <h3 className="mt-2 text-sm font-semibold text-gray-900">No jobs yet</h3>
               <p className="mt-1 text-sm text-gray-500">Get started by creating your first job.</p>
             </div>
@@ -338,34 +338,34 @@ export default function JobsPage() {
                 <div className="space-y-3">
                   {job.customer_name && (
                     <div>
-                      <p className="text-sm font-medium text-gray-500">Customer</p>
+                      <p className="text-sm font-medium text-gray-600">Customer</p>
                       <p className="text-sm text-gray-900">{job.customer_name}</p>
                     </div>
                   )}
 
                   {job.part_number && (
                     <div>
-                      <p className="text-sm font-medium text-gray-500">Part Number</p>
+                      <p className="text-sm font-medium text-gray-600">Part Number</p>
                       <p className="text-sm text-gray-900">{job.part_number}</p>
                     </div>
                   )}
 
                   {job.description && (
                     <div>
-                      <p className="text-sm font-medium text-gray-500">Description</p>
+                      <p className="text-sm font-medium text-gray-600">Description</p>
                       <p className="text-sm text-gray-900 line-clamp-2">{job.description}</p>
                     </div>
                   )}
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-500">Quantity</p>
+                      <p className="text-sm font-medium text-gray-600">Quantity</p>
                       <p className="text-sm text-gray-900">{job.quantity}</p>
                     </div>
 
                     {job.due_date && (
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Due Date</p>
+                        <p className="text-sm font-medium text-gray-600">Due Date</p>
                         <p className="text-sm text-gray-900 flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {formatDate(job.due_date)}
@@ -377,14 +377,14 @@ export default function JobsPage() {
                   <div className="border-t pt-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Estimated</p>
+                        <p className="text-sm font-medium text-gray-600">Estimated</p>
                         <p className="text-sm text-gray-900 flex items-center gap-1">
                           <DollarSign className="h-3 w-3" />
                           {formatCurrency(job.estimated_cost)}
                         </p>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-500">Actual</p>
+                        <p className="text-sm font-medium text-gray-600">Actual</p>
                         <p className="text-sm text-gray-900 flex items-center gap-1">
                           <DollarSign className="h-3 w-3" />
                           {formatCurrency(job.actual_cost)}

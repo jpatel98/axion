@@ -90,7 +90,7 @@ export default function QuotesPage() {
       render: (value, record) => (
         <div>
           <div className="font-medium text-gray-900">{value}</div>
-          <div className="text-sm text-gray-500 truncate max-w-[200px]">{record.title}</div>
+          <div className="text-sm text-gray-600 truncate max-w-[200px]">{record.title}</div>
         </div>
       )
     },
@@ -125,7 +125,7 @@ export default function QuotesPage() {
       title: 'Created',
       sortable: true,
       render: (value) => (
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-gray-700">
           {formatDate(value)}
         </span>
       )

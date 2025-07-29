@@ -65,11 +65,11 @@ export default function CustomersPage() {
       sortable: true,
       render: (value) => value ? (
         <div className="flex items-center gap-2">
-          <Mail className="h-4 w-4 text-gray-400" />
+          <Mail className="h-4 w-4 text-gray-500" />
           <span className="text-sm">{value}</span>
         </div>
       ) : (
-        <span className="text-gray-400 text-sm">No email</span>
+        <span className="text-gray-600 text-sm">No email</span>
       )
     },
     {
@@ -77,11 +77,11 @@ export default function CustomersPage() {
       title: 'Phone',
       render: (value) => value ? (
         <div className="flex items-center gap-2">
-          <Phone className="h-4 w-4 text-gray-400" />
+          <Phone className="h-4 w-4 text-gray-500" />
           <span className="text-sm">{value}</span>
         </div>
       ) : (
-        <span className="text-gray-400 text-sm">No phone</span>
+        <span className="text-gray-600 text-sm">No phone</span>
       )
     },
     {
@@ -91,11 +91,11 @@ export default function CustomersPage() {
         const location = [record.city, record.state].filter(Boolean).join(', ')
         return location ? (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-gray-400" />
+            <MapPin className="h-4 w-4 text-gray-500" />
             <span className="text-sm">{location}</span>
           </div>
         ) : (
-          <span className="text-gray-400 text-sm">No location</span>
+          <span className="text-gray-600 text-sm">No location</span>
         )
       }
     },

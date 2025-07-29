@@ -90,7 +90,7 @@ export const FormWrapper = React.forwardRef<HTMLFormElement, FormWrapperProps>(
               </h2>
             )}
             {description && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-gray-600">
                 {description}
               </p>
             )}
@@ -126,7 +126,7 @@ export const FormWrapper = React.forwardRef<HTMLFormElement, FormWrapperProps>(
         {/* Form actions */}
         {(showSubmitButton || showResetButton) && (
           <div className={cn(
-            'flex flex-col sm:flex-row gap-3 pt-6 border-t border-border',
+            'flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200',
             actionsClassName
           )}>
             <div className="flex gap-3">
@@ -212,7 +212,7 @@ export const Fieldset: React.FC<FieldsetProps> = ({
         )}>
           {legend}
           {description && (
-            <p className="text-sm font-normal text-muted-foreground mt-1">
+            <p className="text-sm font-normal text-gray-600 mt-1">
               {description}
             </p>
           )}
@@ -261,7 +261,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
               {title}
             </h3>
             {description && (
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="text-sm text-gray-600 mt-1">
                 {description}
               </p>
             )}
@@ -346,7 +346,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
 
   return (
     <div className={cn(
-      'flex flex-col sm:flex-row gap-3 pt-6 border-t border-border',
+      'flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200',
       alignClass,
       sticky && 'sticky bottom-0 bg-background/95 backdrop-blur-sm z-10 -mx-6 px-6 py-4',
       className
