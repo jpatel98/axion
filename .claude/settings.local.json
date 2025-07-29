@@ -25,7 +25,12 @@
       "Bash(/dev/null)",
       "Bash(./scripts/new-feature.sh:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(curl:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:clerk.axiontechnologies.ca)",
+      "Bash(dig:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": []
   }
