@@ -272,6 +272,62 @@ export type Database = {
           updated_at?: string
         }
       }
+      settings: {
+        Row: {
+          id: string
+          tenant_id: string
+          company_name: string | null
+          contact_email: string | null
+          phone: string | null
+          address: string | null
+          email_notifications: boolean
+          job_completion_notifications: boolean
+          inventory_alerts: boolean
+          quote_reminders: boolean
+          currency: string
+          timezone: string
+          date_format: string
+          number_format: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          tenant_id: string
+          company_name?: string | null
+          contact_email?: string | null
+          phone?: string | null
+          address?: string | null
+          email_notifications?: boolean
+          job_completion_notifications?: boolean
+          inventory_alerts?: boolean
+          quote_reminders?: boolean
+          currency?: string
+          timezone?: string
+          date_format?: string
+          number_format?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          tenant_id?: string
+          company_name?: string | null
+          contact_email?: string | null
+          phone?: string | null
+          address?: string | null
+          email_notifications?: boolean
+          job_completion_notifications?: boolean
+          inventory_alerts?: boolean
+          quote_reminders?: boolean
+          currency?: string
+          timezone?: string
+          date_format?: string
+          number_format?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }

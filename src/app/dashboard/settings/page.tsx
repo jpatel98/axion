@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
   Settings, 
   User, 
@@ -9,15 +9,19 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/lib/toast'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile')
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const { addToast } = useToast()
   const [settings, setSettings] = useState({
     // Profile settings
-    companyName: 'Acme Manufacturing',
-    contactEmail: 'admin@acme.com',
-    phone: '+1 (555) 123-4567',
-    address: '123 Industrial Ave, Manufacturing City, MC 12345',
+    companyName: '',
+    contactEmail: '',
+    phone: '',
+    address: '',
     
     // Notification settings
     emailNotifications: true,
@@ -29,10 +33,32 @@ export default function SettingsPage() {
     currency: 'CAD',
     timezone: 'America/Toronto',
     dateFormat: 'MM/DD/YYYY',
-    numberFormat: 'en-CA',
-    
-    // Future: Security and integration settings will be added here
+    numberFormat: 'en-CA'
   })
+
+  // Load settings on component mount
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const response = await fetch('/api/v1/settings')
+        if (response.ok) {
+          const data = await response.json()
+          setSettings(data)
+        }
+      } catch (error) {
+        console.error('Failed to load settings:', error)
+        addToast({
+          type: 'error',
+          title: 'Error',
+          message: 'Failed to load settings'
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadSettings()
+  }, [addToast])
 
   const tabs = [
     { id: 'profile', name: 'Company Profile', icon: User },
@@ -44,11 +70,45 @@ export default function SettingsPage() {
     setSettings(prev => ({ ...prev, [key]: value }))
   }
 
-  const handleSave = () => {
-    // Here you would save settings to your backend
-    // TODO: Implement actual API call to save settings
-    // Show success toast notification
-    alert('Settings saved successfully!')
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      const response = await fetch('/api/v1/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      })
+
+      if (response.ok) {
+        addToast({
+          type: 'success',
+          title: 'Success',
+          message: 'Settings saved successfully!'
+        })
+      } else {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to save settings')
+      }
+    } catch (error) {
+      console.error('Failed to save settings:', error)
+      addToast({
+        type: 'error',
+        title: 'Error',
+        message: error instanceof Error ? error.message : 'Failed to save settings'
+      })
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-96">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    )
   }
 
   return (
@@ -263,9 +323,13 @@ export default function SettingsPage() {
               {/* Save Button */}
               <div className="pt-6 border-t border-gray-200">
                 <div className="flex justify-end">
-                  <Button onClick={handleSave}>
-                    <Save className="h-4 w-4 mr-2" />
-                    Save Changes
+                  <Button onClick={handleSave} disabled={saving}>
+                    {saving ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    ) : (
+                      <Save className="h-4 w-4 mr-2" />
+                    )}
+                    {saving ? 'Saving...' : 'Save Changes'}
                   </Button>
                 </div>
               </div>
