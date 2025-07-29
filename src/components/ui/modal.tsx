@@ -61,12 +61,12 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
             >
               <Dialog.Panel className={`w-full ${sizeClasses[size]} transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all`}>
                 <div className="flex items-center justify-between mb-4">
-                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-slate-800">
                     {title}
                   </Dialog.Title>
                   <button
                     type="button"
-                    className="rounded-md text-gray-800 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="rounded-md text-slate-600 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onClick={onClose}
                   >
                     <X className="h-6 w-6" aria-hidden="true" />

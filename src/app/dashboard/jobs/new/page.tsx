@@ -121,13 +121,13 @@ export default function NewJobPage() {
       <div className="mb-8">
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">Create New Job</h1>
-        <p className="mt-2 text-sm text-gray-900">
+        <h1 className="text-2xl font-bold text-slate-800">Create New Job</h1>
+        <p className="mt-2 text-sm text-slate-800">
           Add a new manufacturing job to track from start to finish
         </p>
       </div>

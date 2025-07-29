@@ -150,13 +150,13 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24">
           <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-800 mb-6 leading-tight">
               Manufacturing ERP Built for
               <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block">
                 Modern Job Shops
               </span>
             </h1>
-            <p className="text-xl text-gray-900 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-slate-800 mb-8 max-w-3xl mx-auto leading-relaxed">
               Transform your CNC/VMC shop from chaos to clarity. Replace spreadsheets and whiteboards with 
               a unified system that gives you real-time visibility into every aspect of your manufacturing business.
             </p>
@@ -178,12 +178,12 @@ export default function HomePage() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </SignedIn>
-              <button className="border-2 border-gray-300 text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:border-gray-400 transition-all inline-flex items-center">
+              <button className="border-2 border-gray-300 text-slate-800 px-8 py-4 rounded-lg font-semibold text-lg hover:border-gray-400 transition-all inline-flex items-center">
                 <Play className="mr-2 h-5 w-5" />
                 Watch Demo
               </button>
             </div>
-            <div className="flex items-center justify-center space-x-8 text-sm text-gray-900">
+            <div className="flex items-center justify-center space-x-8 text-sm text-slate-800">
               <div className="flex items-center">
                 <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
                 14-day free trial
@@ -206,56 +206,56 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-slate-800 mb-6">
                 Stop Fighting Your Systems
               </h2>
               <div className="space-y-4 mb-8">
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-900">Spreadsheets scattered across different computers</p>
+                  <p className="text-slate-800">Spreadsheets scattered across different computers</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-900">Whiteboards that get erased and lost</p>
+                  <p className="text-slate-800">Whiteboards that get erased and lost</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-900">No real-time visibility into job status</p>
+                  <p className="text-slate-800">No real-time visibility into job status</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-900">Manual scheduling leading to bottlenecks</p>
+                  <p className="text-slate-800">Manual scheduling leading to bottlenecks</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-900">Disconnected systems causing data chaos</p>
+                  <p className="text-slate-800">Disconnected systems causing data chaos</p>
                 </div>
               </div>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-slate-800 mb-6">
                 One System, Complete Control
               </h2>
               <div className="space-y-4 mb-8">
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-900">Single source of truth for all manufacturing data</p>
+                  <p className="text-slate-800">Single source of truth for all manufacturing data</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-900">Real-time visibility from quote to delivery</p>
+                  <p className="text-slate-800">Real-time visibility from quote to delivery</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-900">Automated scheduling and resource optimization</p>
+                  <p className="text-slate-800">Automated scheduling and resource optimization</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-900">Integrated workflow connecting all departments</p>
+                  <p className="text-slate-800">Integrated workflow connecting all departments</p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-900">Data-driven insights for better decisions</p>
+                  <p className="text-slate-800">Data-driven insights for better decisions</p>
                 </div>
               </div>
             </div>
@@ -267,10 +267,10 @@ export default function HomePage() {
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-800 mb-4">
               Everything You Need to Run Your Shop
             </h2>
-            <p className="text-xl text-gray-900 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-800 max-w-3xl mx-auto">
               From initial quote to final delivery, Axion provides comprehensive tools designed specifically for manufacturing job shops.
             </p>
           </div>
@@ -280,11 +280,11 @@ export default function HomePage() {
                 <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mb-6">
                   <feature.icon className="h-6 w-6 text-blue-600" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-900 mb-4">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-slate-800 mb-3">{feature.title}</h3>
+                <p className="text-slate-800 mb-4">{feature.description}</p>
                 <ul className="space-y-2">
                   {feature.benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-gray-900">
+                    <li key={idx} className="flex items-center text-sm text-slate-800">
                       <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
                       {benefit}
                     </li>
@@ -300,10 +300,10 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-800 mb-4">
               Trusted by Manufacturing Leaders
             </h2>
-            <p className="text-xl text-gray-900">
+            <p className="text-xl text-slate-800">
               Join hundreds of job shops that have transformed their operations with Axion
             </p>
           </div>
@@ -312,19 +312,19 @@ export default function HomePage() {
           <div className="grid md:grid-cols-4 gap-8 mb-16">
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-gray-900">Active Job Shops</div>
+              <div className="text-slate-800">Active Job Shops</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">30%</div>
-              <div className="text-gray-900">Average Lead Time Reduction</div>
+              <div className="text-slate-800">Average Lead Time Reduction</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">25%</div>
-              <div className="text-gray-900">Capacity Utilization Increase</div>
+              <div className="text-slate-800">Capacity Utilization Increase</div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-blue-600 mb-2">6 Mo</div>
-              <div className="text-gray-900">Average ROI Timeline</div>
+              <div className="text-slate-800">Average ROI Timeline</div>
             </div>
           </div>
 
@@ -337,13 +337,13 @@ export default function HomePage() {
                     <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <blockquote className="text-gray-900 mb-4 italic">
-                  <Quote className="h-4 w-4 text-gray-800 mb-2" />
+                <blockquote className="text-slate-800 mb-4 italic">
+                  <Quote className="h-4 w-4 text-slate-600 mb-2" />
                   "{testimonial.content}"
                 </blockquote>
                 <div>
-                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                  <div className="text-gray-900 text-sm">{testimonial.company}</div>
+                  <div className="font-semibold text-slate-800">{testimonial.name}</div>
+                  <div className="text-slate-800 text-sm">{testimonial.company}</div>
                 </div>
               </div>
             ))}
@@ -355,19 +355,19 @@ export default function HomePage() {
       <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-800 mb-4">
               Simple, Transparent Pricing
             </h2>
-            <p className="text-xl text-gray-900">
+            <p className="text-xl text-slate-800">
               Choose the plan that fits your shop size. Scale up as you grow.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Starter */}
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
-              <div className="text-4xl font-bold text-blue-600 mb-4">$199<span className="text-lg text-gray-900">/month</span></div>
-              <p className="text-gray-900 mb-6">Perfect for small shops getting started</p>
+              <h3 className="text-2xl font-bold text-slate-800 mb-2">Starter</h3>
+              <div className="text-4xl font-bold text-blue-600 mb-4">$199<span className="text-lg text-slate-800">/month</span></div>
+              <p className="text-slate-800 mb-6">Perfect for small shops getting started</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Up to 5 users</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Basic scheduling</li>
@@ -394,9 +394,9 @@ export default function HomePage() {
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium">
                 Most Popular
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
-              <div className="text-4xl font-bold text-blue-600 mb-4">$399<span className="text-lg text-gray-900">/month</span></div>
-              <p className="text-gray-900 mb-6">Ideal for growing manufacturing shops</p>
+              <h3 className="text-2xl font-bold text-slate-800 mb-2">Professional</h3>
+              <div className="text-4xl font-bold text-blue-600 mb-4">$399<span className="text-lg text-slate-800">/month</span></div>
+              <p className="text-slate-800 mb-6">Ideal for growing manufacturing shops</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Up to 15 users</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Advanced scheduling</li>
@@ -420,9 +420,9 @@ export default function HomePage() {
 
             {/* Enterprise */}
             <div className="bg-white p-8 rounded-xl shadow-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
+              <h3 className="text-2xl font-bold text-slate-800 mb-2">Enterprise</h3>
               <div className="text-4xl font-bold text-blue-600 mb-4">Custom</div>
-              <p className="text-gray-900 mb-6">For large operations with custom needs</p>
+              <p className="text-slate-800 mb-6">For large operations with custom needs</p>
               <ul className="space-y-3 mb-8">
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Unlimited users</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Custom integrations</li>
@@ -430,7 +430,7 @@ export default function HomePage() {
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Dedicated support</li>
                 <li className="flex items-center"><CheckCircle className="h-4 w-4 text-green-500 mr-2" />Custom training</li>
               </ul>
-              <button className="w-full border-2 border-gray-300 text-gray-900 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors">
+              <button className="w-full border-2 border-gray-300 text-slate-800 py-3 rounded-lg font-semibold hover:border-gray-400 transition-colors">
                 Contact Sales
               </button>
             </div>
@@ -442,10 +442,10 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-slate-800 mb-4">
               Frequently Asked Questions
             </h2>
-            <p className="text-xl text-gray-900">
+            <p className="text-xl text-slate-800">
               Get answers to common questions about Axion ERP
             </p>
           </div>
@@ -456,12 +456,12 @@ export default function HomePage() {
                   className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                 >
-                  <span className="font-semibold text-gray-900">{faq.question}</span>
-                  <ChevronDown className={`h-5 w-5 text-gray-900 transform transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
+                  <span className="font-semibold text-slate-800">{faq.question}</span>
+                  <ChevronDown className={`h-5 w-5 text-slate-800 transform transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
                 </button>
                 {openFaq === index && (
                   <div className="px-6 pb-4">
-                    <p className="text-gray-900">{faq.answer}</p>
+                    <p className="text-slate-800">{faq.answer}</p>
                   </div>
                 )}
               </div>
@@ -528,13 +528,13 @@ export default function HomePage() {
                 <Factory className="h-6 w-6 text-blue-400" />
                 <span className="text-xl font-bold">Axion</span>
               </div>
-              <p className="text-gray-800">
+              <p className="text-slate-600">
                 Manufacturing ERP built for modern job shops. Streamline operations from quote to delivery.
               </p>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-gray-800">
+              <ul className="space-y-2 text-slate-600">
                 <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Integrations</a></li>
@@ -543,7 +543,7 @@ export default function HomePage() {
             </div>
             <div>
               <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-800">
+              <ul className="space-y-2 text-slate-600">
                 <li><a href="#" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
@@ -552,7 +552,7 @@ export default function HomePage() {
             </div>
             <div>
               <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-800">
+              <ul className="space-y-2 text-slate-600">
                 <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
@@ -560,7 +560,7 @@ export default function HomePage() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-800">
+          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-slate-600">
             <p>&copy; 2025 Axion ERP. All rights reserved.</p>
           </div>
         </div>

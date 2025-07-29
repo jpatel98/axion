@@ -32,10 +32,10 @@ export const PageErrorBoundary: React.FC<{
         <div className="mb-6 flex justify-center">
           <AlertTriangle className="h-16 w-16 text-red-500" />
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold text-slate-800 mb-2">
           Unable to load {pageTitle}
         </h1>
-        <p className="text-gray-900 mb-6">
+        <p className="text-slate-800 mb-6">
           We encountered an error while loading this page. This might be due to a 
           temporary issue or a problem with your internet connection.
         </p>

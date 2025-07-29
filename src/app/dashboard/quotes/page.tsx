@@ -68,9 +68,9 @@ export default function QuotesPage() {
     }
     
     const colors: Record<string, string> = {
-      draft: "bg-gray-100 text-gray-800",
+      draft: "bg-gray-100 text-slate-600",
       sent: "bg-blue-100 text-blue-800",
-      accepted: "bg-green-100 text-green-800", 
+      accepted: "bg-green-600 text-white", 
       rejected: "bg-red-100 text-red-800",
       expired: "bg-orange-100 text-orange-800"
     }
@@ -89,8 +89,8 @@ export default function QuotesPage() {
       sortable: true,
       render: (value, record) => (
         <div>
-          <div className="font-medium text-gray-900">{value}</div>
-          <div className="text-sm text-gray-900 truncate max-w-[200px]">{record.title}</div>
+          <div className="font-medium text-slate-800">{value}</div>
+          <div className="text-sm text-slate-800 truncate max-w-[200px]">{record.title}</div>
         </div>
       )
     },
@@ -99,7 +99,7 @@ export default function QuotesPage() {
       title: 'Customer',
       sortable: true,
       render: (_, record) => (
-        <span className="text-sm text-gray-900">
+        <span className="text-sm text-slate-800">
           {record.customers?.name || 'Unknown Customer'}
         </span>
       )
@@ -115,7 +115,7 @@ export default function QuotesPage() {
       title: 'Total',
       sortable: true,
       render: (value) => (
-        <span className="font-medium text-gray-900">
+        <span className="font-medium text-slate-800">
           {formatCurrency(value || 0)}
         </span>
       )
@@ -125,7 +125,7 @@ export default function QuotesPage() {
       title: 'Created',
       sortable: true,
       render: (value) => (
-        <span className="text-sm text-gray-900">
+        <span className="text-sm text-slate-800">
           {formatDate(value)}
         </span>
       )
@@ -160,8 +160,8 @@ export default function QuotesPage() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Quotes</h1>
-            <p className="text-gray-900">Manage your project quotes and proposals</p>
+            <h1 className="text-3xl font-bold text-slate-800">Quotes</h1>
+            <p className="text-slate-800">Manage your project quotes and proposals</p>
           </div>
           <Link href="/dashboard/quotes/new" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-flex items-center">
             <Plus className="mr-2 h-4 w-4" />
@@ -173,28 +173,28 @@ export default function QuotesPage() {
         <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">{statusCounts.all}</div>
-              <div className="text-sm text-gray-900">Total</div>
+              <div className="text-2xl font-bold text-slate-800">{statusCounts.all}</div>
+              <div className="text-sm text-slate-800">Total</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">{statusCounts.draft}</div>
-              <div className="text-sm text-gray-900">Draft</div>
+              <div className="text-2xl font-bold text-slate-800">{statusCounts.draft}</div>
+              <div className="text-sm text-slate-800">Draft</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-600">{statusCounts.sent}</div>
-              <div className="text-sm text-gray-900">Sent</div>
+              <div className="text-sm text-slate-800">Sent</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{statusCounts.accepted}</div>
-              <div className="text-sm text-gray-900">Accepted</div>
+              <div className="text-sm text-slate-800">Accepted</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-red-600">{statusCounts.rejected}</div>
-              <div className="text-sm text-gray-900">Rejected</div>
+              <div className="text-sm text-slate-800">Rejected</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">{statusCounts.expired}</div>
-              <div className="text-sm text-gray-900">Expired</div>
+              <div className="text-sm text-slate-800">Expired</div>
             </div>
           </div>
         </div>

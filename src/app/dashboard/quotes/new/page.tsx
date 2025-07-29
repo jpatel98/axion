@@ -189,8 +189,8 @@ export default function NewQuotePage() {
           Back to Quotes
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Create New Quote</h1>
-          <p className="text-gray-900">
+          <h1 className="text-3xl font-bold text-slate-800">Create New Quote</h1>
+          <p className="text-slate-800">
             Create a new quote for your customer
             {quoteNumber && <span className="ml-2 text-sm font-mono bg-gray-100 px-2 py-1 rounded">#{quoteNumber}</span>}
           </p>
@@ -277,7 +277,7 @@ export default function NewQuotePage() {
                 {lineItems.map((item, index) => (
                   <div key={index} className="border rounded-lg p-4 space-y-4">
                     <div className="flex justify-between items-start">
-                      <h4 className="font-medium text-gray-900">Item #{index + 1}</h4>
+                      <h4 className="font-medium text-slate-800">Item #{index + 1}</h4>
                       {lineItems.length > 1 && (
                         <Button
                           type="button"
@@ -337,7 +337,7 @@ export default function NewQuotePage() {
                   </Button>
                   
                   <div className="text-right">
-                    <div className="text-sm text-gray-900">Quote Total</div>
+                    <div className="text-sm text-slate-800">Quote Total</div>
                     <div className="text-lg font-bold">{formatCurrency(calculateTotal())}</div>
                   </div>
                 </div>
@@ -366,27 +366,27 @@ export default function NewQuotePage() {
         <div>
           <div className="bg-white rounded-lg shadow border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900">Customer Information</h3>
+              <h3 className="text-lg font-semibold text-slate-800">Customer Information</h3>
             </div>
             <div className="p-6">
               {selectedCustomer ? (
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-900">Name</label>
-                    <p className="text-sm text-gray-900">{selectedCustomer.name}</p>
+                    <label className="block text-sm font-medium text-slate-800">Name</label>
+                    <p className="text-sm text-slate-800">{selectedCustomer.name}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-900">Email</label>
-                    <p className="text-sm text-gray-900">{selectedCustomer.email}</p>
+                    <label className="block text-sm font-medium text-slate-800">Email</label>
+                    <p className="text-sm text-slate-800">{selectedCustomer.email}</p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-900">Phone</label>
-                    <p className="text-sm text-gray-900">{selectedCustomer.phone}</p>
+                    <label className="block text-sm font-medium text-slate-800">Phone</label>
+                    <p className="text-sm text-slate-800">{selectedCustomer.phone}</p>
                   </div>
                   {selectedCustomer.address_line1 && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">Address</label>
-                      <p className="text-sm text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">Address</label>
+                      <p className="text-sm text-slate-800">
                         {selectedCustomer.address_line1}<br />
                         {selectedCustomer.city}, {selectedCustomer.state}
                       </p>
@@ -402,7 +402,7 @@ export default function NewQuotePage() {
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-gray-900">
+                <p className="text-sm text-slate-800">
                   Select a customer to view their information
                 </p>
               )}

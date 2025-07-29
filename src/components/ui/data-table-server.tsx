@@ -188,7 +188,7 @@ export function ServerDataTable<T extends Record<string, any>>({
         {onSearch && (
           <div className="flex items-center gap-4">
             <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-800" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-600" />
               <Input
                 placeholder={searchPlaceholder}
                 value={searchValue}
@@ -196,7 +196,7 @@ export function ServerDataTable<T extends Record<string, any>>({
                 className="pl-10"
               />
             </div>
-            <div className="text-sm text-gray-900">
+            <div className="text-sm text-slate-800">
               {totalItems} {totalItems === 1 ? 'record' : 'records'}
             </div>
           </div>
@@ -212,7 +212,7 @@ export function ServerDataTable<T extends Record<string, any>>({
                     <th
                       key={String(column.key)}
                       className={cn(
-                        "px-6 py-3 text-xs font-medium text-gray-800 uppercase tracking-wider",
+                        "px-6 py-3 text-xs font-medium text-slate-600 uppercase tracking-wider",
                         column.sortable && "cursor-pointer hover:bg-gray-100",
                         column.align === 'center' && "text-center",
                         column.align === 'right' && "text-right"
@@ -233,7 +233,7 @@ export function ServerDataTable<T extends Record<string, any>>({
                   <tr>
                     <td 
                       colSpan={finalColumns.length} 
-                      className="px-6 py-12 text-center text-gray-800"
+                      className="px-6 py-12 text-center text-slate-600"
                     >
                       {emptyMessage}
                     </td>
@@ -252,7 +252,7 @@ export function ServerDataTable<T extends Record<string, any>>({
                         <td
                           key={String(column.key)}
                           className={cn(
-                            "px-6 py-4 whitespace-nowrap text-sm text-gray-900",
+                            "px-6 py-4 whitespace-nowrap text-sm text-slate-800",
                             column.align === 'center' && "text-center",
                             column.align === 'right' && "text-right"
                           )}
@@ -274,7 +274,7 @@ export function ServerDataTable<T extends Record<string, any>>({
         {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-900">
+            <div className="text-sm text-slate-800">
               Showing {startRecord} to {endRecord} of {totalItems} results
             </div>
             <div className="flex items-center gap-2">

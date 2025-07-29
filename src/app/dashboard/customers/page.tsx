@@ -52,9 +52,9 @@ export default function CustomersPage() {
       sortable: true,
       render: (value, record) => (
         <div>
-          <div className="font-medium text-gray-900">{value}</div>
+          <div className="font-medium text-slate-800">{value}</div>
           {record.contact_person && (
-            <div className="text-sm text-gray-900">Contact: {record.contact_person}</div>
+            <div className="text-sm text-slate-800">Contact: {record.contact_person}</div>
           )}
         </div>
       )
@@ -65,11 +65,11 @@ export default function CustomersPage() {
       sortable: true,
       render: (value) => value ? (
         <div className="flex items-center gap-2">
-          <Mail className="h-4 w-4 text-gray-800" />
+          <Mail className="h-4 w-4 text-slate-600" />
           <span className="text-sm">{value}</span>
         </div>
       ) : (
-        <span className="text-gray-900 text-sm">No email</span>
+        <span className="text-slate-800 text-sm">No email</span>
       )
     },
     {
@@ -77,11 +77,11 @@ export default function CustomersPage() {
       title: 'Phone',
       render: (value) => value ? (
         <div className="flex items-center gap-2">
-          <Phone className="h-4 w-4 text-gray-800" />
+          <Phone className="h-4 w-4 text-slate-600" />
           <span className="text-sm">{value}</span>
         </div>
       ) : (
-        <span className="text-gray-900 text-sm">No phone</span>
+        <span className="text-slate-800 text-sm">No phone</span>
       )
     },
     {
@@ -91,11 +91,11 @@ export default function CustomersPage() {
         const location = [record.city, record.state].filter(Boolean).join(', ')
         return location ? (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-gray-800" />
+            <MapPin className="h-4 w-4 text-slate-600" />
             <span className="text-sm">{location}</span>
           </div>
         ) : (
-          <span className="text-gray-900 text-sm">No location</span>
+          <span className="text-slate-800 text-sm">No location</span>
         )
       }
     },
@@ -104,7 +104,7 @@ export default function CustomersPage() {
       title: 'Added',
       sortable: true,
       render: (value) => (
-        <span className="text-sm text-gray-900">
+        <span className="text-sm text-slate-800">
           {new Date(value).toLocaleDateString()}
         </span>
       )
@@ -125,8 +125,8 @@ export default function CustomersPage() {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
-            <p className="mt-2 text-sm text-gray-900">
+            <h1 className="text-2xl font-bold text-slate-800">Customers</h1>
+            <p className="mt-2 text-sm text-slate-800">
               Manage your customer database and contact information
             </p>
           </div>

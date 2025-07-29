@@ -101,13 +101,13 @@ export default function NewCustomerPage() {
       <div className="mb-8">
         <Link
           href="/dashboard/customers"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Customers
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">Add New Customer</h1>
-        <p className="mt-2 text-sm text-gray-900">
+        <h1 className="text-2xl font-bold text-slate-800">Add New Customer</h1>
+        <p className="mt-2 text-sm text-slate-800">
           Create a new customer record for your manufacturing business
         </p>
       </div>

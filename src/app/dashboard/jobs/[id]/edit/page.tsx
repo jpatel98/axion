@@ -237,7 +237,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       <div className="flex items-center justify-center py-12">
         <div className="flex items-center space-x-2">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-          <div className="text-gray-900">Loading job...</div>
+          <div className="text-slate-800">Loading job...</div>
         </div>
       </div>
     )
@@ -248,7 +248,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       <div>
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
@@ -268,7 +268,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       <div className="mb-8">
         <Link
           href={`/dashboard/jobs/${jobId}`}
-          className="inline-flex items-center gap-x-2 text-sm text-gray-900 hover:text-gray-900 mb-4"
+          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Job Details
@@ -276,8 +276,8 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Edit Job</h1>
-            <p className="mt-2 text-sm text-gray-900">
+            <h1 className="text-2xl font-bold text-slate-800">Edit Job</h1>
+            <p className="mt-2 text-sm text-slate-800">
               Update job details and track progress
             </p>
           </div>
@@ -366,7 +366,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
             />
 
             <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-900 mb-1">
+              <label className="block text-sm font-medium text-slate-800 mb-1">
                 Status <span className="text-red-500">*</span>
               </label>
               <select
@@ -418,7 +418,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
           <Link
             href={`/dashboard/jobs/${jobId}`}
-            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-900 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-slate-800 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Cancel
           </Link>

@@ -115,8 +115,8 @@ export default function SettingsPage() {
     <div suppressHydrationWarning>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
-        <p className="mt-2 text-sm text-gray-900">
+        <h1 className="text-2xl font-bold text-slate-800">Settings</h1>
+        <p className="mt-2 text-sm text-slate-800">
           Manage your account, notifications, and system preferences
         </p>
       </div>
@@ -132,7 +132,7 @@ export default function SettingsPage() {
                 className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
                   activeTab === tab.id
                     ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600'
-                    : 'text-gray-900 hover:text-gray-900 hover:bg-gray-50'
+                    : 'text-slate-800 hover:text-slate-800 hover:bg-gray-50'
                 }`}
               >
                 <tab.icon className="h-5 w-5 mr-3" />
@@ -150,17 +150,17 @@ export default function SettingsPage() {
               {activeTab === 'profile' && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    <h3 className="text-lg leading-6 font-medium text-slate-800">
                       Company Information
                     </h3>
-                    <p className="mt-1 text-sm text-gray-900">
+                    <p className="mt-1 text-sm text-slate-800">
                       Update your company details and contact information.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Company Name
                       </label>
                       <Input
@@ -171,7 +171,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Contact Email
                       </label>
                       <Input
@@ -183,7 +183,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Phone Number
                       </label>
                       <Input
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Address
                       </label>
                       <textarea
@@ -212,10 +212,10 @@ export default function SettingsPage() {
               {activeTab === 'notifications' && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    <h3 className="text-lg leading-6 font-medium text-slate-800">
                       Notification Preferences
                     </h3>
-                    <p className="mt-1 text-sm text-gray-900">
+                    <p className="mt-1 text-sm text-slate-800">
                       Choose what notifications you want to receive.
                     </p>
                   </div>
@@ -229,8 +229,8 @@ export default function SettingsPage() {
                     ].map((notification) => (
                       <div key={notification.key} className="flex items-center justify-between">
                         <div>
-                          <h4 className="text-sm font-medium text-gray-900">{notification.label}</h4>
-                          <p className="text-sm text-gray-900">{notification.description}</p>
+                          <h4 className="text-sm font-medium text-slate-800">{notification.label}</h4>
+                          <p className="text-sm text-slate-800">{notification.description}</p>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input
@@ -261,17 +261,17 @@ export default function SettingsPage() {
               {activeTab === 'system' && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    <h3 className="text-lg leading-6 font-medium text-slate-800">
                       System Preferences
                     </h3>
-                    <p className="mt-1 text-sm text-gray-900">
+                    <p className="mt-1 text-sm text-slate-800">
                       Configure system-wide settings and defaults.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Currency
                       </label>
                       <select
@@ -286,7 +286,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Timezone
                       </label>
                       <select
@@ -302,7 +302,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900">
+                      <label className="block text-sm font-medium text-slate-800">
                         Date Format
                       </label>
                       <select

@@ -53,13 +53,13 @@ export default function DashboardLayout({
                 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium transition-colors
                 ${isActive
                   ? 'bg-blue-50 text-blue-600'
-                  : 'text-gray-900 hover:text-blue-600 hover:bg-gray-50'
+                  : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
                 }
               `}
             >
               <item.icon
                 className={`h-5 w-5 shrink-0 ${
-                  isActive ? 'text-blue-600' : 'text-gray-800 group-hover:text-blue-600'
+                  isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
                 }`}
                 aria-hidden="true"
               />
@@ -87,7 +87,7 @@ export default function DashboardLayout({
               </Link>
               <button
                 type="button"
-                className="text-gray-800 hover:text-gray-900"
+                className="text-slate-600 hover:text-slate-800"
                 onClick={() => setSidebarOpen(false)}
               >
                 <X className="h-6 w-6" aria-hidden="true" />
@@ -122,7 +122,7 @@ export default function DashboardLayout({
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
           <button
             type="button"
-            className="text-gray-800 hover:text-gray-900 lg:hidden"
+            className="text-slate-600 hover:text-slate-800 lg:hidden"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-6 w-6" aria-hidden="true" />
@@ -144,14 +144,14 @@ export default function DashboardLayout({
                 <div className="flex items-center justify-center py-12">
                   <div className="flex items-center space-x-3">
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-                    <div className="text-gray-900">Setting up your account...</div>
+                    <div className="text-slate-800">Setting up your account...</div>
                   </div>
                 </div>
               ) : syncStatus === 'error' ? (
                 <div className="flex items-center justify-center py-12">
                   <div className="text-center">
                     <div className="text-red-600 mb-2">Account setup failed</div>
-                    <div className="text-gray-900 text-sm">Please refresh the page to try again</div>
+                    <div className="text-slate-800 text-sm">Please refresh the page to try again</div>
                   </div>
                 </div>
               ) : (

@@ -18,9 +18,9 @@ const getTooltipStyles = (variant: TooltipVariant = "default", size: TooltipSize
   const baseStyles = "absolute z-50 rounded-md border shadow-md whitespace-nowrap"
   
   const variantStyles: Record<TooltipVariant, string> = {
-    default: "bg-white text-gray-900 border-gray-200",
+    default: "bg-white text-slate-800 border-gray-200",
     dark: "bg-gray-900 text-white border-gray-800",
-    light: "bg-white text-gray-900 border-gray-200",
+    light: "bg-white text-slate-800 border-gray-200",
     info: "bg-blue-50 text-blue-900 border-blue-200",
     warning: "bg-yellow-50 text-yellow-900 border-yellow-200",
     error: "bg-red-50 text-red-900 border-red-200",
@@ -133,7 +133,7 @@ const RichTooltip: React.FC<RichTooltipProps> = ({
           {title && <div className="font-medium text-sm">{title}</div>}
         </div>
       )}
-      <div className="text-xs text-gray-900 leading-relaxed">
+      <div className="text-xs text-slate-800 leading-relaxed">
         {description}
       </div>
       {actions && (
@@ -174,8 +174,8 @@ const KeyboardTooltip: React.FC<KeyboardTooltipProps> = ({
       <div className="flex items-center gap-1">
         {shortcuts.map((key, index) => (
           <React.Fragment key={key}>
-            {index > 0 && <span className="text-xs text-gray-900">+</span>}
-            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-gray-900 opacity-100">
+            {index > 0 && <span className="text-xs text-slate-800">+</span>}
+            <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-gray-100 px-1.5 font-mono text-[10px] font-medium text-slate-800 opacity-100">
               {key}
             </kbd>
           </React.Fragment>

@@ -403,7 +403,7 @@ export const QuantityField: React.FC<QuantityFieldProps> = ({
         {...props}
       />
       {unit && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-900 pointer-events-none">
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-slate-800 pointer-events-none">
           {unit}
         </div>
       )}
