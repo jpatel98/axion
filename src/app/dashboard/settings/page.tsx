@@ -166,7 +166,7 @@ export default function SettingsPage() {
                       <Input
                         value={settings.companyName}
                         onChange={(e) => handleSettingChange('companyName', e.target.value)}
-                        className="mt-1"
+                        className="mt-1 border border-slate-300 bg-white shadow-sm"
                       />
                     </div>
 
@@ -178,7 +178,7 @@ export default function SettingsPage() {
                         type="email"
                         value={settings.contactEmail}
                         onChange={(e) => handleSettingChange('contactEmail', e.target.value)}
-                        className="mt-1"
+                        className="mt-1 border border-slate-300 bg-white shadow-sm"
                       />
                     </div>
 
@@ -189,7 +189,7 @@ export default function SettingsPage() {
                       <Input
                         value={settings.phone}
                         onChange={(e) => handleSettingChange('phone', e.target.value)}
-                        className="mt-1"
+                        className="mt-1 border border-slate-300 bg-white shadow-sm"
                       />
                     </div>
 
@@ -201,7 +201,7 @@ export default function SettingsPage() {
                         rows={3}
                         value={settings.address}
                         onChange={(e) => handleSettingChange('address', e.target.value)}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border border-slate-300 bg-white shadow-sm text-slate-800 placeholder:text-slate-600 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                       />
                     </div>
                   </div>
@@ -277,7 +277,7 @@ export default function SettingsPage() {
                       <select
                         value={settings.currency}
                         onChange={(e) => handleSettingChange('currency', e.target.value)}
-                        className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border border-slate-300 bg-white py-2 pl-3 pr-10 text-base text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                       >
                         <option value="CAD">Canadian Dollar (CAD)</option>
                         <option value="USD">US Dollar (USD)</option>
@@ -292,7 +292,7 @@ export default function SettingsPage() {
                       <select
                         value={settings.timezone}
                         onChange={(e) => handleSettingChange('timezone', e.target.value)}
-                        className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border border-slate-300 bg-white py-2 pl-3 pr-10 text-base text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                       >
                         <option value="America/Toronto">Eastern Time</option>
                         <option value="America/Vancouver">Pacific Time</option>
@@ -308,7 +308,7 @@ export default function SettingsPage() {
                       <select
                         value={settings.dateFormat}
                         onChange={(e) => handleSettingChange('dateFormat', e.target.value)}
-                        className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                        className="mt-1 block w-full rounded-md border border-slate-300 bg-white py-2 pl-3 pr-10 text-base text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
                       >
                         <option value="MM/DD/YYYY">MM/DD/YYYY</option>
                         <option value="DD/MM/YYYY">DD/MM/YYYY</option>

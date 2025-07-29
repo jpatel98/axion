@@ -372,7 +372,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
               <select
                 value={formState.fields?.status?.value || 'pending'}
                 onChange={(e) => formActions.setValue('status', e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 required
               >
                 {statusOptions.map((option) => (

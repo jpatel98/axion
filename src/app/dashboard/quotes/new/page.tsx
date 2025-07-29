@@ -316,7 +316,7 @@ export default function NewQuotePage() {
                         required
                       />
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium">Line Total</label>
+                        <label className="block text-sm font-medium text-slate-800">Line Total</label>
                         <div className="h-10 px-3 py-2 bg-gray-100 rounded-md flex items-center text-sm">
                           {formatCurrency(item.quantity * item.unit_price)}
                         </div>

@@ -171,7 +171,7 @@ export const NameField: React.FC<NameFieldProps> = ({
     }
   }
 
-  const icon = nameType === 'person' ? <User className="h-4 w-4" /> : <Building className="h-4 w-4" />
+  const icon = nameType === 'person' ? <User className="h-4 w-4 text-slate-800" /> : <Building className="h-4 w-4 text-slate-800" />
   const placeholder = nameType === 'person' ? 'John Doe' : 'Acme Corporation'
 
   return (

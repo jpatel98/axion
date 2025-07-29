@@ -1,0 +1,98 @@
+/* FullCalendar Custom Styling - Deep Blue Theme */
+
+/* Header toolbar - make text darker */
+.fc-toolbar {
+  color: rgb(30 41 59) !important; /* text-slate-800 */
+}
+
+.fc-toolbar-title {
+  color: rgb(30 41 59) !important; /* text-slate-800 */
+  font-weight: 600 !important;
+}
+
+/* Buttons */
+.fc-button {
+  background-color: rgb(30 41 59) !important; /* bg-slate-800 */
+  border-color: rgb(30 41 59) !important;
+  color: white !important;
+}
+
+.fc-button:hover {
+  background-color: rgb(51 65 85) !important; /* bg-slate-600 */
+  border-color: rgb(51 65 85) !important;
+}
+
+.fc-button:focus {
+  box-shadow: 0 0 0 2px rgb(59 130 246) !important; /* blue focus ring */
+}
+
+/* Day headers */
+.fc-col-header-cell {
+  background-color: rgb(248 250 252) !important; /* bg-slate-50 */
+}
+
+.fc-col-header-cell-cushion {
+  color: rgb(30 41 59) !important; /* text-slate-800 */
+  font-weight: 600 !important;
+}
+
+/* Time axis labels */
+.fc-timegrid-axis-cushion,
+.fc-timegrid-slot-label-cushion {
+  color: rgb(51 65 85) !important; /* text-slate-600 */
+  font-weight: 500 !important;
+}
+
+/* Grid lines */
+.fc-timegrid-slot {
+  border-color: rgb(226 232 240) !important; /* border-slate-200 */
+}
+
+.fc-timegrid-col-bg {
+  border-color: rgb(226 232 240) !important; /* border-slate-200 */
+}
+
+/* Day numbers in month view */
+.fc-daygrid-day-number {
+  color: rgb(30 41 59) !important; /* text-slate-800 */
+  font-weight: 500 !important;
+}
+
+/* Event styling */
+.fc-event {
+  border: none !important;
+  font-weight: 500 !important;
+}
+
+.fc-event-title {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+/* Today highlighting */
+.fc-day-today {
+  background-color: rgb(239 246 255) !important; /* bg-blue-50 */
+}
+
+/* Business hours */
+.fc-non-business {
+  background-color: rgb(248 250 252) !important; /* bg-slate-50 */
+}
+
+/* Scrollbar styling */
+.fc-scroller::-webkit-scrollbar {
+  width: 8px;
+}
+
+.fc-scroller::-webkit-scrollbar-track {
+  background: rgb(248 250 252); /* bg-slate-50 */
+}
+
+.fc-scroller::-webkit-scrollbar-thumb {
+  background: rgb(148 163 184); /* bg-slate-400 */
+  border-radius: 4px;
+}
+
+.fc-scroller::-webkit-scrollbar-thumb:hover {
+  background: rgb(100 116 139); /* bg-slate-500 */
+}

@@ -69,7 +69,7 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
           <Label 
             htmlFor={inputId}
             className={cn(
-              'text-sm font-medium',
+              'text-sm font-medium text-slate-800',
               required && 'after:content-["*"] after:ml-0.5 after:text-red-500',
               hasError && 'text-red-600 dark:text-red-400',
               labelClassName
@@ -174,7 +174,7 @@ export const ValidatedPasswordInput = React.forwardRef<HTMLInputElement, Validat
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-8 top-1/2 -translate-y-1/2 p-1 text-slate-800 hover:text-foreground"
+            className="absolute right-8 top-1/2 -translate-y-1/2 p-1 text-slate-800 hover:text-slate-900"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? (
@@ -249,7 +249,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
           <Label 
             htmlFor={inputId}
             className={cn(
-              'text-sm font-medium',
+              'text-sm font-medium text-slate-800',
               required && 'after:content-["*"] after:ml-0.5 after:text-red-500',
               hasError && 'text-red-600 dark:text-red-400',
               labelClassName
@@ -274,7 +274,7 @@ export const ValidatedTextarea = React.forwardRef<HTMLTextAreaElement, Validated
               undefined
             }
             className={cn(
-              'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+              'flex min-h-[80px] w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 ring-offset-white placeholder:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
               hasError && 'border-red-500 focus:border-red-500 focus:ring-red-500',
               className
             )}
@@ -391,7 +391,7 @@ export const ValidatedSelect = React.forwardRef<HTMLSelectElement, ValidatedSele
           <Label 
             htmlFor={inputId}
             className={cn(
-              'text-sm font-medium',
+              'text-sm font-medium text-slate-800',
               required && 'after:content-["*"] after:ml-0.5 after:text-red-500',
               hasError && 'text-red-600 dark:text-red-400',
               labelClassName

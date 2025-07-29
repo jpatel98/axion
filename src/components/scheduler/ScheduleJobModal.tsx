@@ -176,7 +176,7 @@ export function ScheduleJobModal({ isOpen, onClose, onScheduled, selectedDate }:
               id="jobId"
               value={formData.jobId}
               onChange={(e) => setFormData({ ...formData, jobId: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
               required
             >
               <option value="">Select a job...</option>
@@ -198,7 +198,7 @@ export function ScheduleJobModal({ isOpen, onClose, onScheduled, selectedDate }:
               id="workCenterId"
               value={formData.workCenterId}
               onChange={(e) => setFormData({ ...formData, workCenterId: e.target.value })}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
               required
             >
               <option value="">Select work center...</option>
@@ -277,7 +277,7 @@ export function ScheduleJobModal({ isOpen, onClose, onScheduled, selectedDate }:
             id="workerId"
             value={formData.workerId}
             onChange={(e) => setFormData({ ...formData, workerId: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="">Assign later...</option>
             {workers.map((worker) => (
@@ -296,7 +296,7 @@ export function ScheduleJobModal({ isOpen, onClose, onScheduled, selectedDate }:
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows={3}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="mt-1 block w-full rounded-md border-slate-300 shadow-sm text-slate-800 focus:border-blue-500 focus:ring-blue-500"
             placeholder="Any special instructions or notes..."
           />
         </div>

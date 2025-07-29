@@ -85,7 +85,7 @@ export const FormWrapper = React.forwardRef<HTMLFormElement, FormWrapperProps>(
         {(title || description) && (
           <div className="space-y-2">
             {title && (
-              <h2 className="text-lg font-semibold text-foreground">
+              <h2 className="text-lg font-semibold text-slate-800">
                 {title}
               </h2>
             )}
@@ -207,7 +207,7 @@ export const Fieldset: React.FC<FieldsetProps> = ({
     >
       {legend && (
         <legend className={cn(
-          'text-base font-semibold text-foreground mb-4',
+          'text-base font-semibold text-slate-800 mb-4',
           legendClassName
         )}>
           {legend}
@@ -255,7 +255,7 @@ export const FormSection: React.FC<FormSectionProps> = ({
         <div className="flex items-center justify-between">
           <div>
             <h3 className={cn(
-              'text-lg font-medium text-foreground',
+              'text-lg font-medium text-slate-800',
               titleClassName
             )}>
               {title}

@@ -338,7 +338,7 @@ export default function HomePage() {
                   ))}
                 </div>
                 <blockquote className="text-slate-800 mb-4 italic">
-                  <Quote className="h-4 w-4 text-slate-600 mb-2" />
+                  <Quote className="h-4 w-4 text-slate-800 mb-2" />
                   "{testimonial.content}"
                 </blockquote>
                 <div>

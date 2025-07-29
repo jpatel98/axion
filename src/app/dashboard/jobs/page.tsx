@@ -240,7 +240,7 @@ export default function JobsPage() {
               setStatusFilter(e.target.value)
               setCurrentPage(1)
             }}
-            className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="rounded-md border-slate-300 py-2 pl-3 pr-10 text-sm text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>

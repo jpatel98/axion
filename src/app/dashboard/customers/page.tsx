@@ -65,7 +65,7 @@ export default function CustomersPage() {
       sortable: true,
       render: (value) => value ? (
         <div className="flex items-center gap-2">
-          <Mail className="h-4 w-4 text-slate-600" />
+          <Mail className="h-4 w-4 text-slate-800" />
           <span className="text-sm">{value}</span>
         </div>
       ) : (
@@ -77,7 +77,7 @@ export default function CustomersPage() {
       title: 'Phone',
       render: (value) => value ? (
         <div className="flex items-center gap-2">
-          <Phone className="h-4 w-4 text-slate-600" />
+          <Phone className="h-4 w-4 text-slate-800" />
           <span className="text-sm">{value}</span>
         </div>
       ) : (
@@ -91,7 +91,7 @@ export default function CustomersPage() {
         const location = [record.city, record.state].filter(Boolean).join(', ')
         return location ? (
           <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-slate-600" />
+            <MapPin className="h-4 w-4 text-slate-800" />
             <span className="text-sm">{location}</span>
           </div>
         ) : (
