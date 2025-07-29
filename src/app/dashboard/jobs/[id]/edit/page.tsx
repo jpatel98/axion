@@ -122,17 +122,17 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         initialValue: ''
       },
       quantity: {
-        validators: [validators.required(), validators.min(1)],
+        validators: [validators.required(), validators.positive(), validators.integer()],
         required: true,
         initialValue: 1
       },
       estimated_cost: {
-        validators: [validators.min(0)],
+        validators: [validators.currency()],
         required: false,
         initialValue: 0
       },
       actual_cost: {
-        validators: [validators.min(0)],
+        validators: [validators.currency()],
         required: false,
         initialValue: 0
       },
