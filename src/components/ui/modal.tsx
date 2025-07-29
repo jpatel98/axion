@@ -3,6 +3,7 @@
 import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { X } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 interface ModalProps {
   isOpen: boolean
@@ -13,12 +14,23 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalProps) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const sizeClasses = {
     sm: 'max-w-md',
     md: 'max-w-lg',
     lg: 'max-w-2xl',
     xl: 'max-w-4xl',
     '2xl': 'max-w-6xl'
+  }
+
+  // Prevent SSR issues with Headless UI
+  if (!mounted) {
+    return null
   }
 
   return (
