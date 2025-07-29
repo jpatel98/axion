@@ -19,6 +19,7 @@ if (typeof window !== 'undefined') {
 import { Calendar, Clock, Users, Briefcase, Plus, Filter, Settings } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ContentSkeleton } from '@/components/ui/skeleton'
+import { ScheduleJobModal } from '@/components/scheduler/ScheduleJobModal'
 
 interface ScheduledOperation {
   id: string
@@ -54,6 +55,8 @@ export default function SchedulerPage() {
   const [scheduledOperations, setScheduledOperations] = useState<ScheduledOperation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [showScheduleModal, setShowScheduleModal] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
 
   useEffect(() => {
     fetchScheduledOperations()
@@ -117,12 +120,18 @@ export default function SchedulerPage() {
   }
 
   const handleDateSelect = (info: any) => {
-    const title = prompt('Enter operation title:')
-    if (title) {
-      // TODO: Open scheduling modal
-      console.log('Schedule operation:', { title, start: info.start, end: info.end })
-    }
+    setSelectedDate(info.start)
+    setShowScheduleModal(true)
     info.view.calendar.unselect()
+  }
+
+  const handleScheduleJob = () => {
+    setSelectedDate(new Date())
+    setShowScheduleModal(true)
+  }
+
+  const handleJobScheduled = () => {
+    fetchScheduledOperations()
   }
 
   if (loading) {
@@ -161,7 +170,7 @@ export default function SchedulerPage() {
                 List
               </Button>
             </div>
-            <Button>
+            <Button onClick={handleScheduleJob}>
               <Plus className="h-4 w-4 mr-2" />
               Schedule Job
             </Button>
@@ -233,7 +242,7 @@ export default function SchedulerPage() {
                 <p className="mt-2 text-sm text-gray-500">
                   Start scheduling jobs to see them appear here.
                 </p>
-                <Button className="mt-4">
+                <Button className="mt-4" onClick={handleScheduleJob}>
                   <Plus className="h-4 w-4 mr-2" />
                   Schedule First Job
                 </Button>
@@ -287,6 +296,14 @@ export default function SchedulerPage() {
           </div>
         </div>
       )}
+
+      {/* Schedule Job Modal */}
+      <ScheduleJobModal
+        isOpen={showScheduleModal}
+        onClose={() => setShowScheduleModal(false)}
+        onScheduled={handleJobScheduled}
+        selectedDate={selectedDate || undefined}
+      />
     </div>
   )
 }
