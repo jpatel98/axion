@@ -32,7 +32,8 @@
       "Bash(dig:*)",
       "Bash(npm uninstall:*)",
       "Bash(npm run start:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "WebFetch(domain:localhost)"
     ],
     "deny": []
   }

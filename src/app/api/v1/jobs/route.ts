@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     // Build query
     let query = supabase
       .from('jobs')
-      .select('id, job_number, customer_name, part_number, description, quantity, estimated_cost, actual_cost, status, due_date, created_at', { count: 'exact' })
+      .select('id, job_number, customer_name, part_number, description, quantity, estimated_cost, actual_cost, status, due_date, created_at, updated_at', { count: 'exact' })
       .eq('tenant_id', user.tenant_id)
 
     // Apply filters

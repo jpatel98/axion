@@ -44,7 +44,7 @@ export default function DashboardPage() {
           job.status === 'in_progress' || job.status === 'pending'
         ).length
         
-        const completedJobs = jobs.filter((job: any) => 
+        const completedJobsCount = jobs.filter((job: any) => 
           job.status === 'completed' || job.status === 'shipped'
         ).length
 
@@ -55,7 +55,14 @@ export default function DashboardPage() {
         const revenueThisMonth = jobs
           .filter((job: any) => {
             if (job.status !== 'completed' && job.status !== 'shipped') return false
-            const jobDate = new Date(job.updated_at)
+            
+            // Try updated_at first, fallback to created_at if updated_at is undefined
+            const dateToUse = job.updated_at || job.created_at
+            if (!dateToUse) {
+              return true // Include jobs without dates for now
+            }
+            
+            const jobDate = new Date(dateToUse)
             return jobDate.getMonth() === currentMonth && jobDate.getFullYear() === currentYear
           })
           .reduce((sum: number, job: any) => sum + (job.estimated_cost || 0), 0)
@@ -64,7 +71,7 @@ export default function DashboardPage() {
           ...prev,
           activeJobs,
           totalJobs: jobs.length,
-          completedJobs,
+          completedJobs: completedJobsCount,
           revenueThisMonth
         }))
       }
