@@ -22,15 +22,38 @@ import {
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Jobs', href: '/dashboard/jobs', icon: Briefcase },
-  { name: 'Customers', href: '/dashboard/customers', icon: Users },
-  { name: 'Quotes', href: '/dashboard/quotes', icon: FileText },
-  { name: 'Work Centers', href: '/dashboard/work-centers', icon: Factory },
-  { name: 'Scheduler', href: '/dashboard/scheduler', icon: Calendar },
-  { name: 'Inventory', href: '/dashboard/inventory', icon: Package },
-  { name: 'Reports', href: '/dashboard/reports', icon: BarChart3 },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+  { 
+    name: 'Dashboard', 
+    href: '/dashboard', 
+    icon: LayoutDashboard,
+    isStandalone: true 
+  },
+  {
+    name: 'Operations',
+    isGroup: true,
+    items: [
+      { name: 'Jobs', href: '/dashboard/jobs', icon: Briefcase },
+      { name: 'Work Centers', href: '/dashboard/work-centers', icon: Factory },
+      { name: 'Scheduler', href: '/dashboard/scheduler', icon: Calendar },
+    ]
+  },
+  {
+    name: 'Business',
+    isGroup: true,
+    items: [
+      { name: 'Customers', href: '/dashboard/customers', icon: Users },
+      { name: 'Quotes', href: '/dashboard/quotes', icon: FileText },
+      { name: 'Reports', href: '/dashboard/reports', icon: BarChart3 },
+    ]
+  },
+  {
+    name: 'System',
+    isGroup: true,
+    items: [
+      { name: 'Inventory', href: '/dashboard/inventory', icon: Package },
+      { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+    ]
+  }
 ]
 
 export default function DashboardLayout({
@@ -44,31 +67,74 @@ export default function DashboardLayout({
 
   const NavigationItems = ({ mobile = false }: { mobile?: boolean }) => (
     <ul role="list" className="flex flex-1 flex-col gap-y-1">
-      {navigation.map((item) => {
-        const isActive = pathname === item.href
-        return (
-          <li key={item.name}>
-            <Link
-              href={item.href}
-              onClick={() => mobile && setSidebarOpen(false)}
-              className={`
-                group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium transition-colors
-                ${isActive
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
-                }
-              `}
-            >
-              <item.icon
-                className={`h-5 w-5 shrink-0 ${
-                  isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
-                }`}
-                aria-hidden="true"
-              />
-              {item.name}
-            </Link>
-          </li>
-        )
+      {navigation.map((item, index) => {
+        if (item.isStandalone) {
+          const isActive = pathname === item.href
+          return (
+            <li key={item.name}>
+              <Link
+                href={item.href}
+                onClick={() => mobile && setSidebarOpen(false)}
+                className={`
+                  group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium transition-colors
+                  ${isActive
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
+                  }
+                `}
+              >
+                <item.icon
+                  className={`h-5 w-5 shrink-0 ${
+                    isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
+                  }`}
+                  aria-hidden="true"
+                />
+                {item.name}
+              </Link>
+              <div className="my-4 border-t border-gray-200"></div>
+            </li>
+          )
+        }
+        
+        if (item.isGroup) {
+          return (
+            <li key={item.name}>
+              <div className="text-xs font-semibold leading-6 text-slate-500 uppercase tracking-wider px-2 pt-4 pb-2">
+                {item.name}
+              </div>
+              <ul className="space-y-1">
+                {item.items?.map((subItem) => {
+                  const isActive = pathname === subItem.href
+                  return (
+                    <li key={subItem.name}>
+                      <Link
+                        href={subItem.href}
+                        onClick={() => mobile && setSidebarOpen(false)}
+                        className={`
+                          group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium transition-colors
+                          ${isActive
+                            ? 'bg-blue-50 text-blue-600'
+                            : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
+                          }
+                        `}
+                      >
+                        <subItem.icon
+                          className={`h-5 w-5 shrink-0 ${
+                            isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
+                          }`}
+                          aria-hidden="true"
+                        />
+                        {subItem.name}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </li>
+          )
+        }
+        
+        return null
       })}
     </ul>
   )

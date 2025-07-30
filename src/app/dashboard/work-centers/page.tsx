@@ -35,12 +35,12 @@ export default function WorkCentersPage() {
   const router = useRouter()
   const { addToast } = useToast()
 
-  // Debounce search
+  // Debounce search - reduced for faster response
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearchDebounce(searchTerm)
       setCurrentPage(1) // Reset to first page on search
-    }, 300)
+    }, 150)
     return () => clearTimeout(timer)
   }, [searchTerm])
 
@@ -227,8 +227,109 @@ export default function WorkCentersPage() {
         </Link>
       </div>
 
-      {/* Work Centers Table */}
-      <div className="bg-white shadow rounded-lg">
+      {/* Mobile Card View */}
+      <div className="block md:hidden">
+        {workCenters.length === 0 ? (
+          <div className="text-center py-12">
+            <Factory className="mx-auto h-12 w-12 text-slate-400 mb-4" />
+            <h3 className="mt-2 text-sm font-semibold text-slate-800">No work centers yet</h3>
+            <p className="mt-1 text-sm text-slate-600">Get started by adding your first work center.</p>
+            <div className="mt-6">
+              <Link href="/dashboard/work-centers/new">
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Work Center
+                </Button>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {workCenters.map((workCenter) => (
+              <div
+                key={workCenter.id}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-4"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="bg-blue-100 p-2 rounded-lg">
+                      <Factory className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-800">
+                        {workCenter.name}
+                      </h3>
+                      {workCenter.machine_type && (
+                        <p className="text-sm text-slate-600 mt-1">
+                          {workCenter.machine_type}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <Badge variant={workCenter.is_active ? 'success' : 'secondary'}>
+                    {workCenter.is_active ? 'Active' : 'Inactive'}
+                  </Badge>
+                </div>
+
+                {workCenter.description && (
+                  <div className="mb-3">
+                    <p className="text-sm text-slate-600">{workCenter.description}</p>
+                  </div>
+                )}
+
+                <div className="mb-3">
+                  <span className="text-xs text-slate-500">Daily Capacity</span>
+                  <p className="text-sm text-slate-800 font-medium">
+                    {workCenter.capacity_hours_per_day} hours/day
+                  </p>
+                </div>
+
+                <div className="border-t pt-3">
+                  <div className="flex justify-end space-x-2">
+                    <Link href={`/dashboard/work-centers/${workCenter.id}/edit`}>
+                      <button className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(workCenter)}
+                      className="p-2 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile Pagination */}
+        {totalWorkCenters > pageSize && (
+          <div className="mt-6 flex items-center justify-between">
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-slate-700">
+              Page {currentPage} of {Math.ceil(totalWorkCenters / pageSize)}
+            </span>
+            <button
+              onClick={() => setCurrentPage(Math.min(Math.ceil(totalWorkCenters / pageSize), currentPage + 1))}
+              disabled={currentPage >= Math.ceil(totalWorkCenters / pageSize)}
+              className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block bg-white shadow rounded-lg">
         <ServerDataTable
           data={workCenters}
           columns={columns}

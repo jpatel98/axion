@@ -37,12 +37,12 @@ export default function JobsPage() {
   const [searchDebounce, setSearchDebounce] = useState('')
   const router = useRouter()
 
-  // Debounce search
+  // Debounce search - reduced from 300ms to 150ms for faster response
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearchDebounce(searchTerm)
       setCurrentPage(1) // Reset to first page on search
-    }, 300)
+    }, 150)
     return () => clearTimeout(timer)
   }, [searchTerm])
 
@@ -226,59 +226,202 @@ export default function JobsPage() {
   return (
     <div>
       {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-800">Jobs</h1>
-          <p className="mt-2 text-sm text-slate-800">
-            Manage your manufacturing jobs from start to finish
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <select
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value)
-              setCurrentPage(1)
-            }}
-            className="rounded-md border-slate-300 py-2 pl-3 pr-10 text-sm text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="in_progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="shipped">Shipped</option>
-          </select>
-          <div className="flex rounded-md shadow-sm">
-            <Button
-              variant={viewMode === 'table' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('table')}
-              className="rounded-r-none"
-            >
-              Table
-            </Button>
-            <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className="rounded-l-none"
-            >
-              Grid
-            </Button>
+      <div className="mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-800">Jobs</h1>
+            <p className="mt-2 text-sm text-slate-800">
+              Manage your manufacturing jobs from start to finish
+            </p>
           </div>
-          <Link
-            href="/dashboard/jobs/new"
-            className="inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-          >
-            <Plus className="h-4 w-4" />
-            New Job
-          </Link>
+          
+          {/* Mobile Actions */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <select
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value)
+                setCurrentPage(1)
+              }}
+              className="rounded-md border-slate-300 py-3 sm:py-2 pl-3 pr-10 text-sm text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-[44px] sm:min-h-0"
+            >
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="shipped">Shipped</option>
+            </select>
+            
+            {/* Hide view mode toggle on mobile since we show cards automatically */}
+            <div className="hidden sm:flex rounded-md shadow-sm">
+              <Button
+                variant={viewMode === 'table' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('table')}
+                className="rounded-r-none"
+              >
+                Table
+              </Button>
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className="rounded-l-none"
+              >
+                Grid
+              </Button>
+            </div>
+            
+            <Link
+              href="/dashboard/jobs/new"
+              className="inline-flex items-center justify-center gap-x-2 rounded-md bg-blue-600 px-4 py-3 sm:px-3.5 sm:py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 min-h-[44px] sm:min-h-0"
+            >
+              <Plus className="h-4 w-4" />
+              New Job
+            </Link>
+          </div>
+        </div>
+        
+        {/* Mobile Search */}
+        <div className="mt-4 sm:hidden">
+          <input
+            type="text"
+            placeholder="Search jobs..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-md border-slate-300 py-3 pl-3 pr-3 text-sm text-slate-800 focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-[44px]"
+          />
         </div>
       </div>
 
-      {/* Jobs Display */}
-      {viewMode === 'table' ? (
-        <ServerDataTable
+      {/* Jobs Display - Mobile Responsive */}
+      <div className="block md:hidden">
+        {/* Mobile Card View */}
+        {jobs.length === 0 ? (
+          <div className="text-center py-12">
+            <Package className="mx-auto h-12 w-12 text-slate-800" />
+            <h3 className="mt-2 text-sm font-semibold text-slate-800">No jobs yet</h3>
+            <p className="mt-1 text-sm text-slate-800">Get started by creating your first job.</p>
+            <div className="mt-6">
+              <Link
+                href="/dashboard/jobs/new"
+                className="inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500"
+              >
+                <Plus className="h-4 w-4" />
+                New Job
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {jobs.map((job) => (
+              <div
+                key={job.id}
+                className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 active:bg-gray-50"
+                onClick={() => router.push(`/dashboard/jobs/${job.id}`)}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-base font-semibold text-slate-800">
+                      {job.job_number}
+                    </h3>
+                    <p className="text-sm text-slate-600 mt-1">
+                      {job.customer_name || 'No customer'}
+                    </p>
+                  </div>
+                  <span
+                    className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${getStatusColor(
+                      job.status
+                    )}`}
+                  >
+                    {job.status.replace('_', ' ')}
+                  </span>
+                </div>
+
+                {job.part_number && (
+                  <div className="mb-2">
+                    <span className="text-xs text-slate-500">Part #</span>
+                    <p className="text-sm text-slate-800 font-medium">{job.part_number}</p>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <div>
+                    <span className="text-xs text-slate-500">Quantity</span>
+                    <p className="text-sm text-slate-800 font-medium">{job.quantity}</p>
+                  </div>
+                  <div>
+                    <span className="text-xs text-slate-500">Due Date</span>
+                    <p className="text-sm text-slate-800 font-medium flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {formatDate(job.due_date)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-3">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="text-xs text-slate-500">Estimated</span>
+                      <p className="text-sm text-slate-800 font-medium">
+                        {formatCurrency(job.estimated_cost)}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          router.push(`/dashboard/jobs/${job.id}`)
+                        }}
+                        className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          router.push(`/dashboard/jobs/${job.id}/edit`)
+                        }}
+                        className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Mobile Pagination */}
+        {totalJobs > pageSize && (
+          <div className="mt-6 flex items-center justify-between">
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-slate-700">
+              Page {currentPage} of {Math.ceil(totalJobs / pageSize)}
+            </span>
+            <button
+              onClick={() => setCurrentPage(Math.min(Math.ceil(totalJobs / pageSize), currentPage + 1))}
+              disabled={currentPage >= Math.ceil(totalJobs / pageSize)}
+              className="px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block">
+        {viewMode === 'table' ? (
+          <ServerDataTable
           data={jobs}
           columns={jobColumns}
           loading={loading}
@@ -407,6 +550,7 @@ export default function JobsPage() {
           </div>
         )
       )}
+      </div>
     </div>
   )
 }
