@@ -5,7 +5,7 @@ import { rateLimit } from '@/lib/rate-limit'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Rate limiting
@@ -20,11 +20,14 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Await params
+    const { id } = await params
+
     // Get work center
     const { data: workCenter, error } = await supabase
       .from('work_centers')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('tenant_id', user.tenant_id)
       .single()
 
@@ -45,7 +48,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Rate limiting
@@ -59,6 +62,9 @@ export async function PUT(
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    // Await params
+    const { id } = await params
 
     // Parse request body
     const body = await request.json()
@@ -80,7 +86,7 @@ export async function PUT(
         is_active: is_active !== undefined ? is_active : true,
         updated_at: new Date().toISOString()
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('tenant_id', user.tenant_id)
       .select()
       .single()
@@ -102,7 +108,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Rate limiting
@@ -117,11 +123,14 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Await params
+    const { id } = await params
+
     // Check if work center is referenced by any job operations
     const { data: referencedOperations, error: checkError } = await supabase
       .from('job_operations')
       .select('id')
-      .eq('work_center_id', params.id)
+      .eq('work_center_id', id)
       .eq('tenant_id', user.tenant_id)
       .limit(1)
 
@@ -140,7 +149,7 @@ export async function DELETE(
     const { data: referencedScheduled, error: checkScheduledError } = await supabase
       .from('scheduled_operations')
       .select('id')
-      .eq('work_center_id', params.id)
+      .eq('work_center_id', id)
       .eq('tenant_id', user.tenant_id)
       .limit(1)
 
@@ -159,7 +168,7 @@ export async function DELETE(
     const { error: deleteError } = await supabase
       .from('work_centers')
       .delete()
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('tenant_id', user.tenant_id)
 
     if (deleteError) {
