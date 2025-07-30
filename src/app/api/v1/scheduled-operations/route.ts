@@ -100,21 +100,30 @@ export async function POST(request: NextRequest) {
     }
 
     // Check for scheduling conflicts
+    // A conflict exists if: new_start < existing_end AND new_end > existing_start
     const { data: conflicts, error: conflictError } = await supabase
       .from('scheduled_operations')
-      .select('id')
+      .select('id, scheduled_start, scheduled_end')
       .eq('work_center_id', work_center_id)
       .eq('tenant_id', user.tenant_id)
-      .or(`scheduled_start.lte.${scheduled_end},scheduled_end.gte.${scheduled_start}`)
+      .lt('scheduled_start', scheduled_end)
+      .gt('scheduled_end', scheduled_start)
 
     if (conflictError) {
       console.error('Conflict check error:', conflictError)
       return NextResponse.json({ error: 'Failed to check scheduling conflicts' }, { status: 500 })
     }
 
+    console.log('Conflict check:', {
+      work_center_id,
+      scheduled_start,
+      scheduled_end,
+      conflicts
+    })
+
     if (conflicts && conflicts.length > 0) {
       return NextResponse.json({ 
-        error: 'Scheduling conflict detected. The work center is already scheduled during this time.' 
+        error: `Scheduling conflict detected. The work center is already scheduled during this time. Conflicting schedules: ${conflicts.length}` 
       }, { status: 409 })
     }
 

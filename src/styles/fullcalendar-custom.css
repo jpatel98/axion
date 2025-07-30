@@ -62,11 +62,45 @@
 .fc-event {
   border: none !important;
   font-weight: 500 !important;
+  min-height: 18px !important;
+  overflow: hidden !important; /* Force container to hide overflow */
 }
 
 .fc-event-title {
   color: white !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
+  font-size: 10px !important; /* Even smaller text */
+  line-height: 1.1 !important;
+  padding: 1px 2px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  max-height: 100% !important;
+  display: block !important;
+}
+
+/* Force strict containment for timegrid events */
+.fc-timegrid-event {
+  min-height: 14px !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+.fc-timegrid-event .fc-event-title {
+  font-size: 9px !important;
+  padding: 0px 1px !important;
+  line-height: 1.0 !important;
+  max-width: 100% !important;
+}
+
+.fc-timegrid-event .fc-event-main {
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+.fc-timegrid-event .fc-event-main-frame {
+  overflow: hidden !important;
+  height: 100% !important;
 }
 
 /* Today highlighting */

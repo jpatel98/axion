@@ -120,7 +120,11 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Database error:', error)
-      return NextResponse.json({ error: 'Failed to create job operation' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to create job operation', 
+        details: error.message,
+        code: error.code
+      }, { status: 500 })
     }
 
     return NextResponse.json({ jobOperation }, { status: 201 })

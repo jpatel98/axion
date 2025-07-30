@@ -73,6 +73,7 @@ export default function SchedulerPage() {
       }
       
       const data = await response.json()
+      console.log('Scheduled operations data:', data)
       setScheduledOperations(data.scheduledOperations || [])
     } catch (error) {
       console.error('Error fetching scheduled operations:', error)
@@ -81,24 +82,6 @@ export default function SchedulerPage() {
       setLoading(false)
     }
   }
-
-  // Convert scheduled operations to FullCalendar events
-  const calendarEvents = scheduledOperations.map(operation => ({
-    id: operation.id,
-    title: `${operation.job_operations.jobs.job_number} - ${operation.job_operations.name}`,
-    start: operation.scheduled_start,
-    end: operation.scheduled_end,
-    backgroundColor: getStatusColor(operation.job_operations.status).bg,
-    borderColor: getStatusColor(operation.job_operations.status).border,
-    textColor: getStatusColor(operation.job_operations.status).text,
-    extendedProps: {
-      operation,
-      customer: operation.job_operations.jobs.customer_name,
-      workCenter: operation.work_centers.name,
-      worker: operation.workers?.name,
-      status: operation.job_operations.status
-    }
-  }))
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -114,6 +97,54 @@ export default function SchedulerPage() {
         return { bg: '#f3f4f6', border: '#6b7280', text: '#374151' }
     }
   }
+
+  // Convert scheduled operations to FullCalendar events
+  const calendarEvents = scheduledOperations
+    .filter(operation => 
+      operation && 
+      operation.job_operations && 
+      operation.job_operations.jobs && 
+      operation.work_centers
+    )
+    .map(operation => {
+      const startTime = new Date(operation.scheduled_start)
+      const endTime = new Date(operation.scheduled_end)
+      const durationHours = (endTime.getTime() - startTime.getTime()) / (1000 * 60 * 60)
+      
+      // Use shorter titles for events shorter than 1 hour
+      const jobNumber = operation.job_operations.jobs.job_number || 'Unknown'
+      const operationName = operation.job_operations.name || 'Unknown Operation'
+      
+      let title
+      if (durationHours < 1) {
+        // Very short format for events under 1 hour: "J001-Setup"
+        title = `${jobNumber}-${operationName.substring(0, 8)}`
+      } else if (durationHours < 2) {
+        // Short format for events under 2 hours: "J001 - Setup"  
+        title = `${jobNumber} - ${operationName.substring(0, 10)}`
+      } else {
+        // Full format for longer events
+        title = `${jobNumber} - ${operationName}`
+      }
+      
+      return {
+        id: operation.id,
+        title,
+        start: operation.scheduled_start,
+        end: operation.scheduled_end,
+        backgroundColor: getStatusColor(operation.job_operations.status).bg,
+        borderColor: getStatusColor(operation.job_operations.status).border,
+        textColor: getStatusColor(operation.job_operations.status).text,
+        extendedProps: {
+          operation,
+          customer: operation.job_operations.jobs.customer_name || 'Unknown Customer',
+          workCenter: operation.work_centers.name || 'Unknown Work Center',
+          worker: operation.workers?.name || 'Unassigned',
+          status: operation.job_operations.status || 'unknown',
+          duration: `${durationHours}h`
+        }
+      }
+    })
 
   const handleEventClick = (info: any) => {
     const operation = info.event.extendedProps.operation

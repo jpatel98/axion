@@ -16,6 +16,7 @@ import {
   Package,
   Settings,
   BarChart3,
+  Factory,
   Menu,
   X
 } from 'lucide-react'
@@ -25,6 +26,7 @@ const navigation = [
   { name: 'Jobs', href: '/dashboard/jobs', icon: Briefcase },
   { name: 'Customers', href: '/dashboard/customers', icon: Users },
   { name: 'Quotes', href: '/dashboard/quotes', icon: FileText },
+  { name: 'Work Centers', href: '/dashboard/work-centers', icon: Factory },
   { name: 'Scheduler', href: '/dashboard/scheduler', icon: Calendar },
   { name: 'Inventory', href: '/dashboard/inventory', icon: Package },
   { name: 'Reports', href: '/dashboard/reports', icon: BarChart3 },

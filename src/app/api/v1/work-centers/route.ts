@@ -17,20 +17,56 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Get work centers
-    const { data: workCenters, error } = await supabase
+    // Parse query parameters
+    const { searchParams } = new URL(request.url)
+    const page = parseInt(searchParams.get('page') || '1')
+    const pageSize = parseInt(searchParams.get('pageSize') || '20')
+    const sortBy = searchParams.get('sortBy') || 'name'
+    const sortOrder = searchParams.get('sortOrder') || 'asc'
+    const search = searchParams.get('search')
+    const includeInactive = searchParams.get('includeInactive') === 'true'
+
+    // Calculate offset
+    const offset = (page - 1) * pageSize
+
+    // Build query
+    let query = supabase
       .from('work_centers')
-      .select('*')
+      .select('*', { count: 'exact' })
       .eq('tenant_id', user.tenant_id)
-      .eq('is_active', true)
-      .order('name')
+
+    // Filter by active status unless including inactive
+    if (!includeInactive) {
+      query = query.eq('is_active', true)
+    }
+
+    // Apply search filter
+    if (search) {
+      query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%,machine_type.ilike.%${search}%`)
+    }
+
+    // Apply sorting
+    query = query.order(sortBy, { ascending: sortOrder === 'asc' })
+
+    // Apply pagination
+    query = query.range(offset, offset + pageSize - 1)
+
+    const { data: workCenters, error, count } = await query
 
     if (error) {
       console.error('Database error:', error)
       return NextResponse.json({ error: 'Failed to fetch work centers' }, { status: 500 })
     }
 
-    return NextResponse.json({ workCenters })
+    return NextResponse.json({ 
+      workCenters: workCenters || [],
+      pagination: {
+        page,
+        pageSize,
+        total: count || 0,
+        totalPages: Math.ceil((count || 0) / pageSize)
+      }
+    })
   } catch (error) {
     console.error('API error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

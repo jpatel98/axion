@@ -92,21 +92,48 @@ export function ScheduleJobModal({ isOpen, onClose, onScheduled, selectedDate }:
     setLoading(true)
 
     try {
-      // First, create a job operation
+      console.log('Form data:', formData)
+      
+      // Validation
+      if (!formData.jobId) {
+        throw new Error('Please select a job')
+      }
+      if (!formData.workCenterId) {
+        throw new Error('Please select a work center')
+      }
+      if (!formData.operationName.trim()) {
+        throw new Error('Please enter an operation name')
+      }
+      if (!formData.estimatedHours || parseFloat(formData.estimatedHours) <= 0) {
+        throw new Error('Please enter valid estimated hours')
+      }
+
+      // First, get the next operation number for this job
+      const existingOpsResponse = await fetch(`/api/v1/job-operations?job_id=${formData.jobId}`)
+      const existingOps = existingOpsResponse.ok ? await existingOpsResponse.json() : { jobOperations: [] }
+      const nextOperationNumber = (existingOps.jobOperations?.length || 0) + 1
+
+      // Create a job operation
+      const jobOperationPayload = {
+        job_id: formData.jobId,
+        operation_number: nextOperationNumber,
+        name: formData.operationName,
+        estimated_hours: parseFloat(formData.estimatedHours),
+        work_center_id: formData.workCenterId
+      }
+      
+      console.log('Creating job operation:', jobOperationPayload)
+
       const jobOperationResponse = await fetch('/api/v1/job-operations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          job_id: formData.jobId,
-          operation_number: 1, // For now, just use 1
-          name: formData.operationName,
-          estimated_hours: parseFloat(formData.estimatedHours),
-          work_center_id: formData.workCenterId
-        })
+        body: JSON.stringify(jobOperationPayload)
       })
 
       if (!jobOperationResponse.ok) {
-        throw new Error('Failed to create job operation')
+        const errorData = await jobOperationResponse.json()
+        console.error('Job operation error:', errorData)
+        throw new Error(errorData.error || 'Failed to create job operation')
       }
 
       const { jobOperation } = await jobOperationResponse.json()
