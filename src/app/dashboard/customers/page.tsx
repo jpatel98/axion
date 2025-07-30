@@ -139,8 +139,100 @@ export default function CustomersPage() {
           </Link>
         </div>
 
-        {/* Data Table */}
-        <DataTable
+        {/* Mobile Card View */}
+        <div className="block md:hidden">
+          {customers.length === 0 ? (
+            <div className="text-center py-12">
+              <Users className="mx-auto h-12 w-12 text-slate-400 mb-4" />
+              <h3 className="mt-2 text-sm font-semibold text-slate-800">No customers yet</h3>
+              <p className="mt-1 text-sm text-slate-600">Get started by adding your first customer.</p>
+              <div className="mt-6">
+                <Link href="/dashboard/customers/new">
+                  <button className="inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500">
+                    <Plus className="h-4 w-4" />
+                    New Customer
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {customers.map((customer) => (
+                <div
+                  key={customer.id}
+                  className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 active:bg-gray-50 cursor-pointer"
+                  onClick={() => router.push(`/dashboard/customers/${customer.id}`)}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="text-base font-semibold text-slate-800">
+                        {customer.name}
+                      </h3>
+                      {customer.contact_person && (
+                        <p className="text-sm text-slate-600 mt-1">
+                          Contact: {customer.contact_person}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleView(customer)
+                        }}
+                        className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleEdit(customer)
+                        }}
+                        className="p-2 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 mb-3">
+                    {customer.email && (
+                      <div className="flex items-center gap-2 text-sm text-slate-600">
+                        <Mail className="h-4 w-4" />
+                        <span>{customer.email}</span>
+                      </div>
+                    )}
+                    
+                    {customer.phone && (
+                      <div className="flex items-center gap-2 text-sm text-slate-600">
+                        <Phone className="h-4 w-4" />
+                        <span>{customer.phone}</span>
+                      </div>
+                    )}
+                    
+                    {(customer.city || customer.state) && (
+                      <div className="flex items-center gap-2 text-sm text-slate-600">
+                        <MapPin className="h-4 w-4" />
+                        <span>{[customer.city, customer.state].filter(Boolean).join(', ')}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="border-t pt-3">
+                    <p className="text-xs text-slate-500">
+                      Added {new Date(customer.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Data Table */}
+        <div className="hidden md:block">
+          <DataTable
           data={customers}
           columns={columns}
           loading={loading}
@@ -150,6 +242,7 @@ export default function CustomersPage() {
           showActions={true}
           emptyMessage="No customers found. Create your first customer to get started."
         />
+        </div>
       </div>
     </PageErrorBoundary>
   )

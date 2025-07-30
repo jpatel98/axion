@@ -130,3 +130,66 @@
 .fc-scroller::-webkit-scrollbar-thumb:hover {
   background: rgb(100 116 139); /* bg-slate-500 */
 }
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  /* Make toolbar more mobile-friendly */
+  .fc-toolbar {
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: stretch !important;
+  }
+  
+  .fc-toolbar-chunk {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  /* Make buttons touch-friendly */
+  .fc-button {
+    min-height: 44px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+  }
+  
+  /* Better title display on mobile */
+  .fc-toolbar-title {
+    font-size: 18px !important;
+    text-align: center !important;
+  }
+  
+  /* Month view improvements */
+  .fc-daygrid-day-number {
+    font-size: 14px !important;
+    padding: 4px !important;
+  }
+  
+  /* Event text in mobile */
+  .fc-event-title {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+  
+  /* List view improvements */
+  .fc-list-event {
+    padding: 8px !important;
+  }
+  
+  .fc-list-event-title {
+    font-size: 14px !important;
+  }
+  
+  .fc-list-event-time {
+    font-size: 12px !important;
+  }
+  
+  /* Prevent horizontal overflow */
+  .fc {
+    overflow: hidden !important;
+  }
+  
+  .fc-view-harness {
+    overflow: hidden !important;
+  }
+}
