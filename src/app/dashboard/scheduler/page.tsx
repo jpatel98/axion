@@ -21,6 +21,7 @@ import { Calendar, Clock, Users, Briefcase, Plus, Filter, Settings } from 'lucid
 import { Button } from '@/components/ui/button'
 import { ContentSkeleton } from '@/components/ui/skeleton'
 import { ScheduleJobModal } from '@/components/scheduler/ScheduleJobModal'
+import { EventDetailsModal } from '@/components/scheduler/EventDetailsModal'
 
 interface ScheduledOperation {
   id: string
@@ -58,6 +59,8 @@ export default function SchedulerPage() {
   const [error, setError] = useState<string | null>(null)
   const [showScheduleModal, setShowScheduleModal] = useState(false)
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [showEventModal, setShowEventModal] = useState(false)
+  const [selectedOperation, setSelectedOperation] = useState<ScheduledOperation | null>(null)
 
   useEffect(() => {
     fetchScheduledOperations()
@@ -148,7 +151,8 @@ export default function SchedulerPage() {
 
   const handleEventClick = (info: any) => {
     const operation = info.event.extendedProps.operation
-    alert(`Job: ${operation.job_operations.jobs.job_number}\nOperation: ${operation.job_operations.name}\nWork Center: ${operation.work_centers.name}\nWorker: ${operation.workers?.name || 'Unassigned'}`)
+    setSelectedOperation(operation)
+    setShowEventModal(true)
   }
 
   const handleDateSelect = (info: any) => {
@@ -335,6 +339,13 @@ export default function SchedulerPage() {
         onClose={() => setShowScheduleModal(false)}
         onScheduled={handleJobScheduled}
         selectedDate={selectedDate || undefined}
+      />
+
+      {/* Event Details Modal */}
+      <EventDetailsModal
+        isOpen={showEventModal}
+        onClose={() => setShowEventModal(false)}
+        operation={selectedOperation}
       />
     </div>
   )
