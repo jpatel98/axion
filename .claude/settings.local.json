@@ -33,7 +33,9 @@
       "Bash(npm uninstall:*)",
       "Bash(npm run start:*)",
       "Bash(sed:*)",
-      "WebFetch(domain:localhost)"
+      "WebFetch(domain:localhost)",
+      "Bash(git pull:*)",
+      "Bash(git branch:*)"
     ],
     "deny": []
   }
