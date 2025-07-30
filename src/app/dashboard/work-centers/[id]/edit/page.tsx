@@ -32,7 +32,11 @@ interface WorkCenter {
   is_active: boolean
 }
 
-export default function EditWorkCenterPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>
+}
+
+export default function EditWorkCenterPage({ params }: PageProps) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -43,16 +47,22 @@ export default function EditWorkCenterPage({ params }: { params: { id: string } 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [workCenterId, setWorkCenterId] = useState<string | null>(null)
   const router = useRouter()
   const { addToast } = useToast()
 
   useEffect(() => {
-    fetchWorkCenter()
-  }, [params.id])
+    const loadParams = async () => {
+      const { id } = await params
+      setWorkCenterId(id)
+      fetchWorkCenter(id)
+    }
+    loadParams()
+  }, [params])
 
-  const fetchWorkCenter = async () => {
+  const fetchWorkCenter = async (id: string) => {
     try {
-      const response = await fetch(`/api/v1/work-centers/${params.id}`)
+      const response = await fetch(`/api/v1/work-centers/${id}`)
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -126,7 +136,9 @@ export default function EditWorkCenterPage({ params }: { params: { id: string } 
 
     setSaving(true)
     try {
-      const response = await fetch(`/api/v1/work-centers/${params.id}`, {
+      if (!workCenterId) return
+
+      const response = await fetch(`/api/v1/work-centers/${workCenterId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
