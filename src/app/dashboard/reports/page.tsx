@@ -7,8 +7,6 @@ import {
   DollarSign, 
   Clock, 
   Download, 
-  Calendar,
-  Filter,
   PieChart,
   Activity,
   Users,
@@ -34,14 +32,12 @@ import {
   PieChart as RechartsPieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
   Area,
   AreaChart
 } from 'recharts'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
-import { format, subDays } from 'date-fns'
+import { format } from 'date-fns'
 
 interface AnalyticsData {
   period: number

@@ -344,7 +344,7 @@ export default function HomePage() {
                 </div>
                 <blockquote className="text-slate-800 mb-4 italic">
                   <Quote className="h-4 w-4 text-slate-800 mb-2" />
-                  "{testimonial.content}"
+                  &ldquo;{testimonial.content}&rdquo;
                 </blockquote>
                 <div>
                   <div className="font-semibold text-slate-800">{testimonial.name}</div>
@@ -361,10 +361,10 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-16">
             <h2 className="text-4xl font-bold text-slate-800 mb-4">
-              Let's Discuss Your Needs
+              Let&apos;s Discuss Your Needs
             </h2>
             <p className="text-xl text-slate-800 mb-8">
-              Every manufacturing shop is different. We'd rather understand your specific challenges and build a solution that works for you.
+              Every manufacturing shop is different. We&apos;d rather understand your specific challenges and build a solution that works for you.
             </p>
           </div>
           
@@ -452,7 +452,7 @@ export default function HomePage() {
             Ready to Start the Conversation?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Let's discuss your manufacturing challenges and see if Axion might be a good fit for your shop. 
+            Let&apos;s discuss your manufacturing challenges and see if Axion might be a good fit for your shop. 
             No pressure, just an honest conversation about what you need.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
