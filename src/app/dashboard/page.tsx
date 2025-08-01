@@ -159,7 +159,7 @@ export default function DashboardPage() {
               Getting Started
             </h3>
             <div className="prose text-sm text-slate-800">
-              <p>Welcome to Axion! Here's how to get started:</p>
+              <p>Welcome to Axion! Here&apos;s how to get started:</p>
               <ol className="list-decimal list-inside mt-4 space-y-2">
                 <li>Go to the <strong>Jobs</strong> section to view and manage your manufacturing jobs</li>
                 <li>Add your first <strong>Customer</strong> to start creating quotes</li>

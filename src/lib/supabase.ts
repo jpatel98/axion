@@ -1,19 +1,24 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createSupabaseClient(supabaseUrl, supabaseAnonKey)
 
 // For server-side operations, we'll use the same client but with custom JWT
 export const createSupabaseServerClient = (accessToken?: string) => {
-  return createClient(supabaseUrl, supabaseAnonKey, {
+  return createSupabaseClient(supabaseUrl, supabaseAnonKey, {
     global: {
       headers: accessToken ? {
         Authorization: `Bearer ${accessToken}`
       } : {}
     }
   })
+}
+
+// Export a createClient function for compatibility
+export const createClient = () => {
+  return createSupabaseClient(supabaseUrl, supabaseAnonKey)
 }
 
 export type Database = {

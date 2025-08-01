@@ -206,8 +206,8 @@ export default function JobsPage() {
               <div className="mt-2 text-sm text-red-700">
                 <p>There was a problem loading your jobs. This might be because:</p>
                 <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li>Your user account hasn't been properly set up yet</li>
-                  <li>There's a database connection issue</li>
+                  <li>Your user account hasn&apos;t been properly set up yet</li>
+                  <li>There&apos;s a database connection issue</li>
                 </ul>
                 <button 
                   onClick={fetchJobs}

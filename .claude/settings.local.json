@@ -35,7 +35,8 @@
       "Bash(sed:*)",
       "WebFetch(domain:localhost)",
       "Bash(git pull:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(npm run seed-test-data:*)"
     ],
     "deny": []
   }
