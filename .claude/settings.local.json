@@ -39,7 +39,8 @@
       "Bash(git branch:*)",
       "Bash(npm run seed-test-data:*)",
       "Bash(npx supabase db reset:*)",
-      "Bash(npx supabase:*)"
+      "Bash(npx supabase:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }
