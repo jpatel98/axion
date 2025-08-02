@@ -27,14 +27,14 @@ export default function DashboardPage() {
   })
   const [loading, setLoading] = useState(true)
 
-  // Redirect operators to their dashboard
-  if (!userLoading && user?.role === UserRole.OPERATOR) {
-    return <RoleBasedRedirect />
-  }
-
   useEffect(() => {
     fetchDashboardStats()
   }, [])
+
+  // Redirect operators to their dashboard (after all hooks)
+  if (!userLoading && user?.role === UserRole.OPERATOR) {
+    return <RoleBasedRedirect />
+  }
 
   const fetchDashboardStats = async () => {
     try {

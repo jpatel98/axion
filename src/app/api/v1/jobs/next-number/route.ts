@@ -26,7 +26,10 @@ export async function GET(request: NextRequest) {
       const match = latestJob.job_number.match(/(\d+)/)
       if (match) {
         const currentNumber = parseInt(match[1], 10)
-        nextNumber = currentNumber + 1
+        // Ensure we have a valid number
+        if (!isNaN(currentNumber) && currentNumber > 0) {
+          nextNumber = currentNumber + 1
+        }
       }
     }
 
@@ -36,6 +39,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ next_job_number: formattedNumber })
   } catch (error) {
     console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
+import { validate as isUUID } from 'uuid'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -11,6 +12,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     const { id } = await params
+    
+    // Validate UUID format
+    if (!isUUID(id)) {
+      return NextResponse.json({ error: 'Invalid quote ID format' }, { status: 400 })
+    }
+
     // Get quote with customer and line items
     const { data: quote, error: quoteError } = await supabase
       .from('quotes')
@@ -34,7 +41,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .eq('tenant_id', user.tenant_id)
       .single()
 
-    if (quoteError || !quote) {
+    if (quoteError) {
+      console.error('Database error fetching quote:', quoteError)
+      return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
+    }
+    
+    if (!quote) {
       return NextResponse.json({ error: 'Quote not found' }, { status: 404 })
     }
 
@@ -47,7 +59,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     if (lineItemsError) {
       console.error('Error fetching line items:', lineItemsError)
-      return NextResponse.json({ error: 'Failed to fetch quote details' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to fetch quote details: ' + (lineItemsError.message || 'Unknown database error')
+      }, { status: 500 })
     }
 
     return NextResponse.json({
@@ -58,7 +72,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     })
   } catch (error) {
     console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }
 
@@ -71,6 +87,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     }
 
     const { id } = await params
+    
+    // Validate UUID format
+    if (!isUUID(id)) {
+      return NextResponse.json({ error: 'Invalid quote ID format' }, { status: 400 })
+    }
+
     const body = await request.json()
     const {
       title,
@@ -82,6 +104,45 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       status,
       line_items
     } = body
+
+    // Validate status if provided
+    if (status !== undefined) {
+      const validStatuses = ['draft', 'sent', 'approved', 'rejected', 'converted']
+      if (!validStatuses.includes(status)) {
+        return NextResponse.json({ error: 'Invalid status value' }, { status: 400 })
+      }
+    }
+
+    // Validate tax_rate if provided
+    if (tax_rate !== undefined && (typeof tax_rate !== 'number' || tax_rate < 0)) {
+      return NextResponse.json({ error: 'Tax rate must be a positive number' }, { status: 400 })
+    }
+
+    // Validate line items if provided
+    if (line_items !== undefined && !Array.isArray(line_items)) {
+      return NextResponse.json({ error: 'Line items must be an array' }, { status: 400 })
+    }
+
+    if (Array.isArray(line_items)) {
+      for (let i = 0; i < line_items.length; i++) {
+        const item = line_items[i]
+        if (typeof item !== 'object' || item === null) {
+          return NextResponse.json({ error: `Line item ${i + 1} is invalid` }, { status: 400 })
+        }
+        
+        if (item.description !== undefined && typeof item.description !== 'string') {
+          return NextResponse.json({ error: `Line item ${i + 1} description must be a string` }, { status: 400 })
+        }
+        
+        if (item.quantity !== undefined && (typeof item.quantity !== 'number' || item.quantity < 0)) {
+          return NextResponse.json({ error: `Line item ${i + 1} quantity must be a positive number` }, { status: 400 })
+        }
+        
+        if (item.unit_price !== undefined && (typeof item.unit_price !== 'number' || item.unit_price < 0)) {
+          return NextResponse.json({ error: `Line item ${i + 1} unit price must be a positive number` }, { status: 400 })
+        }
+      }
+    }
 
     // Update the quote
     const { data: quote, error: quoteError } = await supabase
@@ -100,17 +161,31 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       .select()
       .single()
 
-    if (quoteError || !quote) {
-      return NextResponse.json({ error: 'Failed to update quote' }, { status: 500 })
+    if (quoteError) {
+      console.error('Database error updating quote:', quoteError)
+      return NextResponse.json({ 
+        error: 'Failed to update quote: ' + (quoteError.message || 'Unknown database error') 
+      }, { status: 500 })
+    }
+    
+    if (!quote) {
+      return NextResponse.json({ error: 'Quote not found' }, { status: 404 })
     }
 
     // Update line items if provided
     if (line_items && Array.isArray(line_items)) {
       // Delete existing line items
-      await supabase
+      const { error: deleteError } = await supabase
         .from('quote_line_items')
         .delete()
         .eq('quote_id', id)
+
+      if (deleteError) {
+        console.error('Error deleting existing line items:', deleteError)
+        return NextResponse.json({ 
+          error: 'Failed to update quote line items: ' + (deleteError.message || 'Unknown database error') 
+        }, { status: 500 })
+      }
 
       // Insert new line items
       if (line_items.length > 0) {
@@ -129,7 +204,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
         if (lineItemsError) {
           console.error('Error updating line items:', lineItemsError)
-          return NextResponse.json({ error: 'Failed to update quote line items' }, { status: 500 })
+          return NextResponse.json({ 
+            error: 'Failed to update quote line items: ' + (lineItemsError.message || 'Unknown database error') 
+          }, { status: 500 })
         }
       }
     }
@@ -140,7 +217,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       const taxAmount = subtotal * (tax_rate || 0)
       const total = subtotal + taxAmount
 
-      await supabase
+      const { error: updateError } = await supabase
         .from('quotes')
         .update({
           subtotal,
@@ -148,6 +225,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
           total
         })
         .eq('id', id)
+        
+      if (updateError) {
+        console.error('Error updating quote totals:', updateError)
+      }
     }
 
     // Get updated quote with line items for response
@@ -174,15 +255,26 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       .single()
 
     if (fetchError) {
+      console.error('Error fetching updated quote:', fetchError)
       return NextResponse.json({ quote })
     }
 
     // Get updated line items
-    const { data: updatedLineItems } = await supabase
+    const { data: updatedLineItems, error: lineItemsError } = await supabase
       .from('quote_line_items')
       .select('*')
       .eq('quote_id', id)
       .order('item_number', { ascending: true })
+
+    if (lineItemsError) {
+      console.error('Error fetching updated line items:', lineItemsError)
+      return NextResponse.json({
+        quote: {
+          ...updatedQuote,
+          quote_line_items: []
+        }
+      })
+    }
 
     return NextResponse.json({
       quote: {
@@ -192,7 +284,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     })
   } catch (error) {
     console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    if (error instanceof SyntaxError) {
+      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
+    }
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }
 
@@ -205,27 +302,61 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     }
 
     const { id } = await params
+    
+    // Validate UUID format
+    if (!isUUID(id)) {
+      return NextResponse.json({ error: 'Invalid quote ID format' }, { status: 400 })
+    }
+
+    // Check if quote exists first
+    const { data: existingQuote, error: fetchError } = await supabase
+      .from('quotes')
+      .select('id')
+      .eq('id', id)
+      .eq('tenant_id', user.tenant_id)
+      .single()
+
+    if (fetchError) {
+      console.error('Database error fetching quote:', fetchError)
+      return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
+    }
+
+    if (!existingQuote) {
+      return NextResponse.json({ error: 'Quote not found' }, { status: 404 })
+    }
+
     // Delete line items first (due to foreign key constraint)
-    await supabase
+    const { error: lineItemsError } = await supabase
       .from('quote_line_items')
       .delete()
       .eq('quote_id', id)
 
+    if (lineItemsError) {
+      console.error('Error deleting quote line items:', lineItemsError)
+      return NextResponse.json({ 
+        error: 'Failed to delete quote line items: ' + (lineItemsError.message || 'Unknown database error') 
+      }, { status: 500 })
+    }
+
     // Delete the quote
-    const { error } = await supabase
+    const { error: quoteError } = await supabase
       .from('quotes')
       .delete()
       .eq('id', id)
       .eq('tenant_id', user.tenant_id)
 
-    if (error) {
-      console.error('Error deleting quote:', error)
-      return NextResponse.json({ error: 'Failed to delete quote' }, { status: 500 })
+    if (quoteError) {
+      console.error('Error deleting quote:', quoteError)
+      return NextResponse.json({ 
+        error: 'Failed to delete quote: ' + (quoteError.message || 'Unknown database error') 
+      }, { status: 500 })
     }
 
     return NextResponse.json({ message: 'Quote deleted successfully' })
   } catch (error) {
     console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }

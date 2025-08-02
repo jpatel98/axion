@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
+import { validate as isUUID } from 'uuid'
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,8 +14,14 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { quote_id } = body
 
+    // Validate required fields
     if (!quote_id) {
       return NextResponse.json({ error: 'Quote ID is required' }, { status: 400 })
+    }
+
+    // Validate UUID format
+    if (!isUUID(quote_id)) {
+      return NextResponse.json({ error: 'Invalid quote ID format' }, { status: 400 })
     }
 
     // Get the quote with customer and line items
@@ -31,7 +38,12 @@ export async function POST(request: NextRequest) {
       .eq('tenant_id', user.tenant_id)
       .single()
 
-    if (quoteError || !quote) {
+    if (quoteError) {
+      console.error('Database error fetching quote:', quoteError)
+      return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
+    }
+    
+    if (!quote) {
       return NextResponse.json({ error: 'Quote not found' }, { status: 404 })
     }
 
@@ -42,12 +54,24 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
+    // Check if quote has already been converted
+    if (quote.status === 'converted') {
+      return NextResponse.json({ 
+        error: 'This quote has already been converted to a job' 
+      }, { status: 400 })
+    }
+
     // Get line items for description
-    const { data: lineItems } = await supabase
+    const { data: lineItems, error: lineItemsError } = await supabase
       .from('quote_line_items')
       .select('*')
       .eq('quote_id', quote_id)
       .order('item_number', { ascending: true })
+
+    if (lineItemsError) {
+      console.error('Database error fetching line items:', lineItemsError)
+      return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
+    }
 
     // Generate job number (you might want to implement a more sophisticated numbering system)
     const jobNumber = `JOB-${Date.now()}`
@@ -80,7 +104,9 @@ export async function POST(request: NextRequest) {
 
     if (jobError) {
       console.error('Error creating job:', jobError)
-      return NextResponse.json({ error: 'Failed to create job from quote' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to create job from quote: ' + (jobError.message || 'Unknown database error')
+      }, { status: 500 })
     }
 
     // Update quote status to indicate it's been converted
@@ -106,6 +132,11 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    if (error instanceof SyntaxError) {
+      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
+    }
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }

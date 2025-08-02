@@ -5,17 +5,22 @@ import {
   Settings, 
   User, 
   Bell, 
-  Save
+  Save,
+  Users
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/lib/toast'
+import { useUserRole } from '@/hooks/useUserRole'
+import { UserRole } from '@/lib/types/roles'
+import Link from 'next/link'
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const { addToast } = useToast()
+  const { user } = useUserRole()
   const [settings, setSettings] = useState({
     // Profile settings
     companyName: '',
@@ -62,6 +67,7 @@ export default function SettingsPage() {
 
   const tabs = [
     { id: 'profile', name: 'Company Profile', icon: User },
+    ...(user?.role === UserRole.MANAGER ? [{ id: 'users', name: 'Team Management', icon: Users }] : []),
     { id: 'notifications', name: 'Notifications', icon: Bell },
     { id: 'system', name: 'System', icon: Settings }
   ]
@@ -319,6 +325,36 @@ export default function SettingsPage() {
                 </div>
               )}
 
+              {/* Team Management Tab - Managers Only */}
+              {activeTab === 'users' && user?.role === UserRole.MANAGER && (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg leading-6 font-medium text-slate-800">
+                      Team Management
+                    </h3>
+                    <p className="mt-1 text-sm text-slate-600">
+                      Manage your team members and their access levels.
+                    </p>
+                  </div>
+
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-medium text-blue-900">Full User Management</h4>
+                        <p className="text-sm text-blue-700">
+                          Invite team members, assign roles, and manage access levels.
+                        </p>
+                      </div>
+                      <Link href="/dashboard/settings/users">
+                        <Button className="bg-blue-600 hover:bg-blue-700">
+                          <Users className="h-4 w-4 mr-2" />
+                          Manage Users
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Save Button */}
               <div className="pt-6 border-t border-gray-200">

@@ -16,6 +16,10 @@ export interface RolePermissions {
   canManageUsers: boolean
   canViewUsers: boolean
   
+  // Customer management
+  canManageCustomers: boolean
+  canViewCustomers: boolean
+  
   // Production management
   canManageProduction: boolean
   canViewProduction: boolean
@@ -45,6 +49,8 @@ export const ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
     canViewAnalytics: true,
     canManageUsers: true,
     canViewUsers: true,
+    canManageCustomers: true,
+    canViewCustomers: true,
     canManageProduction: true,
     canViewProduction: true,
     canCreateJobs: true,
@@ -63,6 +69,8 @@ export const ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
     canViewAnalytics: false,
     canManageUsers: false,
     canViewUsers: false,
+    canManageCustomers: false,
+    canViewCustomers: false,
     canManageProduction: false,
     canViewProduction: true,
     canCreateJobs: false,

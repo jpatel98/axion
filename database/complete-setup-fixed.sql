@@ -1,4 +1,4 @@
--- Complete RBAC and test data setup
+-- Complete RBAC and test data setup (FIXED VERSION)
 -- Run this entire script in your Supabase SQL Editor
 
 -- STEP 1: Fix the role column safely (skip if role column already exists properly)
@@ -13,6 +13,7 @@ BEGIN
     END IF;
 END $$;
 
+-- Create index safely
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 
 -- STEP 2: Insert test tenant
@@ -52,12 +53,13 @@ INSERT INTO customers (id, tenant_id, name, email, phone, contact_person, create
   '(555) 456-7890',
   'Mike Wilson',
   NOW()
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 -- STEP 4: Insert test jobs
 INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, description, quantity, estimated_cost, actual_cost, status, due_date, created_at) VALUES
 (
-  'aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa'::uuid,
+  'j1111111-1111-1111-1111-111111111111',
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'JOB-2024-001',
   'ABC Corporation',
@@ -71,7 +73,7 @@ INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, descrip
   NOW() - INTERVAL '3 days'
 ),
 (
-  'bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbbb'::uuid,
+  'j2222222-2222-2222-2222-222222222222',
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'JOB-2024-002',
   'XYZ Industries',
@@ -85,7 +87,7 @@ INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, descrip
   NOW() - INTERVAL '1 day'
 ),
 (
-  'cccccccc-cccc-4ccc-cccc-cccccccccccc'::uuid,
+  'j3333333-3333-3333-3333-333333333333',
   'f47ac10b-58cc-4372-a567-0e02b2c3d479',
   'JOB-2024-003',
   'Tech Innovations LLC',
@@ -97,7 +99,8 @@ INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, descrip
   'completed',
   CURRENT_DATE - INTERVAL '5 days',
   NOW() - INTERVAL '20 days'
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 -- STEP 5: Show summary
 SELECT 'Setup Complete!' as status;

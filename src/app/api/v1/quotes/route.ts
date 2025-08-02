@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
+import { validate as isUUID } from 'uuid'
 
 export async function GET(request: NextRequest) {
   try {
@@ -18,6 +19,11 @@ export async function GET(request: NextRequest) {
     const sortOrder = searchParams.get('sortOrder') || 'desc'
     const status = searchParams.get('status')
     const search = searchParams.get('search')
+
+    // Validate page and pageSize
+    if (page < 1 || pageSize < 1 || pageSize > 100) {
+      return NextResponse.json({ error: 'Invalid pagination parameters' }, { status: 400 })
+    }
 
     // Calculate offset
     const offset = (page - 1) * pageSize
@@ -46,14 +52,28 @@ export async function GET(request: NextRequest) {
 
     // Apply filters
     if (status && status !== 'all') {
+      // Validate status value
+      const validStatuses = ['draft', 'sent', 'approved', 'rejected', 'converted']
+      if (!validStatuses.includes(status)) {
+        return NextResponse.json({ error: 'Invalid status filter' }, { status: 400 })
+      }
       query = query.eq('status', status)
     }
 
     if (search) {
+      // Validate search string
+      if (search.length > 100) {
+        return NextResponse.json({ error: 'Search term too long' }, { status: 400 })
+      }
       query = query.or(`quote_number.ilike.%${search}%,title.ilike.%${search}%,description.ilike.%${search}%,customers.name.ilike.%${search}%`)
     }
 
-    // Apply sorting
+    // Apply sorting (validate sort field)
+    const validSortFields = ['id', 'quote_number', 'title', 'description', 'status', 'subtotal', 'tax_amount', 'total', 'valid_until', 'created_at']
+    if (!validSortFields.includes(sortBy)) {
+      return NextResponse.json({ error: 'Invalid sort field' }, { status: 400 })
+    }
+    
     query = query.order(sortBy, { ascending: sortOrder === 'asc' })
 
     // Apply pagination
@@ -63,7 +83,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching quotes:', error)
-      return NextResponse.json({ error: 'Failed to fetch quotes' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch quotes: ' + error.message }, { status: 500 })
     }
 
     return NextResponse.json({ 
@@ -77,7 +97,9 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }
 
@@ -90,8 +112,6 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    console.log('Received quote data:', JSON.stringify(body, null, 2))
-    
     const {
       customer_id,
       quote_number,
@@ -104,10 +124,62 @@ export async function POST(request: NextRequest) {
       line_items = []
     } = body
 
-    console.log('Parsed line_items:', line_items)
+    // Validate required fields
+    if (!customer_id) {
+      return NextResponse.json({ error: 'Customer ID is required' }, { status: 400 })
+    }
+    
+    if (!quote_number) {
+      return NextResponse.json({ error: 'Quote number is required' }, { status: 400 })
+    }
 
-    if (!customer_id || !quote_number) {
-      return NextResponse.json({ error: 'Customer and quote number are required' }, { status: 400 })
+    // Validate UUID format for customer_id
+    if (!isUUID(customer_id)) {
+      return NextResponse.json({ error: 'Invalid customer ID format' }, { status: 400 })
+    }
+
+    // Validate quote_number format (alphanumeric with dashes/underscores)
+    if (typeof quote_number !== 'string' || quote_number.length > 100) {
+      return NextResponse.json({ error: 'Invalid quote number format' }, { status: 400 })
+    }
+
+    // Check for duplicate quote number within tenant
+    const { data: existingQuote } = await supabase
+      .from('quotes')
+      .select('id')
+      .eq('tenant_id', user.tenant_id)
+      .eq('quote_number', quote_number)
+      .single()
+
+    if (existingQuote) {
+      return NextResponse.json({ error: 'A quote with this quote number already exists' }, { status: 409 })
+    }
+
+    // Validate tax_rate if provided
+    if (tax_rate !== undefined && (typeof tax_rate !== 'number' || tax_rate < 0)) {
+      return NextResponse.json({ error: 'Tax rate must be a positive number' }, { status: 400 })
+    }
+
+    // Validate line items if provided
+    if (Array.isArray(line_items)) {
+      for (let i = 0; i < line_items.length; i++) {
+        const item = line_items[i]
+        if (typeof item !== 'object' || item === null) {
+          return NextResponse.json({ error: `Line item ${i + 1} is invalid` }, { status: 400 })
+        }
+        
+        if (item.description !== undefined && typeof item.description !== 'string') {
+          return NextResponse.json({ error: `Line item ${i + 1} description must be a string` }, { status: 400 })
+        }
+        
+        if (item.quantity !== undefined && (typeof item.quantity !== 'number' || item.quantity < 0)) {
+          return NextResponse.json({ error: `Line item ${i + 1} quantity must be a positive number` }, { status: 400 })
+        }
+        
+        if (item.unit_price !== undefined && (typeof item.unit_price !== 'number' || item.unit_price < 0)) {
+          return NextResponse.json({ error: `Line item ${i + 1} unit price must be a positive number` }, { status: 400 })
+        }
+      }
     }
 
     // Create the quote first
@@ -130,7 +202,9 @@ export async function POST(request: NextRequest) {
 
     if (quoteError) {
       console.error('Error creating quote:', quoteError)
-      return NextResponse.json({ error: 'Failed to create quote' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to create quote: ' + (quoteError.message || 'Unknown database error') 
+      }, { status: 500 })
     }
 
     // Add line items if provided
@@ -144,8 +218,6 @@ export async function POST(request: NextRequest) {
         notes: item?.notes || null
       }))
 
-      console.log('Line items to insert:', lineItemsToInsert)
-
       const { error: lineItemsError } = await supabase
         .from('quote_line_items')
         .insert(lineItemsToInsert)
@@ -154,7 +226,9 @@ export async function POST(request: NextRequest) {
         console.error('Error creating line items:', lineItemsError)
         // Clean up the quote if line items failed
         await supabase.from('quotes').delete().eq('id', quote.id)
-        return NextResponse.json({ error: 'Failed to create quote line items' }, { status: 500 })
+        return NextResponse.json({ 
+          error: 'Failed to create quote line items: ' + (lineItemsError.message || 'Unknown database error')
+        }, { status: 500 })
       }
 
       // Manually calculate and update totals after successful line item insertion
@@ -226,11 +300,14 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log('Sending response:', JSON.stringify(responseData, null, 2))
     return NextResponse.json(responseData, { status: 201 })
   } catch (error) {
     console.error('API Error in quote creation:', error)
-    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace')
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    if (error instanceof SyntaxError) {
+      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
+    }
+    return NextResponse.json({ 
+      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
+    }, { status: 500 })
   }
 }

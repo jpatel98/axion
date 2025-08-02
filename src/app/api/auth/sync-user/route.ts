@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth, currentUser } from '@clerk/nextjs/server'
-import { supabase } from '@/lib/supabase'
+import { supabaseAdmin } from '@/lib/supabase'
 import { UserRole } from '@/lib/types/roles'
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user already exists in our database
-    const { data: existingUser } = await supabase
+    const { data: existingUser } = await supabaseAdmin
       .from('users')
       .select('*')
       .eq('clerk_user_id', userId)
@@ -30,62 +30,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ user: existingUser, status: 'existing' })
     }
 
-    // Create new user and tenant
-    const email = clerkUser.emailAddresses[0]?.emailAddress
-    const firstName = clerkUser.firstName || ''
-    const lastName = clerkUser.lastName || ''
-
-    // First check if tenant already exists, if not create one
-    const companyName = email ? email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') : 'newcompany'
-    const slug = companyName.toLowerCase()
-    
-    // Try to find existing tenant first
-    let { data: tenant, error: findTenantError } = await supabase
-      .from('tenants')
-      .select('*')
-      .eq('slug', slug)
-      .single()
-
-    if (findTenantError || !tenant) {
-      // Create new tenant with unique slug
-      const uniqueSlug = `${slug}-${Date.now()}`
-      const { data: newTenant, error: tenantError } = await supabase
-        .from('tenants')
-        .insert({
-          name: email ? email.split('@')[0] : 'New Company',
-          slug: uniqueSlug
-        })
-        .select()
-        .single()
-
-      if (tenantError) {
-        console.error('Error creating tenant:', tenantError)
-        return NextResponse.json({ error: 'Failed to create tenant' }, { status: 500 })
+    // New user - return that they need onboarding
+    return NextResponse.json({ 
+      user: null, 
+      status: 'needs_onboarding',
+      clerk_user: {
+        id: userId,
+        email: clerkUser.emailAddresses[0]?.emailAddress,
+        first_name: clerkUser.firstName || '',
+        last_name: clerkUser.lastName || ''
       }
-      
-      tenant = newTenant
-    }
-
-    // Then create the user
-    const { data: user, error: userError } = await supabase
-      .from('users')
-      .insert({
-        clerk_user_id: userId,
-        tenant_id: tenant.id,
-        email: email,
-        first_name: firstName,
-        last_name: lastName,
-        role: UserRole.MANAGER // First user of a tenant should be manager
-      })
-      .select()
-      .single()
-
-    if (userError) {
-      console.error('Error creating user:', userError)
-      return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
-    }
-
-    return NextResponse.json({ user, tenant, status: 'created' })
+    })
 
   } catch (error) {
     console.error('User sync error:', error)

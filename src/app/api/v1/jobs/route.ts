@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getCurrentUser } from '@/lib/auth'
+import { withAuth, withPermission } from '@/lib/api-auth'
 import { supabase } from '@/lib/supabase'
 
-export async function GET(request: NextRequest) {
-  try {
-    const user = await getCurrentUser()
-    
-    if (!user) {
-      console.log('No user found - user might not be synced yet')
-      return NextResponse.json({ error: 'User not found. Please refresh the page.' }, { status: 404 })
-    }
+export const GET = withAuth(async (user, request: NextRequest) => {
 
     // Parse query parameters
     const { searchParams } = new URL(request.url)
@@ -19,6 +12,11 @@ export async function GET(request: NextRequest) {
     const sortOrder = searchParams.get('sortOrder') || 'desc'
     const status = searchParams.get('status')
     const search = searchParams.get('search')
+
+    // Validate page and pageSize
+    if (page < 1 || pageSize < 1 || pageSize > 100) {
+      return NextResponse.json({ error: 'Invalid pagination parameters' }, { status: 400 })
+    }
 
     // Calculate offset
     const offset = (page - 1) * pageSize
@@ -31,14 +29,28 @@ export async function GET(request: NextRequest) {
 
     // Apply filters
     if (status && status !== 'all') {
+      // Validate status value
+      const validStatuses = ['pending', 'in_progress', 'completed', 'shipped']
+      if (!validStatuses.includes(status)) {
+        return NextResponse.json({ error: 'Invalid status filter' }, { status: 400 })
+      }
       query = query.eq('status', status)
     }
 
     if (search) {
+      // Validate search string
+      if (search.length > 100) {
+        return NextResponse.json({ error: 'Search term too long' }, { status: 400 })
+      }
       query = query.or(`job_number.ilike.%${search}%,customer_name.ilike.%${search}%,part_number.ilike.%${search}%,description.ilike.%${search}%`)
     }
 
-    // Apply sorting
+    // Apply sorting (validate sort field)
+    const validSortFields = ['id', 'job_number', 'customer_name', 'part_number', 'description', 'quantity', 'estimated_cost', 'actual_cost', 'status', 'due_date', 'created_at', 'updated_at']
+    if (!validSortFields.includes(sortBy)) {
+      return NextResponse.json({ error: 'Invalid sort field' }, { status: 400 })
+    }
+    
     query = query.order(sortBy, { ascending: sortOrder === 'asc' })
 
     // Apply pagination
@@ -60,21 +72,9 @@ export async function GET(request: NextRequest) {
         totalPages: Math.ceil((count || 0) / pageSize)
       }
     })
-  } catch (error) {
-    console.error('API Error:', error)
-    return NextResponse.json({ 
-      error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
-    }, { status: 500 })
-  }
-}
+})
 
-export async function POST(request: NextRequest) {
-  try {
-    const user = await getCurrentUser()
-    
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+export const POST = withPermission('canCreateJobs', async (user, request: NextRequest) => {
 
     const body = await request.json()
     const { 
@@ -90,6 +90,32 @@ export async function POST(request: NextRequest) {
     // Validate required fields
     if (!job_number) {
       return NextResponse.json({ error: 'Job number is required' }, { status: 400 })
+    }
+
+    // Validate data types
+    if (quantity !== undefined && (typeof quantity !== 'number' || quantity < 0)) {
+      return NextResponse.json({ error: 'Quantity must be a positive number' }, { status: 400 })
+    }
+
+    if (estimated_cost !== undefined && (typeof estimated_cost !== 'number' || estimated_cost < 0)) {
+      return NextResponse.json({ error: 'Estimated cost must be a positive number' }, { status: 400 })
+    }
+
+    // Validate job_number format (alphanumeric with dashes/underscores)
+    if (typeof job_number !== 'string' || job_number.length > 100) {
+      return NextResponse.json({ error: 'Invalid job number format' }, { status: 400 })
+    }
+
+    // Check for duplicate job number within tenant
+    const { data: existingJob } = await supabase
+      .from('jobs')
+      .select('id')
+      .eq('tenant_id', user.tenant_id)
+      .eq('job_number', job_number)
+      .single()
+
+    if (existingJob) {
+      return NextResponse.json({ error: 'A job with this job number already exists' }, { status: 409 })
     }
 
     // Create the job with explicit tenant_id
@@ -111,12 +137,10 @@ export async function POST(request: NextRequest) {
 
     if (jobError) {
       console.error('Error creating job:', jobError)
-      return NextResponse.json({ error: 'Failed to create job' }, { status: 500 })
+      return NextResponse.json({ 
+        error: 'Failed to create job: ' + (jobError.message || 'Unknown database error') 
+      }, { status: 500 })
     }
 
     return NextResponse.json({ job }, { status: 201 })
-  } catch (error) {
-    console.error('API Error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
-}
+})

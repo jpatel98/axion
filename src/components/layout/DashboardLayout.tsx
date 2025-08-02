@@ -4,6 +4,7 @@ import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useUserSync } from '@/hooks/useUserSync'
+import { useUserRole } from '@/hooks/useUserRole'
 import ErrorBoundary from '@/components/ui/error-boundary'
 import { NavigationErrorBoundary, PageErrorBoundary } from '@/components/ui/error-boundaries'
 import { useState } from 'react'
@@ -21,40 +22,77 @@ import {
   X
 } from 'lucide-react'
 
-const navigation = [
-  { 
-    name: 'Dashboard', 
-    href: '/dashboard', 
-    icon: LayoutDashboard,
-    isStandalone: true 
-  },
-  {
-    name: 'Operations',
-    isGroup: true,
-    items: [
-      { name: 'Jobs', href: '/dashboard/jobs', icon: Briefcase },
-      { name: 'Work Centers', href: '/dashboard/work-centers', icon: Factory },
-      { name: 'Scheduler', href: '/dashboard/scheduler', icon: Calendar },
-    ]
-  },
-  {
-    name: 'Business',
-    isGroup: true,
-    items: [
-      { name: 'Customers', href: '/dashboard/customers', icon: Users },
-      { name: 'Quotes', href: '/dashboard/quotes', icon: FileText },
-      { name: 'Reports', href: '/dashboard/reports', icon: BarChart3 },
-    ]
-  },
-  {
-    name: 'System',
-    isGroup: true,
-    items: [
-      { name: 'Inventory', href: '/dashboard/inventory', icon: Package },
-      { name: 'Settings', href: '/dashboard/settings', icon: Settings },
-    ]
-  }
-]
+import { UserRole } from '@/lib/types/roles'
+
+const getNavigationForRole = (userRole?: UserRole) => {
+  const baseNavigation = [
+    { 
+      name: 'Dashboard', 
+      href: '/dashboard', 
+      icon: LayoutDashboard,
+      roles: [UserRole.MANAGER, UserRole.OPERATOR]
+    },
+    { 
+      name: 'Production', 
+      href: '/dashboard/jobs', 
+      icon: Briefcase,
+      roles: [UserRole.MANAGER, UserRole.OPERATOR]
+    },
+  ]
+
+  // Manager-only navigation items
+  const managerNavigation = [
+    { 
+      name: 'Customers', 
+      href: '/dashboard/customers', 
+      icon: Users,
+      roles: [UserRole.MANAGER]
+    },
+    { 
+      name: 'Quotes', 
+      href: '/dashboard/quotes', 
+      icon: FileText,
+      roles: [UserRole.MANAGER]
+    },
+    { 
+      name: 'Work Centers', 
+      href: '/dashboard/work-centers', 
+      icon: Factory,
+      roles: [UserRole.MANAGER]
+    },
+    { 
+      name: 'Scheduler', 
+      href: '/dashboard/scheduler', 
+      icon: Calendar,
+      roles: [UserRole.MANAGER]
+    },
+    { 
+      name: 'Inventory', 
+      href: '/dashboard/inventory', 
+      icon: Package,
+      roles: [UserRole.MANAGER]
+    },
+    { 
+      name: 'Reports', 
+      href: '/dashboard/reports', 
+      icon: BarChart3,
+      roles: [UserRole.MANAGER]
+    },
+    { 
+      name: 'Settings', 
+      href: '/dashboard/settings', 
+      icon: Settings,
+      roles: [UserRole.MANAGER]
+    },
+  ]
+
+  const allNavigation = [...baseNavigation, ...managerNavigation]
+  
+  // Filter navigation based on user role
+  if (!userRole) return baseNavigation // Show minimal nav if role not loaded
+  
+  return allNavigation.filter(item => item.roles.includes(userRole))
+}
 
 export default function DashboardLayout({
   children,
@@ -64,77 +102,55 @@ export default function DashboardLayout({
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { syncStatus } = useUserSync() // Automatically sync user when component mounts
+  const { user, loading: userLoading, error: userError } = useUserRole()
+  
+  const navigation = getNavigationForRole(user?.role)
+
+  // Show error state if user role fails to load
+  if (userError && !userLoading && syncStatus !== 'syncing') {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-lg font-semibold mb-2 text-red-600">Authentication Error</h2>
+          <p className="text-muted-foreground mb-4">{userError}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   const NavigationItems = ({ mobile = false }: { mobile?: boolean }) => (
     <ul role="list" className="flex flex-1 flex-col gap-y-1">
-      {navigation.map((item, index) => {
-        if (item.isStandalone) {
-          const isActive = pathname === item.href
-          return (
-            <li key={item.name}>
-              <Link
-                href={item.href}
-                onClick={() => mobile && setSidebarOpen(false)}
-                className={`
-                  group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium transition-colors
-                  ${isActive
-                    ? 'bg-blue-50 text-blue-600'
-                    : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
-                  }
-                `}
-              >
-                <item.icon
-                  className={`h-5 w-5 shrink-0 ${
-                    isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
-                  }`}
-                  aria-hidden="true"
-                />
-                {item.name}
-              </Link>
-              <div className="my-4 border-t border-gray-200"></div>
-            </li>
-          )
-        }
-        
-        if (item.isGroup) {
-          return (
-            <li key={item.name}>
-              <div className="text-xs font-semibold leading-6 text-slate-500 uppercase tracking-wider px-2 pt-4 pb-2">
-                {item.name}
-              </div>
-              <ul className="space-y-1">
-                {item.items?.map((subItem) => {
-                  const isActive = pathname === subItem.href
-                  return (
-                    <li key={subItem.name}>
-                      <Link
-                        href={subItem.href}
-                        onClick={() => mobile && setSidebarOpen(false)}
-                        className={`
-                          group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-medium transition-colors
-                          ${isActive
-                            ? 'bg-blue-50 text-blue-600'
-                            : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
-                          }
-                        `}
-                      >
-                        <subItem.icon
-                          className={`h-5 w-5 shrink-0 ${
-                            isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
-                          }`}
-                          aria-hidden="true"
-                        />
-                        {subItem.name}
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </li>
-          )
-        }
-        
-        return null
+      {navigation.map((item) => {
+        const isActive = pathname === item.href
+        return (
+          <li key={item.name}>
+            <Link
+              href={item.href}
+              onClick={() => mobile && setSidebarOpen(false)}
+              className={`
+                group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-medium transition-colors
+                ${isActive
+                  ? 'bg-blue-50 text-blue-600'
+                  : 'text-slate-800 hover:text-blue-600 hover:bg-gray-50'
+                }
+              `}
+            >
+              <item.icon
+                className={`h-5 w-5 shrink-0 ${
+                  isActive ? 'text-blue-600' : 'text-slate-600 group-hover:text-blue-600'
+                }`}
+                aria-hidden="true"
+              />
+              {item.name}
+            </Link>
+          </li>
+        )
       })}
     </ul>
   )
@@ -150,9 +166,22 @@ export default function DashboardLayout({
           <div className="fixed inset-0 bg-gray-900/80" aria-hidden="true" />
           <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-sm">
             <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-gray-200">
-              <Link href="/dashboard" className="text-xl font-bold text-blue-600">
-                Axion
-              </Link>
+              <div className="flex items-center gap-x-3">
+                <Link href="/dashboard" className="text-xl font-bold text-blue-600">
+                  Axion
+                </Link>
+                {user?.role && (
+                  <span className={`
+                    inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium
+                    ${user.role === UserRole.MANAGER 
+                      ? 'bg-purple-100 text-purple-800' 
+                      : 'bg-green-100 text-green-800'
+                    }
+                  `}>
+                    {user.role === UserRole.MANAGER ? 'Manager' : 'Operator'}
+                  </span>
+                )}
+              </div>
               <button
                 type="button"
                 className="text-slate-600 hover:text-slate-800"
@@ -172,10 +201,21 @@ export default function DashboardLayout({
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:bg-white lg:shadow-sm">
-        <div className="flex h-16 shrink-0 items-center px-6 border-b border-gray-200">
+        <div className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-gray-200">
           <Link href="/dashboard" className="text-xl font-bold text-blue-600">
             Axion
           </Link>
+          {user?.role && (
+            <span className={`
+              inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+              ${user.role === UserRole.MANAGER 
+                ? 'bg-purple-100 text-purple-800' 
+                : 'bg-green-100 text-green-800'
+              }
+            `}>
+              {user.role === UserRole.MANAGER ? 'Manager' : 'Operator'}
+            </span>
+          )}
         </div>
         <nav className="flex flex-1 flex-col px-4 py-4">
           <NavigationErrorBoundary>
@@ -199,6 +239,19 @@ export default function DashboardLayout({
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <div className="flex flex-1"></div>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
+              {user?.role && (
+                <div className="flex items-center gap-x-2">
+                  <span className={`
+                    inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium
+                    ${user.role === UserRole.MANAGER 
+                      ? 'bg-purple-100 text-purple-800' 
+                      : 'bg-green-100 text-green-800'
+                    }
+                  `}>
+                    {user.role === UserRole.MANAGER ? 'Manager' : 'Operator'}
+                  </span>
+                </div>
+              )}
               <UserButton afterSignOutUrl="/" />
             </div>
           </div>
