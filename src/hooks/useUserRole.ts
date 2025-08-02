@@ -2,7 +2,7 @@
 
 import { useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
-import { UserRole, hasPermission, hasAnyPermission } from '@/lib/types/roles'
+import { UserRole, hasPermission, hasAnyPermission, RolePermissions } from '@/lib/types/roles'
 
 interface UserWithRole {
   id: string
@@ -66,30 +66,4 @@ export function useUserRole() {
     error,
     isAuthenticated: !!clerkUser && !!userData,
   }
-}
-
-export function usePermission(permission: keyof import('@/lib/types/roles').RolePermissions) {
-  const { user } = useUserRole()
-  
-  if (!user) return false
-  
-  return hasPermission(user.role, permission)
-}
-
-export function useAnyPermission(permissions: (keyof import('@/lib/types/roles').RolePermissions)[]) {
-  const { user } = useUserRole()
-  
-  if (!user) return false
-  
-  return hasAnyPermission(user.role, permissions)
-}
-
-export function useIsManager() {
-  const { user } = useUserRole()
-  return user?.role === UserRole.MANAGER
-}
-
-export function useIsOperator() {
-  const { user } = useUserRole()
-  return user?.role === UserRole.OPERATOR
 }
