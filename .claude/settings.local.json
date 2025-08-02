@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
       "Bash(npx create-next-app:*)",
@@ -36,7 +37,10 @@
       "WebFetch(domain:localhost)",
       "Bash(git pull:*)",
       "Bash(git branch:*)",
-      "Bash(npm run seed-test-data:*)"
+      "Bash(npm run seed-test-data:*)",
+      "Bash(npx supabase db reset:*)",
+      "Bash(npx supabase:*)",
+      "Bash(cat:*)"
     ],
     "deny": []
   }
