@@ -1,9 +1,8 @@
 -- Complete RBAC and test data setup
 -- Run this entire script in your Supabase SQL Editor
 
--- STEP 1: Fix the role column
+-- STEP 1: Fix the role column (enum already exists)
 ALTER TABLE users DROP COLUMN IF EXISTS role;
-CREATE TYPE user_role AS ENUM ('manager', 'operator');
 ALTER TABLE users ADD COLUMN role user_role DEFAULT 'operator' NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 
