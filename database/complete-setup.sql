@@ -45,67 +45,7 @@ INSERT INTO customers (id, tenant_id, name, email, phone, contact_person, create
   NOW()
 );
 
--- STEP 4: Insert test quotes
-INSERT INTO quotes (id, tenant_id, customer_id, quote_number, title, description, status, subtotal, tax_rate, tax_amount, total, valid_until, created_at) VALUES
-(
-  'q1111111-1111-1111-1111-111111111111',
-  'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-  'c1111111-1111-1111-1111-111111111111',
-  'QUO-2024-001',
-  'Widget Assembly Project',
-  'Custom widget assembly with precision machining',
-  'sent',
-  5000.00,
-  0.0875,
-  437.50,
-  5437.50,
-  CURRENT_DATE + INTERVAL '30 days',
-  NOW() - INTERVAL '5 days'
-),
-(
-  'q2222222-2222-2222-2222-222222222222',
-  'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-  'c2222222-2222-2222-2222-222222222222',
-  'QUO-2024-002',
-  'Component Manufacturing',
-  'Batch production of precision components',
-  'draft',
-  3200.00,
-  0.0875,
-  280.00,
-  3480.00,
-  CURRENT_DATE + INTERVAL '45 days',
-  NOW() - INTERVAL '2 days'
-);
-
--- STEP 5: Insert quote line items
-INSERT INTO quote_line_items (quote_id, item_number, description, quantity, unit_price, created_at) VALUES
-(
-  'q1111111-1111-1111-1111-111111111111',
-  1,
-  'Widget Assembly - Model A',
-  100,
-  45.00,
-  NOW() - INTERVAL '5 days'
-),
-(
-  'q1111111-1111-1111-1111-111111111111',
-  2,
-  'Precision Machining Service',
-  10,
-  50.00,
-  NOW() - INTERVAL '5 days'
-),
-(
-  'q2222222-2222-2222-2222-222222222222',
-  1,
-  'Component Type B - Batch 100',
-  50,
-  64.00,
-  NOW() - INTERVAL '2 days'
-);
-
--- STEP 6: Insert test jobs
+-- STEP 4: Insert test jobs
 INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, description, quantity, estimated_cost, actual_cost, status, due_date, created_at) VALUES
 (
   'j1111111-1111-1111-1111-111111111111',
@@ -150,34 +90,13 @@ INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, descrip
   NOW() - INTERVAL '20 days'
 );
 
--- STEP 7: Insert company settings
-INSERT INTO settings (tenant_id, company_name, contact_email, phone, address, currency, timezone, created_at) VALUES
-(
-  'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-  'Axion Manufacturing Inc.',
-  'info@axionmfg.com',
-  '(555) 100-2000',
-  '123 Industrial Way, Manufacturing City, MC 12345',
-  'USD',
-  'America/New_York',
-  NOW()
-) ON CONFLICT (tenant_id) DO NOTHING;
-
--- STEP 8: Show summary
+-- STEP 5: Show summary
 SELECT 'Setup Complete!' as status;
 
 SELECT 
   'Customers' as table_name, 
   COUNT(*) as record_count 
 FROM customers 
-WHERE tenant_id = 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
-
-UNION ALL
-
-SELECT 
-  'Quotes' as table_name, 
-  COUNT(*) as record_count 
-FROM quotes 
 WHERE tenant_id = 'f47ac10b-58cc-4372-a567-0e02b2c3d479'
 
 UNION ALL
