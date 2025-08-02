@@ -18,37 +18,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
-    // Check if user already exists in our database
-    const { data: existingUser } = await supabase
+    // First, delete any existing user record to start fresh
+    await supabase
       .from('users')
-      .select('*')
+      .delete()
       .eq('clerk_user_id', userId)
-      .single()
 
-    if (existingUser) {
-      // User already exists, just return
-      return NextResponse.json({ user: existingUser, status: 'existing' })
-    }
-
-    // Create new user and tenant
     const email = clerkUser.emailAddresses[0]?.emailAddress
     const firstName = clerkUser.firstName || ''
     const lastName = clerkUser.lastName || ''
 
-    // First check if tenant already exists, if not create one
+    // Get or create tenant
     const companyName = email ? email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') : 'newcompany'
-    const slug = companyName.toLowerCase()
+    const baseSlug = companyName.toLowerCase()
     
-    // Try to find existing tenant first
-    let { data: tenant, error: findTenantError } = await supabase
+    // Find existing tenant or create a new one
+    let { data: tenant } = await supabase
       .from('tenants')
       .select('*')
-      .eq('slug', slug)
+      .eq('slug', baseSlug)
       .single()
 
-    if (findTenantError || !tenant) {
+    if (!tenant) {
       // Create new tenant with unique slug
-      const uniqueSlug = `${slug}-${Date.now()}`
+      const uniqueSlug = `${baseSlug}-${Date.now()}`
       const { data: newTenant, error: tenantError } = await supabase
         .from('tenants')
         .insert({
@@ -66,7 +59,7 @@ export async function POST(request: NextRequest) {
       tenant = newTenant
     }
 
-    // Then create the user
+    // Create the user
     const { data: user, error: userError } = await supabase
       .from('users')
       .insert({
@@ -75,7 +68,7 @@ export async function POST(request: NextRequest) {
         email: email,
         first_name: firstName,
         last_name: lastName,
-        role: UserRole.MANAGER // First user of a tenant should be manager
+        role: UserRole.MANAGER // Default to manager for now
       })
       .select()
       .single()
@@ -85,10 +78,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
     }
 
-    return NextResponse.json({ user, tenant, status: 'created' })
+    return NextResponse.json({ 
+      user, 
+      tenant, 
+      status: 'force-created',
+      message: 'User successfully synced'
+    })
 
   } catch (error) {
-    console.error('User sync error:', error)
+    console.error('Force sync error:', error)
     return NextResponse.json({ 
       error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
     }, { status: 500 })
