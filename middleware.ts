@@ -25,7 +25,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
 
   // Protect dashboard routes
   if (isProtectedRoute(request)) {
-    const { userId } = auth()
+    const { userId } = await auth()
     
     if (!userId) {
       const signInUrl = new URL('/sign-in', request.url)

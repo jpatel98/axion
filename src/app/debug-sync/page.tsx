@@ -19,7 +19,7 @@ export default function DebugSyncPage() {
       const data = await response.json()
       setResult({ type: 'sync', data, status: response.status })
     } catch (error) {
-      setResult({ type: 'sync', error: error.message })
+      setResult({ type: 'sync', error: error instanceof Error ? error.message : 'Unknown error' })
     } finally {
       setSyncing(false)
     }
@@ -34,7 +34,7 @@ export default function DebugSyncPage() {
       const data = await response.json()
       setResult({ type: 'force-sync', data, status: response.status })
     } catch (error) {
-      setResult({ type: 'force-sync', error: error.message })
+      setResult({ type: 'force-sync', error: error instanceof Error ? error.message : 'Unknown error' })
     } finally {
       setSyncing(false)
     }
@@ -46,7 +46,7 @@ export default function DebugSyncPage() {
       const data = await response.json()
       setResult({ type: 'role-check', data, status: response.status })
     } catch (error) {
-      setResult({ type: 'role-check', error: error.message })
+      setResult({ type: 'role-check', error: error instanceof Error ? error.message : 'Unknown error' })
     }
   }
 
