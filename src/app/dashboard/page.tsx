@@ -3,6 +3,10 @@
 import { useState, useEffect } from 'react'
 import { ContentSkeleton } from '@/components/ui/skeleton'
 import { StatCard } from '@/components/ui/stat-card'
+import { useUserRole } from '@/hooks/useUserRole'
+import { UserRole } from '@/lib/types/roles'
+import { RoleBasedRedirect } from '@/components/rbac/RoleBasedRedirect'
+import { ManagerOnly } from '@/components/rbac/PermissionGate'
 
 interface DashboardStats {
   activeJobs: number
@@ -13,6 +17,7 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
+  const { user, loading: userLoading } = useUserRole()
   const [stats, setStats] = useState<DashboardStats>({
     activeJobs: 0,
     pendingQuotes: 0,
@@ -21,6 +26,11 @@ export default function DashboardPage() {
     completedJobs: 0
   })
   const [loading, setLoading] = useState(true)
+
+  // Redirect operators to their dashboard
+  if (!userLoading && user?.role === UserRole.OPERATOR) {
+    return <RoleBasedRedirect />
+  }
 
   useEffect(() => {
     fetchDashboardStats()
@@ -105,18 +115,28 @@ export default function DashboardPage() {
     }).format(amount)
   }
 
-  if (loading) {
+  if (loading || userLoading) {
     return <ContentSkeleton type="dashboard" />
   }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-800">Dashboard</h1>
-        <p className="mt-2 text-sm text-slate-800">
-          Welcome to Axion - your manufacturing command center
-        </p>
+    <ManagerOnly fallback={
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <h2 className="text-lg font-semibold mb-2">Manager Dashboard</h2>
+          <p className="text-muted-foreground">
+            This page is only accessible to managers.
+          </p>
+        </div>
       </div>
+    }>
+      <div>
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-slate-800">Manager Dashboard</h1>
+          <p className="mt-2 text-sm text-slate-800">
+            Welcome to Axion - your manufacturing command center
+          </p>
+        </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
@@ -171,6 +191,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </ManagerOnly>
   )
 }

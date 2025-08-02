@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { supabase } from '@/lib/supabase'
+import { UserRole } from '@/lib/types/roles'
 
 export async function POST(request: NextRequest) {
   try {
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
         email: email,
         first_name: firstName,
         last_name: lastName,
-        role: 'admin' // First user of a tenant should be admin
+        role: UserRole.MANAGER // First user of a tenant should be manager
       })
       .select()
       .single()
