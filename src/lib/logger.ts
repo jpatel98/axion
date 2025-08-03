@@ -17,14 +17,46 @@ export enum LogLevel {
 
 class Logger {
   private isDevelopment = process.env.NODE_ENV === 'development'
+  private logLevel = (process.env.LOG_LEVEL as LogLevel) || LogLevel.INFO
+
+  private shouldLog(level: LogLevel): boolean {
+    const levels = {
+      [LogLevel.ERROR]: 0,
+      [LogLevel.WARN]: 1,
+      [LogLevel.INFO]: 2,
+      [LogLevel.DEBUG]: 3
+    }
+    return levels[level] <= levels[this.logLevel]
+  }
+
+  private sanitizeContext(context?: LogContext): LogContext | undefined {
+    if (!context) return undefined
+    
+    const sanitized: LogContext = {}
+    const sensitiveKeys = ['password', 'token', 'key', 'secret', 'email', 'phone', 'ssn', 'credit_card']
+    
+    for (const [key, value] of Object.entries(context)) {
+      if (sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive))) {
+        sanitized[key] = '[REDACTED]'
+      } else if (typeof value === 'object' && value !== null) {
+        sanitized[key] = this.sanitizeContext(value as LogContext)
+      } else {
+        sanitized[key] = value
+      }
+    }
+    
+    return sanitized
+  }
 
   private formatMessage(level: LogLevel, message: string, context?: LogContext) {
     const timestamp = new Date().toISOString()
+    const sanitizedContext = this.isDevelopment ? context : this.sanitizeContext(context)
+    
     const logEntry = {
       timestamp,
       level,
       message,
-      ...(context && { context }),
+      ...(sanitizedContext && { context: sanitizedContext }),
       environment: process.env.NODE_ENV
     }
 
@@ -34,19 +66,25 @@ class Logger {
   }
 
   error(message: string, context?: LogContext) {
-    console.error(this.formatMessage(LogLevel.ERROR, message, context))
+    if (this.shouldLog(LogLevel.ERROR)) {
+      console.error(this.formatMessage(LogLevel.ERROR, message, context))
+    }
   }
 
   warn(message: string, context?: LogContext) {
-    console.warn(this.formatMessage(LogLevel.WARN, message, context))
+    if (this.shouldLog(LogLevel.WARN)) {
+      console.warn(this.formatMessage(LogLevel.WARN, message, context))
+    }
   }
 
   info(message: string, context?: LogContext) {
-    console.info(this.formatMessage(LogLevel.INFO, message, context))
+    if (this.shouldLog(LogLevel.INFO)) {
+      console.info(this.formatMessage(LogLevel.INFO, message, context))
+    }
   }
 
   debug(message: string, context?: LogContext) {
-    if (this.isDevelopment) {
+    if (this.shouldLog(LogLevel.DEBUG)) {
       console.debug(this.formatMessage(LogLevel.DEBUG, message, context))
     }
   }

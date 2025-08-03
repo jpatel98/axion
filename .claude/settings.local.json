@@ -40,7 +40,8 @@
       "Bash(npm run seed-test-data:*)",
       "Bash(npx supabase db reset:*)",
       "Bash(npx supabase:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(pkill:*)"
     ],
     "deny": []
   }

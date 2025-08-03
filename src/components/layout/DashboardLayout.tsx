@@ -21,6 +21,7 @@ import {
   Menu,
   X
 } from 'lucide-react'
+import { useJobNotifications } from '@/hooks/useJobNotifications'
 
 import { UserRole } from '@/lib/types/roles'
 
@@ -103,6 +104,7 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { syncStatus } = useUserSync() // Automatically sync user when component mounts
   const { user, loading: userLoading, error: userError } = useUserRole()
+  const { hasNewJobs, newJobs } = useJobNotifications()
   
   const navigation = getNavigationForRole(user?.role)
 
@@ -148,6 +150,12 @@ export default function DashboardLayout({
                 aria-hidden="true"
               />
               {item.name}
+              {/* Show notification badge for Production when operator has new jobs */}
+              {item.name === 'Production' && user?.role === UserRole.OPERATOR && hasNewJobs && (
+                <span className="ml-auto inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                  {newJobs.length}
+                </span>
+              )}
             </Link>
           </li>
         )

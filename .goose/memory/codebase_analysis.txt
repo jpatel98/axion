@@ -1,0 +1,3 @@
+# ["tech_stack", "architecture", "frameworks"]
+Main technology stack: Next.js with TypeScript, Supabase as backend, Tailwind CSS for styling. The application follows a standard Next.js structure with app directory routing. Key components include ServerDataTable for data display, and Supabase for data fetching.
+

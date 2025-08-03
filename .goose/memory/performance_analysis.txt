@@ -1,0 +1,3 @@
+# performance data_fetching pagination optimization
+Key performance characteristics identified: 1) Client-side data fetching with useEffect in JobsPage, 2) Server-side pagination and sorting in API routes, 3) Debounced search (150ms) in JobsPage, 4) Supabase database queries with range-based pagination, 5) Data table rendering with useMemo for columns.
+

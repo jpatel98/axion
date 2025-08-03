@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useUserRole } from '@/hooks/useUserRole'
 import { UserRole, RolePermissions, hasPermission, hasAnyPermission } from '@/lib/types/roles'
+import { ContentSkeleton } from '@/components/ui/skeleton'
 
 interface PermissionGateProps {
   permission?: keyof RolePermissions
@@ -62,6 +63,29 @@ export function ManagerOnly({
   children: React.ReactNode
   fallback?: React.ReactNode 
 }) {
+  const { user, loading } = useUserRole()
+  const [showFallback, setShowFallback] = useState(false)
+
+  // If user doesn't have access, wait a moment before showing fallback to prevent flash
+  useEffect(() => {
+    if (!loading && (!user || user.role !== UserRole.MANAGER)) {
+      const timer = setTimeout(() => setShowFallback(true), 50) // Reduced from 100ms to 50ms
+      return () => clearTimeout(timer)
+    } else if (user && user.role === UserRole.MANAGER) {
+      setShowFallback(false)
+    }
+  }, [loading, user])
+
+  // Show loading skeleton while authentication is being checked
+  if (loading) {
+    return <ContentSkeleton type="dashboard" />
+  }
+
+  // If user doesn't have access and we haven't waited long enough, show loading
+  if (!loading && (!user || user.role !== UserRole.MANAGER) && !showFallback) {
+    return <ContentSkeleton type="dashboard" />
+  }
+
   return (
     <PermissionGate role={UserRole.MANAGER} fallback={fallback}>
       {children}
@@ -76,6 +100,29 @@ export function OperatorOnly({
   children: React.ReactNode
   fallback?: React.ReactNode 
 }) {
+  const { user, loading } = useUserRole()
+  const [showFallback, setShowFallback] = useState(false)
+
+  // If user doesn't have access, wait a moment before showing fallback to prevent flash
+  useEffect(() => {
+    if (!loading && (!user || user.role !== UserRole.OPERATOR)) {
+      const timer = setTimeout(() => setShowFallback(true), 50) // Reduced from 100ms to 50ms
+      return () => clearTimeout(timer)
+    } else if (user && user.role === UserRole.OPERATOR) {
+      setShowFallback(false)
+    }
+  }, [loading, user])
+
+  // Show loading skeleton while authentication is being checked
+  if (loading) {
+    return <ContentSkeleton type="dashboard" />
+  }
+
+  // If user doesn't have access and we haven't waited long enough, show loading
+  if (!loading && (!user || user.role !== UserRole.OPERATOR) && !showFallback) {
+    return <ContentSkeleton type="dashboard" />
+  }
+
   return (
     <PermissionGate role={UserRole.OPERATOR} fallback={fallback}>
       {children}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withAuth, withPermission } from '@/lib/api-auth'
 import { supabase } from '@/lib/supabase'
+import { logger } from '@/lib/logger'
 
 export const GET = withAuth(async (user, request: NextRequest) => {
 
@@ -42,7 +43,23 @@ export const GET = withAuth(async (user, request: NextRequest) => {
       if (search.length > 100) {
         return NextResponse.json({ error: 'Search term too long' }, { status: 400 })
       }
-      query = query.or(`job_number.ilike.%${search}%,customer_name.ilike.%${search}%,part_number.ilike.%${search}%,description.ilike.%${search}%`)
+      // Use full-text search if available, otherwise fallback to ilike
+      // First check if the search_vector column exists
+      const { data: vectorCheck } = await supabase
+        .from('jobs')
+        .select('search_vector')
+        .limit(1)
+      
+      if (vectorCheck && vectorCheck.length > 0 && 'search_vector' in vectorCheck[0]) {
+        // Use full-text search
+        query = query.textSearch('search_vector', search, {
+          type: 'websearch'
+        })
+      } else {
+        // Fallback to ilike search - escape special characters to prevent SQL injection
+        const escapedSearch = search.replace(/[%_\\]/g, '\\$&')
+        query = query.or(`job_number.ilike.%${escapedSearch}%,customer_name.ilike.%${escapedSearch}%,part_number.ilike.%${escapedSearch}%,description.ilike.%${escapedSearch}%`)
+      }
     }
 
     // Apply sorting (validate sort field)
@@ -59,7 +76,13 @@ export const GET = withAuth(async (user, request: NextRequest) => {
     const { data: jobs, error: jobsError, count } = await query
 
     if (jobsError) {
-      console.error('Error fetching jobs:', jobsError)
+      logger.error('Error fetching jobs', { 
+        userId: user.id, 
+        tenantId: user.tenant_id,
+        error: jobsError.message,
+        method: 'GET',
+        url: '/api/v1/jobs'
+      })
       return NextResponse.json({ error: 'Failed to fetch jobs: ' + jobsError.message }, { status: 500 })
     }
 
@@ -136,7 +159,14 @@ export const POST = withPermission('canCreateJobs', async (user, request: NextRe
       .single()
 
     if (jobError) {
-      console.error('Error creating job:', jobError)
+      logger.error('Error creating job', { 
+        userId: user.id, 
+        tenantId: user.tenant_id,
+        error: jobError.message,
+        jobNumber: job_number,
+        method: 'POST',
+        url: '/api/v1/jobs'
+      })
       return NextResponse.json({ 
         error: 'Failed to create job: ' + (jobError.message || 'Unknown database error') 
       }, { status: 500 })

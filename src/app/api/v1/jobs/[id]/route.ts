@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import { validate as isUUID } from 'uuid'
+import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -26,7 +27,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       .single()
 
     if (error) {
-      console.error('Database error fetching job:', error)
+      logger.error('Database error fetching job', {
+        userId: user.id,
+        tenantId: user.tenant_id,
+        jobId: id,
+        error: error.message
+      })
       return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
     }
     
@@ -36,7 +42,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({ job })
   } catch (error) {
-    console.error('API Error:', error)
+    logger.error('API Error in job GET', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      method: 'GET'
+    })
     return NextResponse.json({ 
       error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
     }, { status: 500 })
@@ -125,7 +134,13 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       .single()
 
     if (error) {
-      console.error('Database error updating job:', error)
+      logger.error('Database error updating job', {
+        userId: user.id,
+        tenantId: user.tenant_id,
+        jobId: id,
+        error: error.message,
+        updateData: { job_number, customer_name, part_number, status }
+      })
       return NextResponse.json({ 
         error: 'Failed to update job: ' + (error.message || 'Unknown database error') 
       }, { status: 500 })
@@ -137,7 +152,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     return NextResponse.json({ job })
   } catch (error) {
-    console.error('API Error:', error)
+    logger.error('API Error in job PUT', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      method: 'PUT'
+    })
     if (error instanceof SyntaxError) {
       return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
     }
@@ -171,7 +189,12 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       .single()
 
     if (fetchError) {
-      console.error('Database error fetching job:', fetchError)
+      logger.error('Database error fetching job for delete', {
+        userId: user.id,
+        tenantId: user.tenant_id,
+        jobId: id,
+        error: fetchError.message
+      })
       return NextResponse.json({ error: 'Database error occurred' }, { status: 500 })
     }
 
@@ -186,7 +209,12 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       .eq('tenant_id', user.tenant_id)
 
     if (error) {
-      console.error('Error deleting job:', error)
+      logger.error('Error deleting job', {
+        userId: user.id,
+        tenantId: user.tenant_id,
+        jobId: id,
+        error: error.message
+      })
       return NextResponse.json({ 
         error: 'Failed to delete job: ' + (error.message || 'Unknown database error') 
       }, { status: 500 })
@@ -194,7 +222,10 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
     return NextResponse.json({ message: 'Job deleted successfully' })
   } catch (error) {
-    console.error('API Error:', error)
+    logger.error('API Error in job DELETE', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      method: 'DELETE'
+    })
     return NextResponse.json({ 
       error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
     }, { status: 500 })

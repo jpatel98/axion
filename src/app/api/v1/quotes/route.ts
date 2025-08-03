@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import { validate as isUUID } from 'uuid'
+import { logger } from '@/lib/logger'
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,8 +21,8 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status')
     const search = searchParams.get('search')
 
-    // Validate page and pageSize
-    if (page < 1 || pageSize < 1 || pageSize > 100) {
+    // Validate page and pageSize (allow larger pageSize for dashboard stats)
+    if (page < 1 || pageSize < 1 || pageSize > 10000) {
       return NextResponse.json({ error: 'Invalid pagination parameters' }, { status: 400 })
     }
 
@@ -65,7 +66,23 @@ export async function GET(request: NextRequest) {
       if (search.length > 100) {
         return NextResponse.json({ error: 'Search term too long' }, { status: 400 })
       }
-      query = query.or(`quote_number.ilike.%${search}%,title.ilike.%${search}%,description.ilike.%${search}%,customers.name.ilike.%${search}%`)
+      // Use full-text search if available, otherwise fallback to ilike
+      // First check if the search_vector column exists
+      const { data: vectorCheck } = await supabase
+        .from('quotes')
+        .select('search_vector')
+        .limit(1)
+      
+      if (vectorCheck && vectorCheck.length > 0 && 'search_vector' in vectorCheck[0]) {
+        // Use full-text search
+        query = query.textSearch('search_vector', search, {
+          type: 'websearch'
+        })
+      } else {
+        // Fallback to ilike search - escape special characters to prevent SQL injection
+        const escapedSearch = search.replace(/[%_\\]/g, '\\$&')
+        query = query.or(`quote_number.ilike.%${escapedSearch}%,title.ilike.%${escapedSearch}%,description.ilike.%${escapedSearch}%,customers.name.ilike.%${escapedSearch}%`)
+      }
     }
 
     // Apply sorting (validate sort field)
@@ -82,7 +99,13 @@ export async function GET(request: NextRequest) {
     const { data: quotes, error, count } = await query
 
     if (error) {
-      console.error('Error fetching quotes:', error)
+      logger.error('Error fetching quotes', { 
+        userId: user.id, 
+        tenantId: user.tenant_id,
+        error: error.message,
+        method: 'GET',
+        url: '/api/v1/quotes'
+      })
       return NextResponse.json({ error: 'Failed to fetch quotes: ' + error.message }, { status: 500 })
     }
 
@@ -96,7 +119,11 @@ export async function GET(request: NextRequest) {
       }
     })
   } catch (error) {
-    console.error('API Error:', error)
+    logger.error('API Error in quotes GET', { 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      method: 'GET',
+      url: '/api/v1/quotes'
+    })
     return NextResponse.json({ 
       error: 'Internal server error: ' + (error instanceof Error ? error.message : 'Unknown error') 
     }, { status: 500 })
@@ -201,7 +228,14 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (quoteError) {
-      console.error('Error creating quote:', quoteError)
+      logger.error('Error creating quote', { 
+        userId: user.id, 
+        tenantId: user.tenant_id,
+        error: quoteError.message,
+        quoteNumber: quote_number,
+        method: 'POST',
+        url: '/api/v1/quotes'
+      })
       return NextResponse.json({ 
         error: 'Failed to create quote: ' + (quoteError.message || 'Unknown database error') 
       }, { status: 500 })
@@ -223,7 +257,14 @@ export async function POST(request: NextRequest) {
         .insert(lineItemsToInsert)
 
       if (lineItemsError) {
-        console.error('Error creating line items:', lineItemsError)
+        logger.error('Error creating line items', { 
+          userId: user.id, 
+          tenantId: user.tenant_id,
+          error: lineItemsError.message,
+          quoteId: quote.id,
+          method: 'POST',
+          url: '/api/v1/quotes'
+        })
         // Clean up the quote if line items failed
         await supabase.from('quotes').delete().eq('id', quote.id)
         return NextResponse.json({ 
@@ -247,10 +288,20 @@ export async function POST(request: NextRequest) {
           .eq('id', quote.id)
 
         if (updateError) {
-          console.error('Error updating quote totals:', updateError)
+          logger.error('Error updating quote totals', { 
+            userId: user.id, 
+            tenantId: user.tenant_id,
+            error: updateError.message,
+            quoteId: quote.id
+          })
         }
       } catch (calcError) {
-        console.error('Error calculating totals:', calcError)
+        logger.error('Error calculating totals', { 
+          userId: user.id, 
+          tenantId: user.tenant_id,
+          error: calcError instanceof Error ? calcError.message : 'Unknown error',
+          quoteId: quote.id
+        })
       }
     }
 
@@ -278,7 +329,12 @@ export async function POST(request: NextRequest) {
       .single()
 
     if (fetchError) {
-      console.error('Error fetching complete quote:', fetchError)
+      logger.error('Error fetching complete quote', { 
+        userId: user.id, 
+        tenantId: user.tenant_id,
+        error: fetchError.message,
+        quoteId: quote.id
+      })
       return NextResponse.json({ quote }, { status: 201 })
     }
 
@@ -290,7 +346,12 @@ export async function POST(request: NextRequest) {
       .order('item_number', { ascending: true })
 
     if (lineItemsFetchError) {
-      console.error('Error fetching line items:', lineItemsFetchError)
+      logger.error('Error fetching line items', { 
+        userId: user.id, 
+        tenantId: user.tenant_id,
+        error: lineItemsFetchError.message,
+        quoteId: quote.id
+      })
     }
 
     const responseData = { 
@@ -302,7 +363,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(responseData, { status: 201 })
   } catch (error) {
-    console.error('API Error in quote creation:', error)
+    logger.error('API Error in quote creation', { 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      method: 'POST',
+      url: '/api/v1/quotes'
+    })
     if (error instanceof SyntaxError) {
       return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 })
     }
