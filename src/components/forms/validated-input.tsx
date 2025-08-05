@@ -31,6 +31,7 @@ export interface ValidatedInputProps extends Omit<React.InputHTMLAttributes<HTML
   helperClassName?: string
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>
 }
 
 export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputProps>(
@@ -51,6 +52,7 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
     helperClassName,
     leftIcon,
     rightIcon,
+    inputProps,
     id,
     dirty,
     ...props
@@ -62,7 +64,8 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
 
     // Combine refs
     const ref = React.useCallback((node: HTMLInputElement | null) => {
-      internalRef.current = node
+      // Update internal ref
+      ;(internalRef as React.MutableRefObject<HTMLInputElement | null>).current = node
       if (forwardedRef) {
         if (typeof forwardedRef === 'function') {
           forwardedRef(node)
@@ -118,6 +121,7 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
               className
             )}
             {...props}
+            {...inputProps}
           />
           
           {/* Right icon */}
@@ -171,7 +175,7 @@ export interface ValidatedPasswordInputProps extends ValidatedInputProps {
 }
 
 export const ValidatedPasswordInput = React.forwardRef<HTMLInputElement, ValidatedPasswordInputProps>(
-  ({ showPasswordToggle = true, ...props }, ref) => {
+  ({ showPasswordToggle = true, ...validatedInputProps }, ref) => {
     const [showPassword, setShowPassword] = React.useState(false)
 
     return (
@@ -180,7 +184,7 @@ export const ValidatedPasswordInput = React.forwardRef<HTMLInputElement, Validat
           ref={ref}
           type={showPassword ? 'text' : 'password'}
           className="pr-16"
-          {...props}
+          {...validatedInputProps}
         />
         
         {showPasswordToggle && (

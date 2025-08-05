@@ -11,7 +11,6 @@ import {
   ValidatedInput,
   ValidatedTextarea,
   ValidatedSelect,
-  DateField,
   QuantityField,
   CurrencyField,
   useForm,
@@ -19,6 +18,7 @@ import {
   QuoteFormData as BaseQuoteFormData,
   LineItemFormData
 } from '@/components/forms'
+import { SimpleDateField } from '@/components/forms/simple-date-field'
 import { Button } from '@/components/ui/button'
 import { FormSkeleton } from '@/components/ui/skeleton'
 
@@ -281,10 +281,8 @@ export default function NewQuotePage() {
                   touched={formState.fields?.part_number?.touched}
                 />
                 
-                <DateField
+                <SimpleDateField
                   label="Due Date"
-                  allowPast={false}
-                  allowFuture={true}
                   value={formState.fields?.due_date?.value || ''}
                   onChange={(value) => formActions.setValue('due_date', value)}
                   error={formState.fields?.due_date?.error}
@@ -292,9 +290,8 @@ export default function NewQuotePage() {
                 />
               </FormGrid>
               
-              <DateField
+              <SimpleDateField
                 label="Valid Until"
-                allowPast={false}
                 value={formState.fields?.valid_until?.value || ''}
                 onChange={(value) => formActions.setValue('valid_until', value)}
                 error={formState.fields?.valid_until?.error}

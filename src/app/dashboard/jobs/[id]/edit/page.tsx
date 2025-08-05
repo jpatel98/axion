@@ -11,7 +11,6 @@ import {
   ValidatedTextarea,
   QuantityField,
   CurrencyField,
-  DateField,
   useForm,
   validators
 } from '@/components/forms'
@@ -146,7 +145,9 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
 
         // Refresh job data to show updated values
         hasSetInitialData.current = false
-        await fetchJob(jobId)
+        if (jobId) {
+          await fetchJob(jobId)
+        }
         
         router.push(`/dashboard/jobs/${jobId}`)
       } catch (error) {
@@ -338,7 +339,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       {/* Form */}
       <form onSubmit={(e) => {
         e.preventDefault()
-        formActions.submit(e)
+        formActions.submit()
       }} className="space-y-8">
         {/* Basic Information */}
         <FormSection 

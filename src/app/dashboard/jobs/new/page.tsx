@@ -12,10 +12,10 @@ import {
   ValidatedTextarea,
   QuantityField,
   CurrencyField,
-  DateField,
   useForm,
   validators
 } from '@/components/forms'
+import { SimpleDateField } from '@/components/forms/simple-date-field'
 
 interface JobFormData {
   job_number: string
@@ -191,9 +191,8 @@ export default function NewJobPage() {
                 touched={formState.fields?.estimated_cost?.touched}
               />
               
-              <DateField
+              <SimpleDateField
                 label="Due Date"
-                allowPast={false}
                 value={formState.fields?.due_date?.value || ''}
                 onChange={(value) => formActions.setValue('due_date', value)}
                 error={formState.fields?.due_date?.error}

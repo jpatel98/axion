@@ -6,6 +6,17 @@ export interface SimpleDateFieldProps extends Omit<ValidatedInputProps, 'type'> 
   onChange?: (value: string) => void
 }
 
+// Style object defined outside component to prevent unnecessary re-renders
+const dateInputStyle = { 
+  fontFamily: 'monospace',
+}
+
+// Input props object defined outside component for performance
+const dateInputProps = {
+  style: dateInputStyle,
+  maxLength: 10,
+}
+
 // Simple date field that avoids all timezone issues by using a text input
 export const SimpleDateField: React.FC<SimpleDateFieldProps> = ({
   value = '',
@@ -20,13 +31,7 @@ export const SimpleDateField: React.FC<SimpleDateFieldProps> = ({
       value={value}
       onChange={onChange}
       {...props}
-      inputProps={{
-        style: { 
-          // Make it look like a date input
-          fontFamily: 'monospace',
-        },
-        maxLength: 10,
-      }}
+      inputProps={dateInputProps}
     />
   )
 }

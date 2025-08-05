@@ -10,6 +10,7 @@ import { Modal } from '@/components/ui/modal'
 import { useToast } from '@/lib/toast'
 import { useJobNotifications } from '@/hooks/useJobNotifications'
 import { useRealTimeJobs } from '@/hooks/useRealTimeJobs'
+import { formatLocalDate, calculateDaysDifference } from '@/lib/date-utils'
 import { 
   Clock, 
   CheckCircle, 
@@ -138,8 +139,7 @@ export default function OperatorDashboard() {
     
     const inProgressJobs = jobs.filter(job => job.status === 'in_progress')
     const overdueJobs = jobs.filter(job => {
-      const dueDate = new Date(job.due_date)
-      return dueDate < new Date() && job.status !== 'completed' && job.status !== 'shipped'
+      return calculateDaysDifference(job.due_date) < 0 && job.status !== 'completed' && job.status !== 'shipped'
     })
     
     // Base efficiency on completion rate and timeliness
@@ -182,8 +182,13 @@ export default function OperatorDashboard() {
         message: `${newJobs.length} new production job(s) from your manager`
       })
       
-      // Clear the notifications after showing
-      setTimeout(clearNewJobs, 3000)
+      // Clear the notifications after showing with proper cleanup
+      const timeoutId = setTimeout(clearNewJobs, 3000)
+      
+      // Cleanup function to prevent memory leaks and state updates on unmounted components
+      return () => {
+        clearTimeout(timeoutId)
+      }
     }
   }, [newJobs, addToast, clearNewJobs])
 
@@ -193,17 +198,14 @@ export default function OperatorDashboard() {
     if (job.status === 'completed' || job.status === 'shipped') return 100
     
     if (job.status === 'in_progress') {
-      const createdDate = new Date(job.created_at)
-      const dueDate = new Date(job.due_date)
-      const now = new Date()
+      // Simplified progress calculation based on time elapsed without timezone issues
+      const daysSinceCreated = Math.abs(calculateDaysDifference(job.created_at))
+      const daysToDue = Math.abs(calculateDaysDifference(job.due_date))
+      const totalDays = daysSinceCreated + daysToDue
       
-      // Calculate time-based progress
-      const totalTime = dueDate.getTime() - createdDate.getTime()
-      const elapsedTime = now.getTime() - createdDate.getTime()
+      if (totalDays <= 0) return 50 // Default progress if dates are problematic
       
-      if (totalTime <= 0) return 50 // Default progress if due date is in the past or same as created
-      
-      const timeProgress = Math.min((elapsedTime / totalTime) * 100, 95) // Cap at 95% until completed
+      const timeProgress = Math.min((daysSinceCreated / totalDays) * 100, 95) // Cap at 95% until completed
       
       // Add some variation based on job complexity (quantity as proxy)
       const complexityFactor = Math.min(job.quantity / 100, 1) // Normalize to 0-1
@@ -216,10 +218,7 @@ export default function OperatorDashboard() {
   }
 
   const formatDueDate = (dateString: string) => {
-    const date = new Date(dateString)
-    const today = new Date()
-    const diffTime = date.getTime() - today.getTime()
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    const diffDays = calculateDaysDifference(dateString)
     
     if (diffDays === 0) return 'Today'
     if (diffDays === 1) return 'Tomorrow'
@@ -233,7 +232,7 @@ export default function OperatorDashboard() {
         <div className="text-center">
           <AlertTriangle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
           <h2 className="text-lg font-semibold mb-2">Access Restricted</h2>
-          <p className="text-muted-foreground">
+          <p className="text-slate-600">
             This page is only accessible to operators.
           </p>
         </div>
@@ -247,7 +246,7 @@ export default function OperatorDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Shop Floor Dashboard</h1>
-            <p className="text-muted-foreground">
+            <p className="text-slate-600">
               Manage your production tasks and quality checks
             </p>
           </div>
@@ -270,11 +269,11 @@ export default function OperatorDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Tasks</CardTitle>
-              <Factory className="h-4 w-4 text-muted-foreground" />
+              <Factory className="h-4 w-4 text-slate-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.activeTasks}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-600">
                 {jobs.filter(j => j.status === 'in_progress').length} in progress, {jobs.filter(j => j.status === 'pending').length} pending
               </p>
             </CardContent>
@@ -283,11 +282,11 @@ export default function OperatorDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Completed Today</CardTitle>
-              <CheckCircle className="h-4 w-4 text-muted-foreground" />
+              <CheckCircle className="h-4 w-4 text-slate-700" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.completedToday}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-900">
                 {stats.completedToday > 0 ? 'Good progress!' : 'No completions yet'}
               </p>
             </CardContent>
@@ -296,11 +295,11 @@ export default function OperatorDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Quality Checks</CardTitle>
-              <ClipboardCheck className="h-4 w-4 text-muted-foreground" />
+              <ClipboardCheck className="h-4 w-4 text-slate-700" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.qualityChecks}</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-900">
                 All passed
               </p>
             </CardContent>
@@ -309,11 +308,11 @@ export default function OperatorDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Efficiency</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <TrendingUp className="h-4 w-4 text-slate-700" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.efficiency}%</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-900">
                 {stats.efficiency >= EFFICIENCY_THRESHOLDS.excellent 
                   ? `Excellent (${EFFICIENCY_THRESHOLDS.excellent}%+)` 
                   : stats.efficiency >= EFFICIENCY_THRESHOLDS.good
@@ -336,9 +335,9 @@ export default function OperatorDashboard() {
             <div className="space-y-4">
               {jobs.length === 0 ? (
                 <div className="text-center py-8">
-                  <Factory className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-muted-foreground mb-2">No Active Jobs</h3>
-                  <p className="text-sm text-muted-foreground">
+                  <Factory className="h-12 w-12 text-slate-600 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-slate-900 mb-2">No Active Jobs</h3>
+                  <p className="text-sm text-slate-900">
                     Check back later for new production orders from your manager.
                   </p>
                 </div>
@@ -356,7 +355,7 @@ export default function OperatorDashboard() {
                             {job.status === 'in_progress' ? 'In Progress' : 'Pending'}
                           </Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-2">
+                        <p className="text-sm text-slate-900 mb-2">
                           {job.description} - Customer: {job.customer_name}
                         </p>
                         <div className="flex items-center space-x-4 text-sm">
@@ -430,7 +429,7 @@ export default function OperatorDashboard() {
                       <div key={`inspection-${job.id}`} className="flex items-center justify-between p-3 border rounded">
                         <div>
                           <h5 className="font-medium">Final Inspection - {job.job_number}</h5>
-                          <p className="text-sm text-muted-foreground">{timeToInspection}</p>
+                          <p className="text-sm text-slate-900">{timeToInspection}</p>
                         </div>
                         <PermissionGate permission="canViewQuality">
                           <Button size="sm">Inspect</Button>
@@ -451,7 +450,7 @@ export default function OperatorDashboard() {
                       <div key={`material-${job.id}`} className="flex items-center justify-between p-3 border rounded">
                         <div>
                           <h5 className="font-medium">Material Quality Check</h5>
-                          <p className="text-sm text-muted-foreground">Part: {job.part_number}</p>
+                          <p className="text-sm text-slate-900">Part: {job.part_number}</p>
                         </div>
                         <PermissionGate permission="canViewQuality">
                           <Button size="sm">Inspect</Button>
@@ -463,8 +462,8 @@ export default function OperatorDashboard() {
                   if (qcTasks.length === 0) {
                     return (
                       <div className="text-center py-6">
-                        <ClipboardCheck className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                        <p className="text-sm text-muted-foreground">No quality control tasks at this time</p>
+                        <ClipboardCheck className="h-8 w-8 text-slate-600 mx-auto mb-2" />
+                        <p className="text-sm text-slate-900">No quality control tasks at this time</p>
                       </div>
                     )
                   }
@@ -504,7 +503,7 @@ export default function OperatorDashboard() {
                         <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
                         <div className="flex-1">
                           <p className="text-sm">Completed production for {job.job_number}</p>
-                          <p className="text-xs text-muted-foreground">{timeAgo}</p>
+                          <p className="text-xs text-slate-900">{timeAgo}</p>
                         </div>
                       </div>
                     )
@@ -526,7 +525,7 @@ export default function OperatorDashboard() {
                         <Factory className="h-4 w-4 text-blue-500 mt-0.5" />
                         <div className="flex-1">
                           <p className="text-sm">Working on {job.job_number} - {job.description}</p>
-                          <p className="text-xs text-muted-foreground">{timeAgo}</p>
+                          <p className="text-xs text-slate-900">{timeAgo}</p>
                         </div>
                       </div>
                     )
@@ -544,7 +543,7 @@ export default function OperatorDashboard() {
                         <ClipboardCheck className="h-4 w-4 text-orange-500 mt-0.5" />
                         <div className="flex-1">
                           <p className="text-sm">Quality check pending for {job.job_number}</p>
-                          <p className="text-xs text-muted-foreground">Ready for inspection</p>
+                          <p className="text-xs text-slate-900">Ready for inspection</p>
                         </div>
                       </div>
                     )
@@ -553,8 +552,8 @@ export default function OperatorDashboard() {
                   if (activities.length === 0) {
                     return (
                       <div className="text-center py-6">
-                        <Clock className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                        <p className="text-sm text-muted-foreground">No recent activities</p>
+                        <Clock className="h-8 w-8 text-slate-600 mx-auto mb-2" />
+                        <p className="text-sm text-slate-900">No recent activities</p>
                       </div>
                     )
                   }
@@ -616,7 +615,7 @@ export default function OperatorDashboard() {
         >
           {selectedJob && (
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground mb-6">
+              <p className="text-sm text-slate-900 mb-6">
                 Complete information about this production job
               </p>
               <div className="space-y-6">
@@ -626,17 +625,17 @@ export default function OperatorDashboard() {
                     <h4 className="font-semibold mb-2">Job Information</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Job Number:</span>
+                        <span className="text-slate-900">Job Number:</span>
                         <span className="font-medium">{selectedJob.job_number}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Status:</span>
+                        <span className="text-slate-900">Status:</span>
                         <Badge variant={selectedJob.status === 'in_progress' ? 'default' : 'outline'}>
                           {selectedJob.status === 'in_progress' ? 'In Progress' : 'Pending'}
                         </Badge>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Progress:</span>
+                        <span className="text-slate-900">Progress:</span>
                         <span className="font-medium">{getProgressPercentage(selectedJob)}%</span>
                       </div>
                     </div>
@@ -646,15 +645,15 @@ export default function OperatorDashboard() {
                     <h4 className="font-semibold mb-2">Customer & Product</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Customer:</span>
+                        <span className="text-slate-900">Customer:</span>
                         <span className="font-medium">{selectedJob.customer_name}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Part Number:</span>
+                        <span className="text-slate-900">Part Number:</span>
                         <span className="font-medium">{selectedJob.part_number}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Quantity:</span>
+                        <span className="text-slate-900">Quantity:</span>
                         <span className="font-medium">{selectedJob.quantity} units</span>
                       </div>
                     </div>
@@ -664,7 +663,7 @@ export default function OperatorDashboard() {
                 {/* Description */}
                 <div>
                   <h4 className="font-semibold mb-2">Description</h4>
-                  <p className="text-sm text-muted-foreground bg-muted p-3 rounded">
+                  <p className="text-sm text-slate-900 bg-gray-50 p-3 rounded">
                     {selectedJob.description}
                   </p>
                 </div>
@@ -675,28 +674,28 @@ export default function OperatorDashboard() {
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Created:</span>
+                        <span className="text-slate-900">Created:</span>
                         <span className="font-medium">
-                          {new Date(selectedJob.created_at).toLocaleDateString()}
+                          {formatLocalDate(selectedJob.created_at)}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Due Date:</span>
+                        <span className="text-slate-900">Due Date:</span>
                         <span className="font-medium">
-                          {new Date(selectedJob.due_date).toLocaleDateString()}
+                          {formatLocalDate(selectedJob.due_date)}
                         </span>
                       </div>
                     </div>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Days Remaining:</span>
+                        <span className="text-slate-900">Days Remaining:</span>
                         <span className="font-medium">{formatDueDate(selectedJob.due_date)}</span>
                       </div>
                       {selectedJob.updated_at && (
                         <div className="flex justify-between">
-                          <span className="text-muted-foreground">Last Updated:</span>
+                          <span className="text-slate-900">Last Updated:</span>
                           <span className="font-medium">
-                            {new Date(selectedJob.updated_at).toLocaleDateString()}
+                            {formatLocalDate(selectedJob.updated_at)}
                           </span>
                         </div>
                       )}
