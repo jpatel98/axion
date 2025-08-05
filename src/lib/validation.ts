@@ -196,6 +196,8 @@ export interface QuoteValidationSchema {
   customer_id: ValidatorFunction[]
   title: ValidatorFunction[]
   description?: ValidatorFunction[]
+  part_number?: ValidatorFunction[]
+  due_date?: ValidatorFunction[]
   valid_until: ValidatorFunction[]
   line_items: {
     validator: (items: any[]) => string | null
@@ -226,6 +228,8 @@ export const quoteSchema: QuoteValidationSchema = {
   customer_id: [validators.required('Please select a customer')],
   title: [validators.required('Quote title is required'), validators.maxLength(255)],
   description: [validators.maxLength(1000)],
+  part_number: [validators.maxLength(100)],
+  due_date: [],
   valid_until: [
     validators.required('Valid until date is required'),
     validators.dateRange(new Date()),
@@ -431,6 +435,8 @@ export const zodQuoteSchema = z.object({
   customer_id: z.string().min(1, 'Customer is required'),
   title: z.string().min(1, 'Title is required').max(255),
   description: z.string().max(1000).optional(),
+  part_number: z.string().max(100).optional(),
+  due_date: z.string().optional(),
   valid_until: z.string().min(1, 'Valid until date is required'),
   line_items: z.array(zodLineItemSchema).min(1, 'At least one line item is required'),
 })

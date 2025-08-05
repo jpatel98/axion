@@ -18,8 +18,10 @@ import {
   CheckCircle,
   XCircle,
   Send,
-  Eye
+  Eye,
+  Download
 } from 'lucide-react'
+import { downloadQuotePDF } from '@/components/pdf/QuotePDF'
 
 interface Customer {
   id: string
@@ -45,7 +47,7 @@ interface Quote {
   customer_id: string
   title: string
   description: string
-  status: 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired'
+  status: 'draft' | 'sent' | 'approved' | 'accepted' | 'rejected' | 'expired'
   subtotal: number
   tax_rate: number
   tax_amount: number
@@ -62,6 +64,7 @@ interface Quote {
 const statusColors = {
   draft: 'bg-gray-100 text-slate-600',
   sent: 'bg-blue-100 text-blue-800',
+  approved: 'bg-green-100 text-green-800',
   accepted: 'bg-green-100 text-green-800',
   rejected: 'bg-red-100 text-red-800',
   expired: 'bg-orange-100 text-orange-800',
@@ -73,6 +76,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [converting, setConverting] = useState(false)
+  const [downloadingPDF, setDownloadingPDF] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [editData, setEditData] = useState<Partial<Quote>>({})
@@ -271,9 +275,9 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
       })
 
       if (response.ok) {
-        const job = await response.json()
+        const result = await response.json()
         alert('Quote successfully converted to job!')
-        router.push(`/dashboard/jobs/${job.id}`)
+        router.push(`/dashboard/jobs/${result.job.id}`)
       } else {
         const error = await response.json()
         console.error('Error converting quote:', error)
@@ -284,6 +288,21 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
       alert('Error converting quote to job. Please try again.')
     } finally {
       setConverting(false)
+    }
+  }
+
+  const handleDownloadPDF = async () => {
+    if (!quoteId) return
+
+    setDownloadingPDF(true)
+    try {
+      await downloadQuotePDF(quoteId, `quote-${quote?.quote_number || quoteId}.pdf`)
+    } catch (error) {
+      console.error('Error downloading PDF:', error)
+      setError('Failed to download PDF. Please try again.')
+      setTimeout(() => setError(null), 5000)
+    } finally {
+      setDownloadingPDF(false)
     }
   }
 
@@ -315,11 +334,9 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
       <div className="text-center py-12">
         <h3 className="text-lg font-semibold text-slate-800">Error</h3>
         <p className="text-slate-800 mt-2">{error}</p>
-        <Link href="/dashboard/quotes">
-          <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-            <ArrowLeft className="mr-2 h-4 w-4 inline" />
-            Back to Quotes
-          </button>
+        <Link href="/dashboard/quotes" className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors inline-flex items-center">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Quotes
         </Link>
       </div>
     )
@@ -348,7 +365,16 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
         </div>
         
         <div className="flex gap-2">
-          {quote.status === 'accepted' && (
+          <button 
+            onClick={handleDownloadPDF} 
+            disabled={downloadingPDF}
+            className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-purple-700 transition-colors inline-flex items-center disabled:opacity-50"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            {downloadingPDF ? 'Generating...' : 'Download PDF'}
+          </button>
+
+          {(quote.status === 'approved' || quote.status === 'accepted') && (
             <button 
               onClick={handleConvertToJob} 
               disabled={converting}
@@ -626,11 +652,11 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
               {quote.status === 'sent' && (
                 <>
                   <button 
-                    onClick={() => handleStatusChange('accepted')} 
+                    onClick={() => handleStatusChange('approved')} 
                     className="w-full bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-center"
                   >
                     <CheckCircle className="mr-2 h-4 w-4" />
-                    Mark as Accepted
+                    Mark as Approved
                   </button>
                   <button 
                     onClick={() => handleStatusChange('rejected')} 

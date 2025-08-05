@@ -75,6 +75,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       description,
       quantity,
       estimated_cost,
+      actual_cost,
       status,
       due_date
     } = body
@@ -94,6 +95,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     if (estimated_cost !== undefined && (typeof estimated_cost !== 'number' || estimated_cost < 0)) {
       return NextResponse.json({ error: 'Estimated cost must be a positive number' }, { status: 400 })
+    }
+
+    if (actual_cost !== undefined && (typeof actual_cost !== 'number' || actual_cost < 0)) {
+      return NextResponse.json({ error: 'Actual cost must be a positive number' }, { status: 400 })
     }
 
     // Validate job_number format if provided
@@ -125,6 +130,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         description,
         quantity,
         estimated_cost,
+        actual_cost,
         status,
         due_date
       })

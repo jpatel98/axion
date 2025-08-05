@@ -120,6 +120,7 @@ export interface DateFieldProps extends Omit<ValidatedInputProps, 'type'> {
   maxDate?: string
   allowPast?: boolean
   allowFuture?: boolean
+  required?: boolean
 }
 
 export const DateField: React.FC<DateFieldProps> = ({
@@ -127,12 +128,13 @@ export const DateField: React.FC<DateFieldProps> = ({
   maxDate,
   allowPast = true,
   allowFuture = true,
+  required = false,
   ...props
 }) => {
   const today = new Date().toISOString().split('T')[0]
   
   const dateValidators = [
-    validators.required('Date is required'),
+    required ? validators.required('Date is required') : null,
     !allowPast ? validators.dateRange(new Date()) : null,
     !allowFuture ? validators.dateRange(undefined, new Date()) : null,
     minDate ? validators.dateRange(new Date(minDate)) : null,

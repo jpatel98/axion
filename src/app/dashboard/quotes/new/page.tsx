@@ -68,6 +68,16 @@ export default function NewQuotePage() {
         required: false,
         initialValue: '',
       },
+      part_number: {
+        validators: [validators.maxLength(100)],
+        required: false,
+        initialValue: '',
+      },
+      due_date: {
+        validators: [],
+        required: false,
+        initialValue: '',
+      },
       valid_until: {
         validators: [validators.required('Valid until date is required'), validators.dateRange(new Date())],
         required: true,
@@ -96,6 +106,8 @@ export default function NewQuotePage() {
         },
         body: JSON.stringify({
           ...data,
+          part_number: data.part_number || null,
+          due_date: data.due_date || null,
           quote_number: quoteNumber,
           line_items: validItems
         }),
@@ -258,6 +270,27 @@ export default function NewQuotePage() {
                 error={formState.fields?.description?.error}
                 touched={formState.fields?.description?.touched}
               />
+              
+              <FormGrid columns={2}>
+                <ValidatedInput
+                  label="Part Number"
+                  placeholder="Enter part number (optional)"
+                  value={formState.fields?.part_number?.value || ''}
+                  onChange={(value) => formActions.setValue('part_number', value)}
+                  error={formState.fields?.part_number?.error}
+                  touched={formState.fields?.part_number?.touched}
+                />
+                
+                <DateField
+                  label="Due Date"
+                  allowPast={false}
+                  allowFuture={true}
+                  value={formState.fields?.due_date?.value || ''}
+                  onChange={(value) => formActions.setValue('due_date', value)}
+                  error={formState.fields?.due_date?.error}
+                  touched={formState.fields?.due_date?.touched}
+                />
+              </FormGrid>
               
               <DateField
                 label="Valid Until"

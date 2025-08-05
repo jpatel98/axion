@@ -91,13 +91,13 @@ export async function POST(request: NextRequest) {
         tenant_id: user.tenant_id,
         job_number: jobNumber,
         customer_name: quote.customers?.name || 'Unknown Customer',
-        part_number: null, // Could be derived from line items if needed
+        part_number: quote.part_number || null, // Use part number from quote
         description,
         quantity: totalQuantity,
         estimated_cost: quote.total,
         actual_cost: 0,
         status: 'pending',
-        due_date: null // Could be calculated based on quote validity or customer requirements
+        due_date: quote.due_date || null // Use due date from quote
       })
       .select()
       .single()

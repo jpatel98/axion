@@ -1,11 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Save, Trash2 } from 'lucide-react'
 import { 
-  FormWrapper,
   FormSection, 
   FormGrid,
   ValidatedInput,
@@ -16,7 +15,16 @@ import {
   useForm,
   validators
 } from '@/components/forms'
+import { SimpleDateField } from '@/components/forms/simple-date-field'
 import { useToast } from '@/lib/toast'
+
+// Utility function to properly parse date from database
+const parseDbDate = (dateStr: string | null): string => {
+  if (!dateStr) return ''
+  
+  // Just return the date string as-is, removing any time component
+  return dateStr.split('T')[0]
+}
 
 interface Job {
   id: string
@@ -59,45 +67,8 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
   const [loading, setLoading] = useState(true)
   const [deleting, setDeleting] = useState(false)
   const [jobId, setJobId] = useState<string | null>(null)
-
-  useEffect(() => {
-    const resolveParams = async () => {
-      const resolvedParams = await Promise.resolve(params)
-      setJobId(resolvedParams.id)
-    }
-    resolveParams()
-  }, [params])
-
-  useEffect(() => {
-    if (jobId) {
-      fetchJob()
-    }
-  }, [jobId])
-
-  const fetchJob = async () => {
-    if (!jobId) return
-    
-    try {
-      const response = await fetch(`/api/v1/jobs/${jobId}`)
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('Job not found')
-        }
-        throw new Error('Failed to fetch job')
-      }
-      const data = await response.json()
-      setJob(data.job)
-    } catch (err) {
-      addToast({
-        type: 'error',
-        title: 'Error',
-        message: err instanceof Error ? err.message : 'Failed to fetch job'
-      })
-      router.push('/dashboard/jobs')
-    } finally {
-      setLoading(false)
-    }
-  }
+  const isMounted = useRef(false)
+  const hasSetInitialData = useRef(false)
 
   const [formState, formActions] = useForm<JobFormData>({
     fields: {
@@ -112,8 +83,8 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         initialValue: ''
       },
       part_number: {
-        validators: [validators.required()],
-        required: true,
+        validators: [],
+        required: false,
         initialValue: ''
       },
       description: {
@@ -148,15 +119,18 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       }
     },
     onSubmit: async (data) => {
-      if (!jobId) return
-
       try {
+        const payload = {
+          ...data,
+          due_date: data.due_date || null,
+        }
+        
         const response = await fetch(`/api/v1/jobs/${jobId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         })
 
         if (!response.ok) {
@@ -170,6 +144,10 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           message: 'Job updated successfully!'
         })
 
+        // Refresh job data to show updated values
+        hasSetInitialData.current = false
+        await fetchJob(jobId)
+        
         router.push(`/dashboard/jobs/${jobId}`)
       } catch (error) {
         addToast({
@@ -181,9 +159,38 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
     }
   })
 
-  // Set form data when job is loaded
   useEffect(() => {
-    if (job) {
+    isMounted.current = true
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  useEffect(() => {
+    const resolveParams = async () => {
+      const resolvedParams = await Promise.resolve(params)
+      if (isMounted.current) {
+        setJobId(resolvedParams.id)
+      }
+    }
+    resolveParams()
+  }, [params])
+
+  useEffect(() => {
+    if (jobId) {
+      fetchJob(jobId)
+    }
+  }, [jobId])
+
+  // Update form data when job is loaded
+  useEffect(() => {
+    if (!job || !formActions || hasSetInitialData.current) return
+    
+    // Mark that we've set the initial data
+    hasSetInitialData.current = true
+    
+    // Defer the update to next tick to avoid updating during render
+    const timeoutId = setTimeout(() => {
       formActions.setFormData({
         job_number: job.job_number,
         customer_name: job.customer_name || '',
@@ -191,12 +198,43 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
         description: job.description || '',
         quantity: job.quantity,
         estimated_cost: job.estimated_cost || 0,
-        actual_cost: job.actual_cost,
+        actual_cost: job.actual_cost || 0,
         status: job.status,
-        due_date: job.due_date ? job.due_date.split('T')[0] : ''
+        due_date: parseDbDate(job.due_date)
       })
+    }, 0)
+    
+    return () => clearTimeout(timeoutId)
+  }, [job]) // Only depend on job, not formActions
+
+  const fetchJob = async (jobId: string) => {
+    try {
+      const response = await fetch(`/api/v1/jobs/${jobId}`)
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Job not found')
+        }
+        throw new Error('Failed to fetch job')
+      }
+      const data = await response.json()
+      if (isMounted.current) {
+        setJob(data.job)
+      }
+    } catch (err) {
+      if (isMounted.current) {
+        addToast({
+          type: 'error',
+          title: 'Error',
+          message: err instanceof Error ? err.message : 'Failed to fetch job'
+        })
+        router.push('/dashboard/jobs')
+      }
+    } finally {
+      if (isMounted.current) {
+        setLoading(false)
+      }
     }
-  }, [job, formActions])
+  }
 
   const handleDelete = async () => {
     if (!jobId || !confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
@@ -263,7 +301,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <FormWrapper>
+    <div>
       {/* Header */}
       <div className="mb-8">
         <Link
@@ -298,7 +336,10 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       </div>
 
       {/* Form */}
-      <form onSubmit={formActions.submit} className="space-y-8">
+      <form onSubmit={(e) => {
+        e.preventDefault()
+        formActions.submit(e)
+      }} className="space-y-8">
         {/* Basic Information */}
         <FormSection 
           title="Basic Information" 
@@ -327,12 +368,11 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
 
             <ValidatedInput
               label="Part Number"
-              placeholder="Enter part number"
+              placeholder="Enter part number (optional)"
               value={formState.fields?.part_number?.value || ''}
               onChange={(value) => formActions.setValue('part_number', value)}
               error={formState.fields?.part_number?.error}
               touched={formState.fields?.part_number?.touched}
-              required
             />
 
             <div className="col-span-2">
@@ -404,12 +444,13 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
               touched={formState.fields?.actual_cost?.touched}
             />
 
-            <DateField
+            <SimpleDateField
               label="Due Date"
               value={formState.fields?.due_date?.value || ''}
               onChange={(value) => formActions.setValue('due_date', value)}
               error={formState.fields?.due_date?.error}
               touched={formState.fields?.due_date?.touched}
+              required={false}
             />
           </FormGrid>
         </FormSection>
@@ -441,6 +482,6 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
           </button>
         </div>
       </form>
-    </FormWrapper>
+    </div>
   )
 }

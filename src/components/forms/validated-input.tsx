@@ -54,10 +54,23 @@ export const ValidatedInput = React.forwardRef<HTMLInputElement, ValidatedInputP
     id,
     dirty,
     ...props
-  }, ref) => {
+  }, forwardedRef) => {
     const inputId = id || `input-${React.useId()}`
     const hasError = showError && touched && error
     const showValidating = validating && touched
+    const internalRef = React.useRef<HTMLInputElement>(null)
+
+    // Combine refs
+    const ref = React.useCallback((node: HTMLInputElement | null) => {
+      internalRef.current = node
+      if (forwardedRef) {
+        if (typeof forwardedRef === 'function') {
+          forwardedRef(node)
+        } else {
+          forwardedRef.current = node
+        }
+      }
+    }, [forwardedRef])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.(e.target.value)
@@ -499,7 +512,7 @@ export const ValidatedNumberInput = React.forwardRef<HTMLInputElement, Validated
     const [displayValue, setDisplayValue] = React.useState(String(value))
     const [focused, setFocused] = React.useState(false)
 
-    const formatNumber = (num: number): string => {
+    const formatNumber = React.useCallback((num: number): string => {
       switch (formatType) {
         case 'currency':
           return new Intl.NumberFormat('en-US', {
@@ -517,13 +530,13 @@ export const ValidatedNumberInput = React.forwardRef<HTMLInputElement, Validated
         default:
           return num.toFixed(precision)
       }
-    }
+    }, [formatType, currency, precision])
 
-    const parseNumber = (str: string): number | null => {
+    const parseNumber = React.useCallback((str: string): number | null => {
       const cleaned = str.replace(/[^\d.-]/g, '')
       const num = parseFloat(cleaned)
       return isNaN(num) ? null : num
-    }
+    }, [])
 
     const handleChange = (newValue: string) => {
       setDisplayValue(newValue)
@@ -554,7 +567,7 @@ export const ValidatedNumberInput = React.forwardRef<HTMLInputElement, Validated
         const numValue = typeof value === 'number' ? value : parseNumber(String(value))
         setDisplayValue(numValue !== null ? formatNumber(numValue) : String(value))
       }
-    }, [value, focused, formatNumber])
+    }, [value, focused, formatNumber, parseNumber])
 
     return (
       <ValidatedInput
