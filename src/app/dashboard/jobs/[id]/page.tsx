@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Calendar, DollarSign, Package, User, FileText, Clock, Edit, CalendarClock, Play, Trash2 } from 'lucide-react'
+import { ArrowLeft, Calendar, DollarSign, Package, User, FileText, Clock, Edit } from 'lucide-react'
 import { formatLocalDate } from '@/lib/date-utils'
-import { useJobScheduling } from '@/hooks/use-job-scheduling'
 
 interface Job {
   id: string
@@ -29,18 +28,6 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
   const [error, setError] = useState<string | null>(null)
   const [updating, setUpdating] = useState(false)
   const [jobId, setJobId] = useState<string | null>(null)
-  
-  const {
-    schedule,
-    suggestion,
-    isLoading: scheduleLoading,
-    error: scheduleError,
-    hasSchedule,
-    isSchedulingEnabled,
-    createSchedule,
-    getSchedule,
-    removeSchedule,
-  } = useJobScheduling()
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -53,11 +40,8 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
   useEffect(() => {
     if (jobId) {
       fetchJob()
-      if (isSchedulingEnabled) {
-        getSchedule(jobId)
-      }
     }
-  }, [jobId, isSchedulingEnabled])
+  }, [jobId])
 
   const fetchJob = async () => {
     if (!jobId) return
@@ -136,30 +120,6 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
     return formatLocalDate(dateString, { year: 'numeric', month: 'long', day: 'numeric' })
   }
 
-  const formatDateTime = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
-  }
-
-  const handleCreateSchedule = async () => {
-    if (!jobId) return
-    await createSchedule(jobId, { 
-      priorityLevel: job?.status === 'pending' ? 4 : 3 // Higher priority for pending jobs
-    })
-  }
-
-  const handleRemoveSchedule = async () => {
-    if (!jobId) return
-    if (confirm('Are you sure you want to remove the schedule for this job?')) {
-      await removeSchedule(jobId)
-    }
-  }
 
   if (loading) {
     return (
@@ -177,7 +137,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
       <div>
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
+          className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
@@ -197,7 +157,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
       <div className="mb-8">
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
+          className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
@@ -306,148 +266,6 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
             </div>
           </div>
 
-          {/* Scheduling Section */}
-          {isSchedulingEnabled && (
-            <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-medium text-slate-800">Production Schedule</h3>
-                <div className="flex items-center gap-2">
-                  {hasSchedule ? (
-                    <button
-                      onClick={handleRemoveSchedule}
-                      disabled={scheduleLoading}
-                      className="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50"
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Remove Schedule
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleCreateSchedule}
-                      disabled={scheduleLoading}
-                      className="inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-                    >
-                      <CalendarClock className="h-4 w-4 mr-2" />
-                      Create Schedule
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {scheduleLoading && (
-                <div className="flex items-center justify-center py-8">
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-                    <div className="text-sm text-slate-600">Processing schedule...</div>
-                  </div>
-                </div>
-              )}
-
-              {scheduleError && (
-                <div className="rounded-md bg-red-50 p-4 border border-red-200 mb-4">
-                  <div className="text-sm text-red-700">{scheduleError}</div>
-                </div>
-              )}
-
-              {hasSchedule && schedule.length > 0 && (
-                <div className="space-y-4">
-                  <div className="text-sm text-slate-600">
-                    Scheduled Operations ({schedule.length})
-                  </div>
-                  
-                  <div className="space-y-3">
-                    {schedule.map((operation, index) => (
-                      <div
-                        key={operation.id}
-                        className="border border-gray-200 rounded-lg p-4 bg-gray-50"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium">
-                                {operation.job_operations.operation_number}
-                              </span>
-                              <h4 className="text-sm font-medium text-slate-900">
-                                {operation.job_operations.name}
-                              </h4>
-                            </div>
-                            
-                            <div className="text-xs text-slate-600 space-y-1">
-                              <div className="flex items-center gap-4">
-                                <span>Work Center: {operation.work_centers.name}</span>
-                                <span>Duration: {operation.estimated_duration}min</span>
-                              </div>
-                              <div className="flex items-center gap-4">
-                                <span>Start: {formatDateTime(operation.scheduled_start)}</span>
-                                <span>End: {formatDateTime(operation.scheduled_end)}</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                            operation.status === 'scheduled'
-                              ? 'bg-blue-100 text-blue-800'
-                              : operation.status === 'in_progress'
-                              ? 'bg-yellow-100 text-yellow-800'
-                              : operation.status === 'completed'
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {operation.status}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {suggestion && (
-                    <div className="mt-6 border-t pt-4">
-                      <div className="text-sm font-medium text-slate-800 mb-2">
-                        Scheduling Analysis
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-slate-600">Confidence Score:</span>
-                          <span className={`text-xs font-medium ${
-                            suggestion.confidenceScore >= 80
-                              ? 'text-green-600'
-                              : suggestion.confidenceScore >= 60
-                              ? 'text-yellow-600'
-                              : 'text-red-600'
-                          }`}>
-                            {suggestion.confidenceScore}%
-                          </span>
-                        </div>
-                        
-                        {suggestion.conflictWarnings.length > 0 && (
-                          <div className="text-xs text-orange-600">
-                            {suggestion.conflictWarnings.length} potential conflict(s) detected
-                          </div>
-                        )}
-                        
-                        {suggestion.optimizationNotes.length > 0 && (
-                          <div className="text-xs text-slate-600">
-                            {suggestion.optimizationNotes[0]}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {!hasSchedule && !scheduleLoading && !scheduleError && (
-                <div className="text-center py-8">
-                  <CalendarClock className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-2 text-sm font-medium text-slate-900">No Schedule Created</h3>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Create a production schedule to optimize work center assignments and timing.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Sidebar */}

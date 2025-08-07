@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
 import { supabase } from '@/lib/supabase'
 import { validate as isUUID } from 'uuid'
-import { generateOperationsFromQuoteLineItems, schedulingEngine } from '@/lib/scheduling-engine'
-import { isFeatureEnabled } from '@/lib/feature-flags'
 
 export async function POST(request: NextRequest) {
   try {
@@ -111,94 +109,7 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
-    // Enhanced Quote-to-Job Conversion: Auto-generate operations and scheduling
-    if (isFeatureEnabled('ENHANCED_QUOTE_CONVERSION', user.id, user.tenant_id)) {
-      try {
-        // Generate operations from quote line items
-        const operations = generateOperationsFromQuoteLineItems(lineItems || [])
-        
-        if (operations.length > 0) {
-          // Insert job operations
-          const jobOperationsData = operations.map(op => ({
-            tenant_id: user.tenant_id,
-            job_id: job.id,
-            operation_number: op.operationNumber,
-            name: op.name,
-            estimated_hours: op.estimatedHours,
-            work_center_id: op.workCenterId || null,
-            required_skills: op.requiredSkills || null,
-            status: 'pending'
-          }))
-
-          const { data: jobOperations, error: operationsError } = await supabase
-            .from('job_operations')
-            .insert(jobOperationsData)
-            .select()
-
-          if (operationsError) {
-            console.error('Error creating job operations:', operationsError)
-          } else {
-            // Generate scheduling suggestions if smart scheduling is enabled
-            if (isFeatureEnabled('SMART_SCHEDULING_SUGGESTIONS', user.id, user.tenant_id)) {
-              try {
-                const schedulingSuggestion = await schedulingEngine.generateSchedulingSuggestions({
-                  id: job.id,
-                  jobNumber: job.job_number,
-                  customerId: job.customer_id || undefined,
-                  dueDate: job.due_date || new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Default 14 days if no due date
-                  estimatedDuration: Math.ceil(operations.reduce((sum, op) => sum + op.estimatedHours, 0)), // Already in hours
-                  operations,
-                  priorityLevel: 3, // Default priority
-                  quantity: totalQuantity
-                })
-
-                // Create scheduled operations for calendar integration
-                const scheduledOperationsData = schedulingSuggestion.workCenterAssignments.map(assignment => ({
-                  tenant_id: user.tenant_id,
-                  job_operation_id: jobOperations.find(op => op.name === assignment.operationName)?.id,
-                  work_center_id: assignment.workCenterId,
-                  scheduled_start: assignment.scheduledStart.toISOString(),
-                  scheduled_end: assignment.scheduledEnd.toISOString(),
-                  notes: `Auto-scheduled with ${schedulingSuggestion.confidenceScore}% confidence`
-                }))
-
-                const { error: schedulingError } = await supabase
-                  .from('scheduled_operations')
-                  .insert(scheduledOperationsData.filter(data => data.job_operation_id)) // Only insert if job_operation_id exists
-
-                if (schedulingError) {
-                  console.error('Error creating scheduled operations:', schedulingError)
-                }
-
-                // Log integration event
-                await supabase
-                  .from('system_events')
-                  .insert({
-                    tenant_id: user.tenant_id,
-                    event_type: 'job_auto_scheduled',
-                    event_data: {
-                      job_id: job.id,
-                      job_number: job.job_number,
-                      quote_id: quote_id,
-                      operations_count: operations.length,
-                      confidence_score: schedulingSuggestion.confidenceScore,
-                      conflicts: schedulingSuggestion.conflictWarnings.length
-                    },
-                    user_id: user.id
-                  })
-
-                console.log(`Auto-scheduled job ${job.job_number} with ${operations.length} operations`)
-              } catch (schedulingError) {
-                console.error('Error generating scheduling suggestions:', schedulingError)
-              }
-            }
-          }
-        }
-      } catch (enhancementError) {
-        console.error('Error in enhanced quote conversion:', enhancementError)
-        // Continue with basic conversion even if enhancement fails
-      }
-    }
+    // Simple quote-to-job conversion without scheduling complexity
 
     // Update quote status to indicate it's been converted
     const { error: updateError } = await supabase

@@ -37,7 +37,6 @@ CREATE OR REPLACE FUNCTION clear_user_data()
 RETURNS TEXT AS $$
 BEGIN
     DELETE FROM system_events WHERE event_type NOT LIKE 'system.%';
-    DELETE FROM scheduled_operations;
     DELETE FROM job_operations;
     DELETE FROM quote_line_items;
     DELETE FROM user_invitations WHERE status = 'accepted';

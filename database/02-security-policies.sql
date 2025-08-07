@@ -49,11 +49,6 @@ USING (job_id IN (
     )
 ));
 
--- Scheduled operations policies
-CREATE POLICY scheduled_operations_tenant_policy ON scheduled_operations FOR ALL
-USING (tenant_id = (
-    SELECT tenant_id FROM users WHERE clerk_user_id = auth.jwt() ->> 'sub'
-));
 
 -- User invitations policies
 CREATE POLICY user_invitations_tenant_policy ON user_invitations FOR ALL

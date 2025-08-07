@@ -200,7 +200,7 @@ INSERT INTO jobs (id, tenant_id, job_number, customer_name, part_number, descrip
     NOW() - INTERVAL '30 minutes'
 );
 
--- Insert job operations for scheduling
+-- Insert job operations for basic workflow tracking
 INSERT INTO job_operations (job_id, operation_name, sequence_order, estimated_duration, work_center_id, status) VALUES
 -- JOB-002 operations (in progress)
 ('j2222222-2222-2222-2222-222222222222', 'Material Preparation', 1, 120, 'w1111111-1111-1111-1111-111111111111', 'completed'),
@@ -220,48 +220,6 @@ INSERT INTO job_operations (job_id, operation_name, sequence_order, estimated_du
 ('j4444444-4444-4444-4444-444444444444', 'Balancing & Testing', 3, 240, 'w3333333-3333-3333-3333-333333333333', 'pending'),
 ('j4444444-4444-4444-4444-444444444444', 'Quality Inspection', 4, 120, 'w3333333-3333-3333-3333-333333333333', 'pending');
 
--- Insert some scheduled operations for calendar
-INSERT INTO scheduled_operations (tenant_id, title, description, work_center_id, scheduled_start, scheduled_end, status, created_at) VALUES
-(
-    'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    'JOB-002 - CNC Machining Finish',
-    'Final precision machining for gear set',
-    'w1111111-1111-1111-1111-111111111111',
-    NOW() + INTERVAL '2 hours',
-    NOW() + INTERVAL '8 hours',
-    'scheduled',
-    NOW()
-),
-(
-    'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    'JOB-003 - Material Cutting',
-    'Steel plate cutting and preparation',
-    'w1111111-1111-1111-1111-111111111111',
-    NOW() + INTERVAL '1 day',
-    NOW() + INTERVAL '1 day 4 hours',
-    'scheduled',
-    NOW()
-),
-(
-    'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    'JOB-004 - Balancing & Testing', 
-    'Drive shaft precision balancing',
-    'w3333333-3333-3333-3333-333333333333',
-    NOW() + INTERVAL '2 days',
-    NOW() + INTERVAL '2 days 4 hours',
-    'scheduled',
-    NOW()
-),
-(
-    'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    'Maintenance - CNC Calibration',
-    'Weekly calibration and maintenance',
-    'w1111111-1111-1111-1111-111111111111',
-    NOW() + INTERVAL '3 days',
-    NOW() + INTERVAL '3 days 2 hours',
-    'scheduled',
-    NOW()
-);
 
 -- Insert some system events for testing
 INSERT INTO system_events (event_type, entity_type, entity_id, tenant_id, payload) VALUES
@@ -285,8 +243,6 @@ SELECT '- 2 quotes (1 approved, 1 sent)'
 UNION ALL
 SELECT '- 4 jobs in various states (1 completed, 2 in progress, 1 pending)'
 UNION ALL
-SELECT '- Job operations for scheduling integration'
-UNION ALL
-SELECT '- Scheduled operations for calendar display'
+SELECT '- Job operations for workflow tracking'
 UNION ALL
 SELECT '- Sample system events for testing';

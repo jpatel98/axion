@@ -9,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DO $$ 
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
-        CREATE TYPE user_role AS ENUM ('operator', 'scheduler', 'manager', 'admin');
+        CREATE TYPE user_role AS ENUM ('operator', 'manager', 'admin');
     END IF;
 END $$;
 
@@ -85,8 +85,6 @@ CREATE TABLE IF NOT EXISTS jobs (
     due_date TEXT, -- Format: YYYY-MM-DD
     priority_level INTEGER DEFAULT 3 CHECK (priority_level >= 1 AND priority_level <= 5),
     estimated_duration INTEGER, -- in hours
-    auto_scheduled BOOLEAN DEFAULT false,
-    scheduling_notes TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     
@@ -126,7 +124,7 @@ CREATE TABLE IF NOT EXISTS quote_line_items (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Job Operations table (for scheduling integration)
+-- Job Operations table (for basic manufacturing workflow)
 CREATE TABLE IF NOT EXISTS job_operations (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     job_id UUID NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
@@ -135,29 +133,12 @@ CREATE TABLE IF NOT EXISTS job_operations (
     estimated_duration INTEGER NOT NULL, -- in minutes
     work_center_id UUID REFERENCES work_centers(id),
     status VARCHAR(50) DEFAULT 'pending',
-    scheduled_start TIMESTAMP WITH TIME ZONE,
-    scheduled_end TIMESTAMP WITH TIME ZONE,
     actual_start TIMESTAMP WITH TIME ZONE,
     actual_end TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Scheduled Operations table
-CREATE TABLE IF NOT EXISTS scheduled_operations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    tenant_id UUID NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
-    job_operation_id UUID REFERENCES job_operations(id) ON DELETE SET NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT,
-    work_center_id UUID REFERENCES work_centers(id),
-    scheduled_start TIMESTAMP WITH TIME ZONE NOT NULL,
-    scheduled_end TIMESTAMP WITH TIME ZONE NOT NULL,
-    status VARCHAR(50) DEFAULT 'scheduled',
-    created_by UUID REFERENCES users(id),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
 
 -- User Invitations table
 CREATE TABLE IF NOT EXISTS user_invitations (
@@ -213,9 +194,6 @@ CREATE INDEX IF NOT EXISTS idx_quote_line_items_quote ON quote_line_items(quote_
 CREATE INDEX IF NOT EXISTS idx_job_operations_job ON job_operations(job_id);
 CREATE INDEX IF NOT EXISTS idx_job_operations_work_center ON job_operations(work_center_id);
 
-CREATE INDEX IF NOT EXISTS idx_scheduled_operations_tenant ON scheduled_operations(tenant_id);
-CREATE INDEX IF NOT EXISTS idx_scheduled_operations_work_center ON scheduled_operations(work_center_id);
-CREATE INDEX IF NOT EXISTS idx_scheduled_operations_dates ON scheduled_operations(scheduled_start, scheduled_end);
 
 CREATE INDEX IF NOT EXISTS idx_invitations_tenant ON user_invitations(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_invitations_email ON user_invitations(email, status);
@@ -241,7 +219,7 @@ BEGIN
     FOR t IN 
         SELECT tablename FROM pg_tables 
         WHERE schemaname = 'public' 
-        AND tablename IN ('tenants', 'users', 'customers', 'work_centers', 'jobs', 'quotes', 'job_operations', 'scheduled_operations')
+        AND tablename IN ('tenants', 'users', 'customers', 'work_centers', 'jobs', 'quotes', 'job_operations')
     LOOP
         EXECUTE format('DROP TRIGGER IF EXISTS update_%I_updated_at ON %I', t, t);
         EXECUTE format('CREATE TRIGGER update_%I_updated_at 
@@ -286,7 +264,6 @@ ALTER TABLE jobs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quote_line_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE job_operations ENABLE ROW LEVEL SECURITY;
-ALTER TABLE scheduled_operations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_invitations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE system_events ENABLE ROW LEVEL SECURITY;
 
