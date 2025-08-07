@@ -7,6 +7,7 @@ import { Plus, FileText, Search, Filter, Eye, Edit } from 'lucide-react'
 import { DataTable, Column } from '@/components/ui/data-table'
 import { PageErrorBoundary } from '@/components/ui/error-boundaries'
 import { Badge } from '@/components/ui/badge'
+import { formatLocalDate } from '@/lib/date-utils'
 
 interface Quote {
   id: string
@@ -51,7 +52,7 @@ export default function QuotesPage() {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return formatLocalDate(dateString, {
       year: 'numeric',
       month: 'short',
       day: 'numeric'

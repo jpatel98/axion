@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, DollarSign, Package, User, FileText, Clock, Edit } from 'lucide-react'
+import { formatLocalDate } from '@/lib/date-utils'
 
 interface Job {
   id: string
@@ -116,7 +117,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return 'Not set'
-    return new Date(dateString).toLocaleDateString()
+    return formatLocalDate(dateString, { year: 'numeric', month: 'long', day: 'numeric' })
   }
 
   if (loading) {

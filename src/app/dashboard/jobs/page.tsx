@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { ServerDataTable, ServerColumn } from '@/components/ui/data-table-server'
 import { Button } from '@/components/ui/button'
 import { ContentSkeleton } from '@/components/ui/skeleton'
+import { formatLocalDate } from '@/lib/date-utils'
 
 interface Job {
   id: string
@@ -101,7 +102,7 @@ export default function JobsPage() {
 
   const formatDate = useCallback((dateString: string | null) => {
     if (!dateString) return 'No due date'
-    return new Date(dateString).toLocaleDateString()
+    return formatLocalDate(dateString, { year: 'numeric', month: 'short', day: 'numeric' })
   }, [])
 
   const jobColumns: ServerColumn<Job>[] = useMemo(() => [

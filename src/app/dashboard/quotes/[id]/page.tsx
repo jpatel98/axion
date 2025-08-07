@@ -22,6 +22,7 @@ import {
   Download
 } from 'lucide-react'
 import { downloadQuotePDF } from '@/components/pdf/QuotePDF'
+import { formatLocalDate } from '@/lib/date-utils'
 
 interface Customer {
   id: string
@@ -314,7 +315,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return formatLocalDate(dateString, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'

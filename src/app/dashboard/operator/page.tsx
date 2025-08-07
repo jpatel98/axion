@@ -232,7 +232,7 @@ export default function OperatorDashboard() {
         <div className="text-center">
           <AlertTriangle className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
           <h2 className="text-lg font-semibold mb-2">Access Restricted</h2>
-          <p className="text-slate-600">
+          <p className="text-slate-800">
             This page is only accessible to operators.
           </p>
         </div>
@@ -245,8 +245,8 @@ export default function OperatorDashboard() {
         {/* Page Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Shop Floor Dashboard</h1>
-            <p className="text-slate-600">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-900">Shop Floor Dashboard</h1>
+            <p className="text-slate-800">
               Manage your production tasks and quality checks
             </p>
           </div>
@@ -269,11 +269,11 @@ export default function OperatorDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Tasks</CardTitle>
-              <Factory className="h-4 w-4 text-slate-500" />
+              <Factory className="h-4 w-4 text-slate-700" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.activeTasks}</div>
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-800">
                 {jobs.filter(j => j.status === 'in_progress').length} in progress, {jobs.filter(j => j.status === 'pending').length} pending
               </p>
             </CardContent>
@@ -335,9 +335,9 @@ export default function OperatorDashboard() {
             <div className="space-y-4">
               {jobs.length === 0 ? (
                 <div className="text-center py-8">
-                  <Factory className="h-12 w-12 text-slate-600 mx-auto mb-4" />
+                  <Factory className="h-12 w-12 text-slate-700 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-slate-900 mb-2">No Active Jobs</h3>
-                  <p className="text-sm text-slate-900">
+                  <p className="text-sm text-slate-800">
                     Check back later for new production orders from your manager.
                   </p>
                 </div>
@@ -350,7 +350,7 @@ export default function OperatorDashboard() {
                     <div key={job.id} className="flex items-center justify-between p-4 border rounded-lg">
                       <div className="flex-1">
                         <div className="flex items-center space-x-2 mb-2">
-                          <h4 className="font-semibold">{job.job_number}</h4>
+                          <h4 className="font-semibold text-slate-900">{job.job_number}</h4>
                           <Badge variant={statusVariant}>
                             {job.status === 'in_progress' ? 'In Progress' : 'Pending'}
                           </Badge>
@@ -358,7 +358,7 @@ export default function OperatorDashboard() {
                         <p className="text-sm text-slate-900 mb-2">
                           {job.description} - Customer: {job.customer_name}
                         </p>
-                        <div className="flex items-center space-x-4 text-sm">
+                        <div className="flex items-center space-x-4 text-sm text-slate-800">
                           <span className="flex items-center">
                             <Package className="h-4 w-4 mr-1" />
                             {Math.round(job.quantity * progress / 100)} / {job.quantity} units
@@ -428,7 +428,7 @@ export default function OperatorDashboard() {
                     qcTasks.push(
                       <div key={`inspection-${job.id}`} className="flex items-center justify-between p-3 border rounded">
                         <div>
-                          <h5 className="font-medium">Final Inspection - {job.job_number}</h5>
+                          <h5 className="font-medium text-slate-900">Final Inspection - {job.job_number}</h5>
                           <p className="text-sm text-slate-900">{timeToInspection}</p>
                         </div>
                         <PermissionGate permission="canViewQuality">
@@ -449,7 +449,7 @@ export default function OperatorDashboard() {
                     qcTasks.push(
                       <div key={`material-${job.id}`} className="flex items-center justify-between p-3 border rounded">
                         <div>
-                          <h5 className="font-medium">Material Quality Check</h5>
+                          <h5 className="font-medium text-slate-900">Material Quality Check</h5>
                           <p className="text-sm text-slate-900">Part: {job.part_number}</p>
                         </div>
                         <PermissionGate permission="canViewQuality">
@@ -462,8 +462,8 @@ export default function OperatorDashboard() {
                   if (qcTasks.length === 0) {
                     return (
                       <div className="text-center py-6">
-                        <ClipboardCheck className="h-8 w-8 text-slate-600 mx-auto mb-2" />
-                        <p className="text-sm text-slate-900">No quality control tasks at this time</p>
+                        <ClipboardCheck className="h-8 w-8 text-slate-700 mx-auto mb-2" />
+                        <p className="text-sm text-slate-800">No quality control tasks at this time</p>
                       </div>
                     )
                   }
@@ -502,7 +502,7 @@ export default function OperatorDashboard() {
                       <div key={`completed-${job.id}`} className="flex items-start space-x-3">
                         <CheckCircle className="h-4 w-4 text-green-500 mt-0.5" />
                         <div className="flex-1">
-                          <p className="text-sm">Completed production for {job.job_number}</p>
+                          <p className="text-sm text-slate-900">Completed production for {job.job_number}</p>
                           <p className="text-xs text-slate-900">{timeAgo}</p>
                         </div>
                       </div>
@@ -524,7 +524,7 @@ export default function OperatorDashboard() {
                       <div key={`progress-${job.id}`} className="flex items-start space-x-3">
                         <Factory className="h-4 w-4 text-blue-500 mt-0.5" />
                         <div className="flex-1">
-                          <p className="text-sm">Working on {job.job_number} - {job.description}</p>
+                          <p className="text-sm text-slate-900">Working on {job.job_number} - {job.description}</p>
                           <p className="text-xs text-slate-900">{timeAgo}</p>
                         </div>
                       </div>
@@ -542,7 +542,7 @@ export default function OperatorDashboard() {
                       <div key={`qc-${job.id}`} className="flex items-start space-x-3">
                         <ClipboardCheck className="h-4 w-4 text-orange-500 mt-0.5" />
                         <div className="flex-1">
-                          <p className="text-sm">Quality check pending for {job.job_number}</p>
+                          <p className="text-sm text-slate-900">Quality check pending for {job.job_number}</p>
                           <p className="text-xs text-slate-900">Ready for inspection</p>
                         </div>
                       </div>
@@ -552,8 +552,8 @@ export default function OperatorDashboard() {
                   if (activities.length === 0) {
                     return (
                       <div className="text-center py-6">
-                        <Clock className="h-8 w-8 text-slate-600 mx-auto mb-2" />
-                        <p className="text-sm text-slate-900">No recent activities</p>
+                        <Clock className="h-8 w-8 text-slate-700 mx-auto mb-2" />
+                        <p className="text-sm text-slate-800">No recent activities</p>
                       </div>
                     )
                   }
@@ -622,8 +622,8 @@ export default function OperatorDashboard() {
                 {/* Job Overview */}
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
-                    <h4 className="font-semibold mb-2">Job Information</h4>
-                    <div className="space-y-2 text-sm">
+                    <h4 className="font-semibold mb-2 text-slate-900">Job Information</h4>
+                    <div className="space-y-2 text-sm text-slate-800">
                       <div className="flex justify-between">
                         <span className="text-slate-900">Job Number:</span>
                         <span className="font-medium">{selectedJob.job_number}</span>
@@ -642,8 +642,8 @@ export default function OperatorDashboard() {
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold mb-2">Customer & Product</h4>
-                    <div className="space-y-2 text-sm">
+                    <h4 className="font-semibold mb-2 text-slate-900">Customer & Product</h4>
+                    <div className="space-y-2 text-sm text-slate-800">
                       <div className="flex justify-between">
                         <span className="text-slate-900">Customer:</span>
                         <span className="font-medium">{selectedJob.customer_name}</span>
@@ -662,7 +662,7 @@ export default function OperatorDashboard() {
 
                 {/* Description */}
                 <div>
-                  <h4 className="font-semibold mb-2">Description</h4>
+                  <h4 className="font-semibold mb-2 text-slate-900">Description</h4>
                   <p className="text-sm text-slate-900 bg-gray-50 p-3 rounded">
                     {selectedJob.description}
                   </p>
@@ -670,9 +670,9 @@ export default function OperatorDashboard() {
 
                 {/* Timeline */}
                 <div>
-                  <h4 className="font-semibold mb-2">Timeline</h4>
+                  <h4 className="font-semibold mb-2 text-slate-900">Timeline</h4>
                   <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-sm text-slate-800">
                       <div className="flex justify-between">
                         <span className="text-slate-900">Created:</span>
                         <span className="font-medium">
@@ -686,7 +686,7 @@ export default function OperatorDashboard() {
                         </span>
                       </div>
                     </div>
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-sm text-slate-800">
                       <div className="flex justify-between">
                         <span className="text-slate-900">Days Remaining:</span>
                         <span className="font-medium">{formatDueDate(selectedJob.due_date)}</span>
@@ -706,8 +706,8 @@ export default function OperatorDashboard() {
                 {/* Progress Bar */}
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <h4 className="font-semibold">Production Progress</h4>
-                    <span className="text-sm font-medium">{getProgressPercentage(selectedJob)}%</span>
+                    <h4 className="font-semibold text-slate-900">Production Progress</h4>
+                    <span className="text-sm font-medium text-slate-900">{getProgressPercentage(selectedJob)}%</span>
                   </div>
                   <Progress value={getProgressPercentage(selectedJob)} className="h-3" />
                 </div>
