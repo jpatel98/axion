@@ -287,7 +287,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       <div>
         <Link
           href="/dashboard/jobs"
-          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
+          className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Jobs
@@ -307,7 +307,7 @@ export default function EditJobPage({ params }: { params: Promise<{ id: string }
       <div className="mb-8">
         <Link
           href={`/dashboard/jobs/${jobId}`}
-          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
+          className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Job Details

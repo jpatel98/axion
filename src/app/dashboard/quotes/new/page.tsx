@@ -196,7 +196,7 @@ export default function NewQuotePage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href="/dashboard/quotes" className="border border-gray-300 bg-white hover:bg-gray-50 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center">
+        <Link href="/dashboard/quotes" className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Quotes
         </Link>
@@ -347,7 +347,7 @@ export default function NewQuotePage() {
                       />
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-slate-800">Line Total</label>
-                        <div className="h-10 px-3 py-2 bg-gray-100 rounded-md flex items-center text-sm">
+                        <div className="h-10 px-3 py-2 bg-gray-100 rounded-md flex items-center text-sm font-semibold text-slate-900">
                           {formatCurrency(item.quantity * item.unit_price)}
                         </div>
                       </div>
@@ -368,7 +368,7 @@ export default function NewQuotePage() {
                   
                   <div className="text-right">
                     <div className="text-sm text-slate-800">Quote Total</div>
-                    <div className="text-lg font-bold">{formatCurrency(calculateTotal())}</div>
+                    <div className="text-lg font-bold text-slate-900">{formatCurrency(calculateTotal())}</div>
                   </div>
                 </div>
               </div>

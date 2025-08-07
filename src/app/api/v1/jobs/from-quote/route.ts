@@ -109,6 +109,8 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
+    // Simple quote-to-job conversion without scheduling complexity
+
     // Update quote status to indicate it's been converted
     const { error: updateError } = await supabase
       .from('quotes')

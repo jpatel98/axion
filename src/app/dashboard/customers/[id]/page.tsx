@@ -87,7 +87,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
       <div>
         <Link
           href="/dashboard/customers"
-          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
+          className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Customers
@@ -107,7 +107,7 @@ export default function CustomerDetailsPage({ params }: { params: Promise<{ id: 
       <div className="mb-8">
         <Link
           href="/dashboard/customers"
-          className="inline-flex items-center gap-x-2 text-sm text-slate-800 hover:text-slate-800 mb-4"
+          className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors mb-4"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Customers

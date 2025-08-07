@@ -13,7 +13,6 @@ import {
   Briefcase, 
   Users, 
   FileText, 
-  Calendar,
   Package,
   Settings,
   BarChart3,
@@ -59,12 +58,6 @@ const getNavigationForRole = (userRole?: UserRole) => {
       name: 'Work Centers', 
       href: '/dashboard/work-centers', 
       icon: Factory,
-      roles: [UserRole.MANAGER]
-    },
-    { 
-      name: 'Scheduler', 
-      href: '/dashboard/scheduler', 
-      icon: Calendar,
       roles: [UserRole.MANAGER]
     },
     { 

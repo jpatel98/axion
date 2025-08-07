@@ -63,10 +63,11 @@ interface Quote {
 }
 
 const statusColors = {
-  draft: 'bg-gray-100 text-slate-600',
+  draft: 'bg-yellow-100 text-yellow-800',
   sent: 'bg-blue-100 text-blue-800',
   approved: 'bg-green-100 text-green-800',
   accepted: 'bg-green-100 text-green-800',
+  converted: 'bg-purple-600 text-white',
   rejected: 'bg-red-100 text-red-800',
   expired: 'bg-orange-100 text-orange-800',
 }
@@ -350,7 +351,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-4">
-          <Link href="/dashboard/quotes" className="border border-gray-300 bg-white hover:bg-gray-50 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center">
+          <Link href="/dashboard/quotes" className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md text-sm font-medium inline-flex items-center transition-colors">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Quotes
           </Link>
@@ -389,7 +390,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
           {!isEditing ? (
             <button 
               onClick={handleEdit}
-              className="border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center"
+              className="bg-slate-600 text-white hover:bg-slate-700 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center transition-colors"
             >
               <Edit3 className="mr-2 h-4 w-4" />
               Edit
@@ -398,7 +399,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
             <div className="flex gap-2">
               <button 
                 onClick={handleCancelEdit}
-                className="border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center"
+                className="bg-slate-600 text-white hover:bg-slate-700 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center transition-colors"
               >
                 <X className="mr-2 h-4 w-4" />
                 Cancel
@@ -481,7 +482,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-800">Total Amount</label>
-                      <p className="text-lg font-semibold text-slate-800">{formatCurrency(quote.total)}</p>
+                      <p className="text-lg font-semibold text-slate-900">{formatCurrency(quote.total)}</p>
                     </div>
                   </div>
                 </>
@@ -562,14 +563,14 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
                         
                         <div className="text-right">
                           <span className="text-sm text-slate-800">Line Total: </span>
-                          <span className="font-semibold text-slate-800">{formatCurrency(item.line_total)}</span>
+                          <span className="font-semibold text-slate-900">{formatCurrency(item.line_total)}</span>
                         </div>
                       </div>
                     ) : (
                       <div className="space-y-2">
                         <div className="flex justify-between items-start">
                           <h4 className="font-medium text-slate-800">{item.description}</h4>
-                          <span className="font-semibold text-slate-800">{formatCurrency(item.line_total)}</span>
+                          <span className="font-semibold text-slate-900">{formatCurrency(item.line_total)}</span>
                         </div>
                         <div className="text-sm text-slate-800">
                           {item.quantity} × {formatCurrency(item.unit_price)}
@@ -582,7 +583,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
               
               <div className="mt-6 pt-4 border-t border-gray-200">
                 <div className="text-right">
-                  <span className="text-lg font-semibold text-slate-800">
+                  <span className="text-lg font-semibold text-slate-900">
                     Total: {formatCurrency(isEditing ? calculateTotal() : quote.total)}
                   </span>
                 </div>
@@ -635,7 +636,8 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
           </div>
 
           {/* Actions */}
-          <div className="bg-white rounded-lg shadow border border-gray-200">
+          {(quote.status === 'draft' || quote.status === 'sent') && (
+            <div className="bg-white rounded-lg shadow border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200">
               <h3 className="text-lg font-semibold text-slate-800">Actions</h3>
             </div>
@@ -643,7 +645,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
               {quote.status === 'draft' && (
                 <button 
                   onClick={() => handleStatusChange('sent')} 
-                  className="w-full border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center justify-center"
+                  className="w-full bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md text-sm font-medium inline-flex items-center justify-center transition-colors"
                 >
                   <Send className="mr-2 h-4 w-4" />
                   Mark as Sent
@@ -670,6 +672,7 @@ export default function QuoteDetailsPage({ params }: { params: Promise<{ id: str
               )}
             </div>
           </div>
+          )}
 
           {/* Quote Info */}
           <div className="bg-white rounded-lg shadow border border-gray-200">
