@@ -139,22 +139,25 @@ export async function POST(
         .eq('tenant_id', user.tenant_id)
     }
 
-    // Create new scheduled operations
-    const scheduledOperationsData = schedulingSuggestion.workCenterAssignments.map(assignment => ({
-      tenant_id: user.tenant_id,
-      job_id: job.id,
-      operation_id: job.job_operations.find((op: any) => op.operation_name === assignment.operationName)?.id,
-      work_center_id: assignment.workCenterId,
-      scheduled_start: assignment.scheduledStart.toISOString(),
-      scheduled_end: assignment.scheduledEnd.toISOString(),
-      estimated_duration: assignment.estimatedDuration,
-      status: 'scheduled',
-      notes: assignment.estimatedDuration > 0 ? `Auto-scheduled with confidence: ${schedulingSuggestion.confidenceScore}%` : null
-    }))
+    // Create new scheduled operations (using existing database schema)
+    const scheduledOperationsData = schedulingSuggestion.workCenterAssignments.map(assignment => {
+      const operation = job.job_operations.find((op: any) => op.operation_name === assignment.operationName)
+      return {
+        tenant_id: user.tenant_id,
+        job_operation_id: operation?.id || null,
+        title: `${job.job_number} - ${assignment.operationName}`,
+        description: `${assignment.operationName} for ${job.customer_name || 'Job'} (Auto-scheduled with ${schedulingSuggestion.confidenceScore}% confidence)`,
+        work_center_id: assignment.workCenterId,
+        scheduled_start: assignment.scheduledStart.toISOString(),
+        scheduled_end: assignment.scheduledEnd.toISOString(),
+        status: 'scheduled',
+        created_by: user.id
+      }
+    })
 
     const { data: newSchedule, error: insertError } = await supabase
       .from('scheduled_operations')
-      .insert(scheduledOperationsData.filter(data => data.operation_id))
+      .insert(scheduledOperationsData.filter(data => data.job_operation_id))
       .select(`
         *,
         job_operations (operation_name),
@@ -233,21 +236,22 @@ export async function GET(
       return NextResponse.json({ error: 'Invalid job ID format' }, { status: 400 })
     }
 
-    // Get current schedule for the job
+    // Get current schedule for the job through job_operations relationship
     const { data: schedule, error: scheduleError } = await supabase
       .from('scheduled_operations')
       .select(`
         *,
-        job_operations (
+        job_operations!inner (
           operation_name,
-          sequence_order
+          sequence_order,
+          job_id
         ),
         work_centers (
           name,
           max_capacity
         )
       `)
-      .eq('job_id', jobId)
+      .eq('job_operations.job_id', jobId)
       .eq('tenant_id', user.tenant_id)
       .order('scheduled_start', { ascending: true })
 
@@ -287,18 +291,28 @@ export async function DELETE(
       return NextResponse.json({ error: 'Invalid job ID format' }, { status: 400 })
     }
 
-    // Delete all scheduled operations for this job
-    const { error: deleteError } = await supabase
-      .from('scheduled_operations')
-      .delete()
+    // Get all job_operation_ids for this job first
+    const { data: jobOperations } = await supabase
+      .from('job_operations')
+      .select('id')
       .eq('job_id', jobId)
-      .eq('tenant_id', user.tenant_id)
 
-    if (deleteError) {
-      console.error('Error deleting schedule:', deleteError)
-      return NextResponse.json({ 
-        error: 'Failed to delete schedule: ' + deleteError.message 
-      }, { status: 500 })
+    if (jobOperations && jobOperations.length > 0) {
+      const operationIds = jobOperations.map(op => op.id)
+      
+      // Delete all scheduled operations for this job's operations
+      const { error: deleteError } = await supabase
+        .from('scheduled_operations')
+        .delete()
+        .in('job_operation_id', operationIds)
+        .eq('tenant_id', user.tenant_id)
+
+      if (deleteError) {
+        console.error('Error deleting schedule:', deleteError)
+        return NextResponse.json({ 
+          error: 'Failed to delete schedule: ' + deleteError.message 
+        }, { status: 500 })
+      }
     }
 
     // Update job status back to pending if it was scheduled
