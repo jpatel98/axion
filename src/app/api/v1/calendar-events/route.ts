@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
       .select(`
         *,
         job_operations (
-          operation_name,
-          sequence_order,
+          name,
+          operation_number,
           jobs (
             job_number,
             customer_name,
@@ -56,11 +56,11 @@ export async function GET(request: NextRequest) {
         let title = op.title
         let description = op.description
 
-        // If linked to job operation, create better title/description
+        // If linked to job operation, create better title/description  
         if (op.job_operations && op.job_operations.jobs) {
           const job = op.job_operations.jobs
-          title = `${job.job_number} - ${op.job_operations.operation_name}`
-          description = `${op.job_operations.operation_name} for ${job.customer_name}\n${job.description || ''}`
+          title = `${job.job_number} - ${op.job_operations.name}`
+          description = `${op.job_operations.name} for ${job.customer_name}\n${job.description || ''}`
         }
 
         events.push({
@@ -75,8 +75,8 @@ export async function GET(request: NextRequest) {
             workCenter: op.work_centers?.name,
             worker: op.workers?.name,
             jobNumber: op.job_operations?.jobs?.job_number,
-            operationName: op.job_operations?.operation_name,
-            sequenceOrder: op.job_operations?.sequence_order
+            operationName: op.job_operations?.name,
+            operationNumber: op.job_operations?.operation_number
           }
         })
       }

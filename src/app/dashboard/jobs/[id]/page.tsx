@@ -365,10 +365,10 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-800 text-xs font-medium">
-                                {operation.job_operations.sequence_order}
+                                {operation.job_operations.operation_number}
                               </span>
                               <h4 className="text-sm font-medium text-slate-900">
-                                {operation.job_operations.operation_name}
+                                {operation.job_operations.name}
                               </h4>
                             </div>
                             

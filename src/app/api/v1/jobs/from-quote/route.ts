@@ -122,11 +122,11 @@ export async function POST(request: NextRequest) {
           const jobOperationsData = operations.map(op => ({
             tenant_id: user.tenant_id,
             job_id: job.id,
-            operation_name: op.name,
-            sequence_order: op.sequenceOrder,
-            estimated_duration: op.estimatedDuration,
+            operation_number: op.operationNumber,
+            name: op.name,
+            estimated_hours: op.estimatedHours,
             work_center_id: op.workCenterId || null,
-            skill_requirements: op.skillRequirements || null,
+            required_skills: op.requiredSkills || null,
             status: 'pending'
           }))
 
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
                   jobNumber: job.job_number,
                   customerId: job.customer_id || undefined,
                   dueDate: job.due_date || new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Default 14 days if no due date
-                  estimatedDuration: Math.ceil(operations.reduce((sum, op) => sum + op.estimatedDuration, 0) / 60), // Convert to hours
+                  estimatedDuration: Math.ceil(operations.reduce((sum, op) => sum + op.estimatedHours, 0)), // Already in hours
                   operations,
                   priorityLevel: 3, // Default priority
                   quantity: totalQuantity
@@ -155,18 +155,16 @@ export async function POST(request: NextRequest) {
                 // Create scheduled operations for calendar integration
                 const scheduledOperationsData = schedulingSuggestion.workCenterAssignments.map(assignment => ({
                   tenant_id: user.tenant_id,
-                  job_id: job.id,
-                  operation_id: jobOperations.find(op => op.operation_name === assignment.operationName)?.id,
+                  job_operation_id: jobOperations.find(op => op.name === assignment.operationName)?.id,
                   work_center_id: assignment.workCenterId,
                   scheduled_start: assignment.scheduledStart.toISOString(),
                   scheduled_end: assignment.scheduledEnd.toISOString(),
-                  estimated_duration: assignment.estimatedDuration,
-                  status: 'scheduled'
+                  notes: `Auto-scheduled with ${schedulingSuggestion.confidenceScore}% confidence`
                 }))
 
                 const { error: schedulingError } = await supabase
                   .from('scheduled_operations')
-                  .insert(scheduledOperationsData.filter(data => data.operation_id)) // Only insert if operation_id exists
+                  .insert(scheduledOperationsData.filter(data => data.job_operation_id)) // Only insert if job_operation_id exists
 
                 if (schedulingError) {
                   console.error('Error creating scheduled operations:', schedulingError)

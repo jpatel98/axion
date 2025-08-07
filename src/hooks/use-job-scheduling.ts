@@ -12,8 +12,8 @@ interface ScheduledOperation {
   status: string
   notes?: string
   job_operations: {
-    operation_name: string
-    sequence_order: number
+    name: string
+    operation_number: number
   }
   work_centers: {
     name: string

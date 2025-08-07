@@ -7,7 +7,7 @@ import { isFeatureEnabled } from '@/lib/feature-flags'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getCurrentUser()
@@ -16,7 +16,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const jobId = params.id
+    const { id: jobId } = await params
 
     // Validate UUID format
     if (!isUUID(jobId)) {
@@ -37,11 +37,11 @@ export async function POST(
         *,
         job_operations (
           id,
-          operation_name,
-          sequence_order,
-          estimated_duration,
+          operation_number,
+          name,
+          estimated_hours,
           work_center_id,
-          skill_requirements,
+          required_skills,
           status
         )
       `)
@@ -108,11 +108,11 @@ export async function POST(
     // Convert job operations to scheduling engine format
     const operations = job.job_operations.map((op: any) => ({
       id: op.id,
-      name: op.operation_name,
-      sequenceOrder: op.sequence_order,
-      estimatedDuration: op.estimated_duration,
+      name: op.name,
+      operationNumber: op.operation_number,
+      estimatedHours: op.estimated_hours,
       workCenterId: op.work_center_id,
-      skillRequirements: op.skill_requirements
+      requiredSkills: op.required_skills
     }))
 
     // Prepare job data for scheduling engine
@@ -121,7 +121,7 @@ export async function POST(
       jobNumber: job.job_number,
       customerId: job.customer_id,
       dueDate: job.due_date || new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      estimatedDuration: Math.ceil(operations.reduce((sum: number, op: any) => sum + op.estimatedDuration, 0) / 60),
+      estimatedDuration: Math.ceil(operations.reduce((sum: number, op: any) => sum + op.estimatedHours, 0)),
       operations,
       priorityLevel: priorityLevel,
       quantity: job.quantity || 1
@@ -139,19 +139,16 @@ export async function POST(
         .eq('tenant_id', user.tenant_id)
     }
 
-    // Create new scheduled operations (using existing database schema)
+    // Create new scheduled operations (using actual database schema)
     const scheduledOperationsData = schedulingSuggestion.workCenterAssignments.map(assignment => {
-      const operation = job.job_operations.find((op: any) => op.operation_name === assignment.operationName)
+      const operation = job.job_operations.find((op: any) => op.name === assignment.operationName)
       return {
         tenant_id: user.tenant_id,
         job_operation_id: operation?.id || null,
-        title: `${job.job_number} - ${assignment.operationName}`,
-        description: `${assignment.operationName} for ${job.customer_name || 'Job'} (Auto-scheduled with ${schedulingSuggestion.confidenceScore}% confidence)`,
         work_center_id: assignment.workCenterId,
         scheduled_start: assignment.scheduledStart.toISOString(),
         scheduled_end: assignment.scheduledEnd.toISOString(),
-        status: 'scheduled',
-        created_by: user.id
+        notes: `Auto-scheduled with ${schedulingSuggestion.confidenceScore}% confidence`
       }
     })
 
@@ -160,7 +157,7 @@ export async function POST(
       .insert(scheduledOperationsData.filter(data => data.job_operation_id))
       .select(`
         *,
-        job_operations (operation_name),
+        job_operations (name, operation_number),
         work_centers (name)
       `)
 
@@ -220,7 +217,7 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getCurrentUser()
@@ -229,7 +226,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const jobId = params.id
+    const { id: jobId } = await params
 
     // Validate UUID format
     if (!isUUID(jobId)) {
@@ -242,8 +239,8 @@ export async function GET(
       .select(`
         *,
         job_operations!inner (
-          operation_name,
-          sequence_order,
+          name,
+          operation_number,
           job_id
         ),
         work_centers (
@@ -275,7 +272,7 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getCurrentUser()
@@ -284,7 +281,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const jobId = params.id
+    const { id: jobId } = await params
 
     // Validate UUID format
     if (!isUUID(jobId)) {

@@ -19,10 +19,10 @@ export interface JobData {
 export interface Operation {
   id?: string
   name: string
-  sequenceOrder: number
-  estimatedDuration: number // in minutes
+  operationNumber: number
+  estimatedHours: number // in hours
   workCenterId?: string
-  skillRequirements?: string[]
+  requiredSkills?: string[]
 }
 
 export interface WorkCenterCapacity {
@@ -61,7 +61,7 @@ export interface WorkCenterAssignment {
   workCenterName: string
   scheduledStart: Date
   scheduledEnd: Date
-  estimatedDuration: number
+  estimatedHours: number
 }
 
 export interface ConflictWarning {
@@ -152,8 +152,8 @@ export class SchedulingEngine {
     const assignments: WorkCenterAssignment[] = []
     let currentDate = new Date(startDate)
     
-    // Sort operations by sequence order
-    const sortedOps = [...operations].sort((a, b) => a.sequenceOrder - b.sequenceOrder)
+    // Sort operations by operation number
+    const sortedOps = [...operations].sort((a, b) => a.operationNumber - b.operationNumber)
     
     for (const operation of sortedOps) {
       // Find best work center for this operation
@@ -163,19 +163,19 @@ export class SchedulingEngine {
         throw new Error(`No available work center found for operation: ${operation.name}`)
       }
       
-      // Calculate end time for this operation
+      // Calculate end time for this operation (convert hours to milliseconds)
       const operationEndDate = new Date(
-        currentDate.getTime() + (operation.estimatedDuration * 60 * 1000)
+        currentDate.getTime() + (operation.estimatedHours * 60 * 60 * 1000)
       )
       
       assignments.push({
-        operationId: operation.id || `temp-${operation.sequenceOrder}`,
+        operationId: operation.id || `temp-${operation.operationNumber}`,
         operationName: operation.name,
         workCenterId: bestWorkCenter.workCenterId,
         workCenterName: bestWorkCenter.name,
         scheduledStart: new Date(currentDate),
         scheduledEnd: operationEndDate,
-        estimatedDuration: operation.estimatedDuration
+        estimatedHours: operation.estimatedHours
       })
       
       // Next operation starts after this one completes
@@ -196,14 +196,14 @@ export class SchedulingEngine {
     // If operation specifies a work center, try to use it
     if (operation.workCenterId) {
       const preferredCenter = capacity.find(c => c.workCenterId === operation.workCenterId)
-      if (preferredCenter && this.isWorkCenterAvailable(preferredCenter, startTime, operation.estimatedDuration)) {
+      if (preferredCenter && this.isWorkCenterAvailable(preferredCenter, startTime, operation.estimatedHours)) {
         return preferredCenter
       }
     }
     
     // Find work center with lowest current load that can handle the operation
     const availableCenters = capacity.filter(center => 
-      this.isWorkCenterAvailable(center, startTime, operation.estimatedDuration)
+      this.isWorkCenterAvailable(center, startTime, operation.estimatedHours)
     )
     
     if (availableCenters.length === 0) return null
@@ -218,9 +218,9 @@ export class SchedulingEngine {
   private isWorkCenterAvailable(
     workCenter: WorkCenterCapacity,
     startTime: Date,
-    durationMinutes: number
+    durationHours: number
   ): boolean {
-    const endTime = new Date(startTime.getTime() + (durationMinutes * 60 * 1000))
+    const endTime = new Date(startTime.getTime() + (durationHours * 60 * 60 * 1000))
     
     // Check if work center has capacity
     if (workCenter.currentLoad >= workCenter.maxCapacity) {
@@ -347,12 +347,12 @@ export class SchedulingEngine {
     }
     
     // Reduce score if scheduling is very tight
-    const totalDuration = assignments.reduce((sum, a) => sum + a.estimatedDuration, 0)
+    const totalDuration = assignments.reduce((sum, a) => sum + a.estimatedHours, 0)
     const totalTimespan = assignments.length > 0 
       ? assignments[assignments.length - 1].scheduledEnd.getTime() - assignments[0].scheduledStart.getTime()
       : 0
     
-    const utilizationRatio = totalDuration > 0 ? (totalDuration * 60 * 1000) / totalTimespan : 0
+    const utilizationRatio = totalDuration > 0 ? (totalDuration * 60 * 60 * 1000) / totalTimespan : 0
     
     if (utilizationRatio > 0.9) {
       score -= 10 // Very tight schedule
@@ -419,15 +419,15 @@ export function generateOperationsFromQuoteLineItems(
   lineItems: any[]
 ): Operation[] {
   const operations: Operation[] = []
-  let sequenceOrder = 1
+  let operationNumber = 1
   
   for (const item of lineItems) {
     // Basic operation mapping - this would be more sophisticated in practice
     if (item.description.toLowerCase().includes('machining')) {
       operations.push({
         name: `CNC Machining - ${item.description}`,
-        sequenceOrder: sequenceOrder++,
-        estimatedDuration: Math.max(60, item.quantity * 10), // 10 min per unit minimum
+        operationNumber: operationNumber++,
+        estimatedHours: Math.max(1, item.quantity * 0.17), // ~10 min per unit converted to hours
         workCenterId: 'wc-1'
       })
     }
@@ -435,8 +435,8 @@ export function generateOperationsFromQuoteLineItems(
     if (item.description.toLowerCase().includes('welding')) {
       operations.push({
         name: `Welding - ${item.description}`,
-        sequenceOrder: sequenceOrder++,
-        estimatedDuration: Math.max(30, item.quantity * 5),
+        operationNumber: operationNumber++,
+        estimatedHours: Math.max(0.5, item.quantity * 0.08), // ~5 min per unit converted to hours
         workCenterId: 'wc-2'
       })
     }
@@ -444,19 +444,19 @@ export function generateOperationsFromQuoteLineItems(
     if (item.description.toLowerCase().includes('assembly')) {
       operations.push({
         name: `Assembly - ${item.description}`,
-        sequenceOrder: sequenceOrder++,
-        estimatedDuration: Math.max(45, item.quantity * 8),
+        operationNumber: operationNumber++,
+        estimatedHours: Math.max(0.75, item.quantity * 0.13), // ~8 min per unit converted to hours
         workCenterId: 'wc-3'
       })
     }
     
     // Default operation if no specific keywords found
-    if (operations.length === 0 || operations.length < sequenceOrder - 1) {
+    if (operations.length === 0 || operations.length < operationNumber - 1) {
       operations.push({
         name: `Production - ${item.description}`,
-        sequenceOrder: sequenceOrder++,
-        estimatedDuration: Math.max(30, item.quantity * 5),
-        skillRequirements: ['general']
+        operationNumber: operationNumber++,
+        estimatedHours: Math.max(0.5, item.quantity * 0.08), // ~5 min per unit converted to hours
+        requiredSkills: ['general']
       })
     }
   }
@@ -464,8 +464,8 @@ export function generateOperationsFromQuoteLineItems(
   // Always end with quality control
   operations.push({
     name: 'Quality Control & Inspection',
-    sequenceOrder: sequenceOrder,
-    estimatedDuration: 60,
+    operationNumber: operationNumber,
+    estimatedHours: 1, // 1 hour
     workCenterId: 'wc-4'
   })
   

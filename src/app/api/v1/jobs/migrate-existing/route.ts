@@ -46,24 +46,25 @@ export async function POST(request: NextRequest) {
         const basicOperations = [
           {
             name: `Production - ${job.description || job.job_number}`,
-            sequenceOrder: 1,
-            estimatedDuration: 240, // 4 hours default
+            operationNumber: 1,
+            estimatedHours: 4, // 4 hours default
             workCenterId: null
           },
           {
             name: 'Quality Control & Inspection',
-            sequenceOrder: 2,
-            estimatedDuration: 60, // 1 hour
+            operationNumber: 2,
+            estimatedHours: 1, // 1 hour
             workCenterId: null
           }
         ]
 
         // Insert job operations
         const jobOperationsData = basicOperations.map(op => ({
+          tenant_id: user.tenant_id,
           job_id: job.id,
-          operation_name: op.name,
-          sequence_order: op.sequenceOrder,
-          estimated_duration: op.estimatedDuration,
+          operation_number: op.operationNumber,
+          name: op.name,
+          estimated_hours: op.estimatedHours,
           work_center_id: op.workCenterId,
           status: 'pending'
         }))
