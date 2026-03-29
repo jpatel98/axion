@@ -39,14 +39,11 @@ export function CtaSection({ children }: CtaSectionProps) {
                   </ButtonLink>
                 </div>
 
-                <div className="mt-10 space-y-4">
+                <div className="mt-10 space-y-3">
                   {siteContent.contact.reassurance.map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-4"
-                    >
+                    <div key={item} className="flex items-start gap-3">
                       <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
-                      <p className="text-sm leading-7 text-muted-strong">{item}</p>
+                      <p className="text-sm font-medium leading-7 text-muted-strong">{item}</p>
                     </div>
                   ))}
                 </div>

@@ -21,13 +21,16 @@ export function FaqSection() {
           align="center"
         />
 
-        <div className="mt-10 space-y-4">
-          {siteContent.faq.items.map((item, index) => {
-            const isOpen = index === openIndex;
+        <Reveal delay={0.04}>
+          <div className="mt-10 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.02] shadow-[0_30px_80px_rgba(2,7,17,0.3)]">
+            {siteContent.faq.items.map((item, index) => {
+              const isOpen = index === openIndex;
 
-            return (
-              <Reveal key={item.question} delay={index * 0.04}>
-                <div className="surface-panel overflow-hidden rounded-[1.75rem] border border-white/10">
+              return (
+                <div
+                  key={item.question}
+                  className={cn(index > 0 && "border-t border-white/10")}
+                >
                   <button
                     type="button"
                     className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left sm:px-6"
@@ -61,10 +64,10 @@ export function FaqSection() {
                     </div>
                   </div>
                 </div>
-              </Reveal>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        </Reveal>
       </SectionInner>
     </SectionShell>
   );

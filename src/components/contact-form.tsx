@@ -70,9 +70,8 @@ export function ContactForm() {
             Tell us where things are stuck.
           </h3>
           <p className="mt-3 max-w-lg text-sm leading-7 text-muted">
-            Share a quick overview and we will use it to shape the first
-            conversation. This form is still being connected, so for now the
-            fastest way to reach us is booking or email.
+            Share a quick overview and we will use it to make the first
+            conversation more useful.
           </p>
         </div>
       </div>
@@ -176,7 +175,7 @@ export function ContactForm() {
           type="submit"
           className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-slate-950 hover:-translate-y-0.5 hover:bg-accent/90"
         >
-          Start the conversation
+          Send the details
         </button>
 
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
@@ -188,6 +187,10 @@ export function ContactForm() {
             {siteConfig.contactEmail}
           </a>
         </div>
+
+        <p className="text-sm leading-7 text-muted">
+          Prefer the fastest route? Booking is usually the best next step.
+        </p>
       </div>
 
       {message ? (

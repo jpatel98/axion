@@ -26,8 +26,7 @@ export function SystemsVisual() {
             Operating layer
           </p>
           <p className="mt-3 text-sm leading-7 text-muted-strong">
-            One cleaner flow from first click to follow-up, without forcing the
-            business into a giant software project.
+            One cleaner flow from first click to follow-up.
           </p>
         </div>
         <div className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs uppercase tracking-[0.28em] text-white/75">
@@ -44,7 +43,7 @@ export function SystemsVisual() {
           Web presence
         </p>
         <h3 className="mt-4 text-2xl font-semibold text-white">
-          Site, search, and lead capture that look current.
+          Website, search, and lead capture.
         </h3>
         <div className="mt-4 flex flex-wrap gap-2 text-sm text-muted-strong">
           <span className="rounded-full border border-white/10 px-3 py-1.5">
@@ -68,11 +67,10 @@ export function SystemsVisual() {
           Operations
         </p>
         <h3 className="mt-4 text-xl font-semibold text-white">
-          Booking, intake, reminders, and admin flows connected properly.
+          Booking, intake, reminders, and admin flow.
         </h3>
         <p className="mt-3 text-sm leading-7 text-muted-strong">
-          Remove duplicate entry, reduce manual follow-up, and give the team one
-          clearer way to work.
+          Less duplicate entry. Fewer dropped steps.
         </p>
       </motion.div>
 
@@ -85,11 +83,10 @@ export function SystemsVisual() {
           AI layer
         </p>
         <h3 className="mt-4 text-xl font-semibold text-white">
-          FAQ handling, drafting, and triage where AI actually helps.
+          FAQ handling, drafting, and triage.
         </h3>
         <p className="mt-3 text-sm leading-7 text-muted-strong">
-          Practical support for repetitive work, not gimmicks bolted onto the
-          business.
+          Use AI where it actually saves time.
         </p>
       </motion.div>
 

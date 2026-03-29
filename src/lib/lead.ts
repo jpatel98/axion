@@ -47,6 +47,6 @@ export async function submitLead(values: LeadFormValues) {
   return {
     status: "placeholder" as const,
     message:
-      "This form is almost live. For now, please use the booking link or email and we will continue from there.",
+      "Thanks. Direct form submission is being finalized, so please use the booking link or email and we will pick it up from there.",
   };
 }

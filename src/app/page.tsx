@@ -18,11 +18,11 @@ export default function Home() {
       <main id="top" className="relative overflow-x-clip">
         <HeroSection />
         <CredibilityStrip />
+        <OutcomesSection />
         <ServicesSection />
         <WhyAxionSection />
-        <OutcomesSection />
-        <ProcessSection />
         <SolutionsSection />
+        <ProcessSection />
         <FaqSection />
         <CtaSection>
           <ContactForm />

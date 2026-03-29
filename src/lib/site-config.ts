@@ -6,9 +6,9 @@ export const siteConfig = {
   contactEmail:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@axiontechnologies.ca",
   title:
-    "Axion Technologies | Modern Websites, Automation, and Practical AI for Small Business",
+    "Axion Technologies | Modern websites, better systems, practical AI for small business",
   description:
-    "Axion Technologies helps small and growing businesses get online properly, modernize operations, automate repetitive work, and use AI in practical ways.",
+    "Axion Technologies helps small and growing businesses modernize their website, reduce manual work, and build practical digital systems without bloated consulting.",
   keywords: [
     "small business website design",
     "AI automation for small business",
