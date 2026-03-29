@@ -47,6 +47,6 @@ export async function submitLead(values: LeadFormValues) {
   return {
     status: "placeholder" as const,
     message:
-      "This form is ready to connect to your email or CRM. For now, use the booking link or email so we can start the conversation directly.",
+      "This form is almost live. For now, please use the booking link or email and we will continue from there.",
   };
 }

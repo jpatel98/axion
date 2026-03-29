@@ -71,8 +71,8 @@ export function ContactForm() {
           </h3>
           <p className="mt-3 max-w-lg text-sm leading-7 text-muted">
             Share a quick overview and we will use it to shape the first
-            conversation. The UI is ready for live submission wiring, but this
-            build currently routes new leads through direct contact.
+            conversation. This form is still being connected, so for now the
+            fastest way to reach us is booking or email.
           </p>
         </div>
       </div>
