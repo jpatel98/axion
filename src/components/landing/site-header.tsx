@@ -4,17 +4,33 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
+import { trackBookingClick } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileCtaVisible, setIsMobileCtaVisible] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     function handleScroll() {
       setHasScrolled(window.scrollY > 16);
+
+      const hero = document.getElementById("hero");
+      const contact = document.getElementById("contact");
+
+      if (!hero || !contact) {
+        setIsMobileCtaVisible(false);
+        return;
+      }
+
+      const heroBottom = hero.getBoundingClientRect().bottom;
+      const contactTop = contact.getBoundingClientRect().top;
+      setIsMobileCtaVisible(
+        heroBottom < 160 && contactTop > window.innerHeight * 0.8,
+      );
     }
 
     handleScroll();
@@ -59,6 +75,7 @@ export function SiteHeader() {
             <div className="hidden md:block">
               <a
                 href={siteConfig.bookingUrl}
+                onClick={() => trackBookingClick("header")}
                 className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-2 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-white/[0.08]"
               >
                 <span className="px-2">{siteContent.headerCta}</span>
@@ -103,8 +120,11 @@ export function SiteHeader() {
 
                 <a
                   href={siteConfig.bookingUrl}
+                  onClick={() => {
+                    trackBookingClick("header");
+                    setIsMenuOpen(false);
+                  }}
                   className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white"
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   {siteContent.headerCta}
                   <span className="inline-flex size-7 items-center justify-center rounded-full bg-white text-slate-950">
@@ -116,6 +136,27 @@ export function SiteHeader() {
           </AnimatePresence>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isMobileCtaVisible ? (
+          <motion.div
+            initial={prefersReducedMotion ? undefined : { opacity: 0, y: 18 }}
+            animate={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, y: 18 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-x-0 bottom-0 z-40 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:hidden"
+          >
+            <a
+              href={siteConfig.bookingUrl}
+              onClick={() => trackBookingClick("mobile_sticky")}
+              className="mx-auto flex max-w-md items-center justify-center gap-2 rounded-full border border-white/12 bg-surface/95 px-5 py-3.5 text-sm font-semibold text-white shadow-[0_20px_60px_rgba(1,6,16,0.45)] backdrop-blur-xl"
+            >
+              {siteContent.mobileStickyCta}
+              <ArrowUpRight className="size-4" />
+            </a>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </header>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
+import Script from "next/script";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -68,6 +69,23 @@ export default function RootLayout({
       className={`${manrope.variable} ${instrumentSerif.variable} ${ibmPlexMono.variable} h-full`}
     >
       <body className="min-h-full font-sans text-foreground antialiased">
+        {siteConfig.gaMeasurementId ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.gaMeasurementId}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                window.gtag = gtag;
+                gtag('js', new Date());
+                gtag('config', '${siteConfig.gaMeasurementId}');
+              `}
+            </Script>
+          </>
+        ) : null}
         {children}
       </body>
     </html>

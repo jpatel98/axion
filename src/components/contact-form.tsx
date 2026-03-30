@@ -1,14 +1,19 @@
 "use client";
 
 import { CheckCircle2, Mail } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState, useTransition } from "react";
 import {
-  initialLeadFormValues,
   submitLead,
+  initialLeadFormValues,
   validateLeadForm,
   type LeadFormErrors,
   type LeadFormValues,
 } from "@/lib/lead";
+import {
+  trackFormStart,
+  trackFormSubmitError,
+  trackFormSubmitSuccess,
+} from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -19,20 +24,17 @@ export function ContactForm() {
   const [values, setValues] = useState<LeadFormValues>(initialLeadFormValues);
   const [errors, setErrors] = useState<LeadFormErrors>({});
   const [message, setMessage] = useState<string | null>(null);
+  const [messageTone, setMessageTone] = useState<"success" | "error">("success");
+  const [isPending, startTransition] = useTransition();
+  const hasTrackedStart = useRef(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const nextErrors = validateLeadForm(values);
-    setErrors(nextErrors);
-    setMessage(null);
-
-    if (Object.keys(nextErrors).length > 0) {
+  function handleFieldFocus() {
+    if (hasTrackedStart.current) {
       return;
     }
 
-    const result = await submitLead(values);
-    setMessage(result.message);
+    hasTrackedStart.current = true;
+    trackFormStart();
   }
 
   function updateField<Key extends keyof LeadFormValues>(
@@ -55,25 +57,56 @@ export function ContactForm() {
     });
   }
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const nextErrors = validateLeadForm(values);
+    setErrors(nextErrors);
+    setMessage(null);
+
+    if (Object.keys(nextErrors).length > 0) {
+      setMessageTone("error");
+      trackFormSubmitError("client_validation");
+      return;
+    }
+
+    startTransition(async () => {
+      const result = await submitLead(values);
+
+      if (result.status === "error") {
+        setMessageTone("error");
+        setMessage(result.message);
+        setErrors(result.fieldErrors ?? {});
+        trackFormSubmitError(result.fieldErrors ? "server_validation" : "submit");
+        return;
+      }
+
+      setMessageTone("success");
+      setMessage(result.message);
+      setValues(initialLeadFormValues);
+      setErrors({});
+      hasTrackedStart.current = false;
+      trackFormSubmitSuccess();
+    });
+  }
+
   return (
     <form
-      className="surface-panel rounded-[2rem] border border-white/10 p-6 sm:p-7"
+      className="rounded-[2rem] border border-white/10 bg-[rgba(8,13,24,0.76)] p-6 sm:p-7"
       onSubmit={handleSubmit}
       noValidate
     >
-      <div className="mb-6 flex items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-[0.72rem] uppercase tracking-[0.32em] text-accent">
-            Contact
-          </p>
-          <h3 className="mt-3 text-2xl font-semibold text-white">
-            Tell us where things are stuck.
-          </h3>
-          <p className="mt-3 max-w-lg text-sm leading-7 text-muted">
-            Share a quick overview and we will use it to make the first
-            conversation more useful.
-          </p>
-        </div>
+      <div className="mb-6">
+        <p className="font-mono text-[0.72rem] uppercase tracking-[0.32em] text-accent">
+          Secondary path
+        </p>
+        <h3 className="mt-3 text-xl font-semibold text-white sm:text-2xl">
+          Prefer to send the details instead?
+        </h3>
+        <p className="mt-3 max-w-lg text-sm leading-7 text-muted">
+          Share a quick overview and we will follow up. If time matters, booking
+          the consultation is still the fastest route.
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -85,6 +118,7 @@ export function ContactForm() {
             autoComplete="name"
             value={values.name}
             onChange={(event) => updateField("name", event.target.value)}
+            onFocus={handleFieldFocus}
             className={cn(
               fieldClassName,
               errors.name && "border-rose-400/70 focus:border-rose-300",
@@ -108,6 +142,7 @@ export function ContactForm() {
             autoComplete="organization"
             value={values.business}
             onChange={(event) => updateField("business", event.target.value)}
+            onFocus={handleFieldFocus}
             className={cn(
               fieldClassName,
               errors.business && "border-rose-400/70 focus:border-rose-300",
@@ -132,6 +167,7 @@ export function ContactForm() {
           autoComplete="email"
           value={values.email}
           onChange={(event) => updateField("email", event.target.value)}
+          onFocus={handleFieldFocus}
           className={cn(
             fieldClassName,
             errors.email && "border-rose-400/70 focus:border-rose-300",
@@ -154,6 +190,7 @@ export function ContactForm() {
           rows={5}
           value={values.helpNeeded}
           onChange={(event) => updateField("helpNeeded", event.target.value)}
+          onFocus={handleFieldFocus}
           className={cn(
             fieldClassName,
             "resize-none",
@@ -173,9 +210,10 @@ export function ContactForm() {
       <div className="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6">
         <button
           type="submit"
-          className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-slate-950 hover:-translate-y-0.5 hover:bg-accent/90"
+          disabled={isPending}
+          className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.04] px-5 py-3.5 text-sm font-semibold text-white hover:-translate-y-0.5 hover:border-accent/50 hover:bg-white/[0.08] disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Send the details
+          {isPending ? "Sending..." : "Send the details"}
         </button>
 
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
@@ -187,16 +225,25 @@ export function ContactForm() {
             {siteConfig.contactEmail}
           </a>
         </div>
-
-        <p className="text-sm leading-7 text-muted">
-          Prefer the fastest route? Booking is usually the best next step.
-        </p>
       </div>
 
       {message ? (
-        <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm text-emerald-100">
+        <div
+          className={cn(
+            "mt-5 rounded-2xl border p-4 text-sm",
+            messageTone === "success" &&
+              "border-emerald-400/20 bg-emerald-400/10 text-emerald-100",
+            messageTone === "error" &&
+              "border-rose-400/20 bg-rose-400/10 text-rose-100",
+          )}
+        >
           <div className="flex items-start gap-3">
-            <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-emerald-300" />
+            <CheckCircle2
+              className={cn(
+                "mt-0.5 size-5 shrink-0",
+                messageTone === "success" ? "text-emerald-300" : "text-rose-300",
+              )}
+            />
             <p>{message}</p>
           </div>
         </div>
