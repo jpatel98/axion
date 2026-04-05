@@ -6,273 +6,273 @@ export const siteContent = {
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ],
-  headerCta: "Book a Consultation",
-  mobileStickyCta: "Book a Consultation",
+  headerCta: "Book a Call",
+  mobileStickyCta: "Book a Call",
   hero: {
-    eyebrow: "",
-    title: "Modern websites, better systems, practical AI",
-    emphasis: "for small businesses that want to move faster.",
+    eyebrow: "Websites \u00b7 Automation \u00b7 AI",
+    title: "We build the systems",
+    emphasis: "your business actually runs on.",
     description:
-      "We help owner-led businesses look more credible, reduce manual admin, and put practical digital systems in place without agency bloat or AI theatre.",
+      "Better websites. Fewer manual processes. AI that does something useful. No fluff, no six-month roadmaps.",
     audienceLine:
-      "Built for owner-led businesses dealing with an outdated site, too much manual admin, or disconnected tools.",
-    primaryCta: "Book a Consultation",
-    primaryNote: "30-minute consult. We will tell you what to fix first.",
-    secondaryCta: "See Services",
+      "For small teams tired of duct-taped tools, outdated sites, and copy-pasting between tabs.",
+    primaryCta: "Book a Call",
+    primaryNote: "30 min. We\u2019ll tell you what to fix first.",
+    secondaryCta: "See What We Build",
     secondaryHref: "#services",
   },
   credibility: [
-    "Built for small business",
-    "Modern websites",
-    "Smarter workflows",
-    "Practical AI",
-    "Clear execution",
-    "No bloated process",
+    "Ship fast",
+    "Modern stack",
+    "No bloat",
+    "AI that works",
+    "Small team focus",
+    "Transparent scope",
   ],
   proof: {
-    title: "What this usually fixes in the real world.",
+    title: "Real problems we\u2019ve fixed.",
     description:
-      "The surface problem changes from business to business. The value usually looks the same: less admin, faster follow-up, and a business that feels more current.",
+      "Different industries, same pattern: too much manual work, a site that doesn\u2019t reflect the business, and tools that don\u2019t talk to each other.",
     sharedOutcomes: [
       {
-        title: "Look more credible",
+        title: "First impressions that land",
         description:
-          "A stronger site and cleaner customer touchpoints make the business look established before anyone calls.",
+          "A site that looks like 2026, not 2018. Customers trust you before they ever pick up the phone.",
       },
       {
-        title: "Respond faster",
+        title: "Faster follow-up",
         description:
-          "Leads, bookings, reminders, and follow-up move through a cleaner path with fewer dropped steps.",
+          "Leads, bookings, and reminders flow through one system instead of three inboxes and a spreadsheet.",
       },
       {
-        title: "Waste less time",
+        title: "Hours back in the week",
         description:
-          "Manual copy-paste work, inbox chasing, and scattered process handoffs stop eating the day.",
+          "Automate the copy-paste, the reminder emails, the intake forms. Spend time on the work that matters.",
       },
     ],
     scenarios: [
       {
         industry: "Contractors",
         problem:
-          "An outdated site and slow follow-up make the business look smaller than it is.",
+          "Site looked like it was built in 2015. Leads went to a Gmail inbox and got lost.",
         fix:
-          "Modernize the site, sharpen the service pages, and clean up how inquiries are handled.",
+          "New site, structured intake form, automated follow-up sequence.",
         outcomes: [
-          "Stronger first impression",
-          "Better inquiry quality",
-          "Faster response path",
+          "3x inquiry quality",
+          "Same-day response rate",
+          "Actually looks legit",
         ],
       },
       {
         industry: "Clinics",
         problem:
-          "Manual intake, reminders, and front-desk coordination create avoidable admin drag.",
+          "Front desk drowning in manual intake, phone reminders, and no-shows.",
         fix:
-          "Digitize intake, automate reminders, and give staff a cleaner process to work from.",
+          "Digital intake, automated reminders, waitlist backfill.",
         outcomes: [
-          "Cleaner intake flow",
-          "Fewer follow-up gaps",
-          "Smoother client experience",
+          "40% less front-desk time",
+          "Fewer no-shows",
+          "Patients notice the difference",
         ],
       },
       {
-        industry: "Professional offices",
+        industry: "Professional services",
         problem:
-          "Client onboarding, documents, and follow-up live across too many disconnected steps.",
+          "Client onboarding scattered across email, PDFs, and a shared drive from 2019.",
         fix:
-          "Bring the workflow into one clearer system that is easier to manage and repeat.",
+          "One onboarding flow. Documents, signatures, and next steps in one place.",
         outcomes: [
-          "Less admin friction",
-          "Clearer handoffs",
-          "More consistent service",
+          "Onboarding in days, not weeks",
+          "Nothing falls through",
+          "Clients feel handled",
         ],
       },
     ],
   },
   services: {
-    title: "What we usually fix first.",
+    title: "What we build.",
     description:
-      "Most engagements start with one visible problem. We fix that first, then build the right foundation behind it.",
+      "Most projects start with one broken thing. We fix that, then wire up the rest.",
     items: [
       {
         label: "Web",
-        title: "Website Design & Development",
+        title: "Websites",
         description:
-          "Replace outdated sites with a modern presence that feels current, credible, and easy to contact.",
-        outcome: "A stronger first impression and better lead flow.",
+          "Fast, modern sites that load instantly, rank well, and make your business look as good as it actually is.",
+        outcome: "A site you\u2019re not embarrassed to share.",
       },
       {
         label: "Automation",
-        title: "Automation & AI Workflows",
+        title: "Workflow Automation",
         description:
-          "Connect forms, inboxes, spreadsheets, and repetitive tasks so work stops getting re-entered and chased manually.",
-        outcome: "Less admin and faster follow-up.",
+          "Connect your forms, CRM, email, and calendar. Stop re-entering the same data in four places.",
+        outcome: "Less admin. Faster everything.",
       },
       {
         label: "Intake",
-        title: "Intake, Booking & Follow-Up",
+        title: "Intake & Booking",
         description:
-          "Tighten the path from first inquiry to booked appointment, reminder, and next step.",
-        outcome: "Fewer missed leads and a smoother customer experience.",
+          "From first inquiry to booked appointment in one clean flow. Reminders included.",
+        outcome: "Fewer missed leads. Zero phone tag.",
       },
       {
         label: "Systems",
-        title: "Internal Tools & Process Cleanup",
+        title: "Internal Tools",
         description:
-          "Remove workflow friction and build lightweight tools so the team has a cleaner way to operate.",
-        outcome: "Better visibility and fewer dropped steps.",
+          "Lightweight dashboards, trackers, and process tools built for how your team actually works.",
+        outcome: "Visibility without the enterprise price tag.",
       },
       {
-        label: "Local growth",
+        label: "Search",
         title: "SEO & Local Presence",
         description:
-          "Improve the pages, structure, and basics that help local customers find you and trust you.",
-        outcome: "Stronger local visibility and better trust signals.",
+          "The basics that actually move the needle: page structure, speed, local listings, and content that ranks.",
+        outcome: "Show up when people search for what you do.",
       },
       {
         label: "Advisory",
-        title: "Systems Consulting",
+        title: "Systems Strategy",
         description:
-          "Figure out what is actually slowing the business down and prioritize the fixes that matter most.",
-        outcome: "Clear next steps instead of random tools and guesswork.",
+          "Not sure where to start? We\u2019ll audit what you have, find the bottleneck, and give you a plan.",
+        outcome: "Clarity instead of guesswork.",
       },
     ],
   },
   whyAxion: {
-    title: "Practical help, clear execution, no wasted motion.",
+    title: "How we think about the work.",
     description:
-      "The goal is not to add more software. The goal is to make the business easier to run and easier to trust.",
+      "We\u2019re builders, not a slide deck factory. The goal is working software and fewer problems, not more meetings.",
     principles: [
       {
-        title: "Start with the bottleneck",
+        title: "Fix the bottleneck first",
         description:
-          "We look for the part of the business that is costing time, slowing response, or creating friction first.",
+          "Find the thing costing the most time or trust, and fix that. Everything else gets easier after.",
       },
       {
-        title: "Build around the real team",
+        title: "Build for real people",
         description:
-          "If a system is too heavy for your team to use consistently, it is the wrong system.",
+          "If your team won\u2019t use it, it\u2019s the wrong solution. We build tools people actually adopt.",
       },
       {
-        title: "Keep the plan clear",
+        title: "Keep it simple",
         description:
-          "You should know what is being built, why it matters, and what it should improve.",
+          "You should understand what we\u2019re building, why it matters, and when it ships. No mystery.",
       },
     ],
     comparisons: [
       {
-        label: "Doing nothing",
-        title: "The inefficiency becomes the process.",
+        label: "vs. doing nothing",
+        title: "The mess becomes the process.",
         description:
-          "Manual work piles up, response stays slow, and small problems start to feel normal.",
+          "Manual workarounds pile up until they feel normal. They\u2019re not.",
       },
       {
-        label: "Freelancer only",
-        title: "One piece gets fixed, but the operating issue stays.",
+        label: "vs. a freelancer",
+        title: "One piece gets fixed. The system doesn\u2019t.",
         description:
-          "A page or tool may be built well, but the broader workflow usually stays unresolved.",
+          "Great for a one-off task. Not great when the whole workflow is the problem.",
       },
       {
-        label: "Big agency",
-        title: "Too much ceremony for a practical problem.",
+        label: "vs. a big agency",
+        title: "Six figures and a Gantt chart.",
         description:
-          "A large process can add cost and meetings without fixing the day-to-day bottlenecks that matter.",
+          "Massive scope, slow delivery, and half the budget goes to project management overhead.",
       },
       {
-        label: "Random AI tools",
-        title: "More tools, more noise, not much value.",
+        label: "vs. random AI tools",
+        title: "More dashboards, same mess.",
         description:
-          "Without a plan, AI turns into one more disconnected layer instead of something useful.",
+          "Without a system behind it, AI is just another tab you forget to check.",
       },
     ],
   },
   process: {
-    title: "Simple process. Clear scope. Fast movement.",
+    title: "How it works.",
     description:
-      "We keep the path short: find the issue, build the fix, improve what matters next.",
+      "Four steps. No discovery phase that lasts longer than the build.",
     steps: [
       {
-        title: "Discover",
+        title: "Diagnose",
         description:
-          "We review the current site, workflows, tools, and pain points to find the real drag on the business.",
-        outcome: "Clear priorities.",
+          "We look at your site, tools, and workflows. Find what\u2019s actually broken vs. what\u2019s just annoying.",
+        outcome: "A clear priority list.",
       },
       {
-        title: "Plan",
+        title: "Scope",
         description:
-          "We choose the highest-value fixes and define a practical rollout that fits the team.",
-        outcome: "Practical plan.",
+          "Pick the highest-impact fix. Define what ships, when, and what it costs. No surprises.",
+        outcome: "A plan you can hold us to.",
       },
       {
         title: "Build",
         description:
-          "We design, implement, and connect the pieces that need to work better.",
-        outcome: "Working solution.",
+          "We design, develop, and deploy. You see progress weekly, not quarterly.",
+        outcome: "Working software, not wireframes.",
       },
       {
-        title: "Refine",
+        title: "Iterate",
         description:
-          "We tighten weak spots, improve adoption, and support the next step once the foundation is in place.",
-        outcome: "Ongoing improvement without chaos.",
+          "Tighten what\u2019s live, add what\u2019s next. Continuous improvement without scope creep.",
+        outcome: "Gets better every cycle.",
       },
     ],
   },
   faq: {
-    title: "Questions business owners usually ask first.",
+    title: "Common questions.",
     description:
-      "The right answer is rarely “buy more software.” It is usually “fix the right few things first.”",
+      "No, we won\u2019t try to sell you a CRM.",
     items: [
       {
-        question: "Is this only for large companies?",
+        question: "Is this only for big companies?",
         answer:
-          "No. Axion is built for small and growing businesses that need better systems without enterprise consulting overhead.",
+          "No. We work almost exclusively with small teams\u20141 to 30 people. That\u2019s who we build for.",
       },
       {
-        question: "Do you build websites too?",
+        question: "Do you build websites?",
         answer:
-          "Yes. Website design and development is a core part of the work, especially when the current site looks outdated or no longer reflects the quality of the business.",
+          "Yes. It\u2019s one of the most common starting points. If your site looks dated, we\u2019ll make it fast, modern, and something you actually want to send people to.",
       },
       {
-        question: "What kind of AI work do you actually do?",
+        question: "What kind of AI work do you do?",
         answer:
-          "Practical work: FAQ handling, intake triage, draft responses, workflow support, and business-specific automations. The goal is to reduce friction, not bolt AI onto everything.",
+          "The useful kind. Intake triage, draft responses, FAQ handling, document processing. Not chatbots for the sake of chatbots.",
       },
       {
-        question: "How do I know what my business actually needs?",
+        question: "I don\u2019t know what I need. Is that okay?",
         answer:
-          "You do not need to arrive with a full plan. A useful starting point is knowing where time is being wasted, where customers hit friction, or where the business looks less credible than it should.",
+          "Totally. Most clients start with \u201csomething feels broken.\u201d We\u2019ll figure out the specifics together.",
       },
       {
-        question: "Can you improve what I already have?",
+        question: "Can you fix what I already have?",
         answer:
-          "Yes. In many cases the right move is to improve what is already there instead of replacing everything.",
+          "Usually. Improving existing systems is often faster and cheaper than starting from scratch.",
       },
       {
-        question: "Will this be too complicated for my team?",
+        question: "Will my team actually use this?",
         answer:
-          "It should not be. A core principle is building systems that a small business team can realistically adopt and manage. If it is too heavy for your team, it is the wrong solution.",
+          "That\u2019s the whole point. We don\u2019t build things that require a training manual. If it\u2019s too complicated, it\u2019s wrong.",
       },
     ],
   },
   contact: {
-    eyebrow: "Start Here",
-    title: "Book the conversation first. Use the form if you are not ready yet.",
+    eyebrow: "Let\u2019s talk",
+    title: "Book the call. Or drop us a note.",
     description:
-      "The fastest path is a short consultation. We will look at what is slowing the business down and tell you what to fix first.",
-    primaryCta: "Book a Consultation",
-    primaryNote: "30-minute consult. We will tell you what to fix first.",
+      "30 minutes. We\u2019ll look at what\u2019s broken and tell you what to fix first. No pitch deck.",
+    primaryCta: "Book a Call",
+    primaryNote: "Free. 30 min. No obligations.",
     reassurance: [
       "Straight answer on what to fix first",
-      "Scope sized for a small business",
-      "Built to be used by your actual team",
+      "Scoped for small teams and real budgets",
+      "We build it. You own it.",
     ],
   },
   footer: {
     name: "Axion Technologies",
     tagline:
-      "Modern websites, better systems, and practical AI for small businesses that want to run more cleanly and look more credible.",
+      "We build websites, automate workflows, and deploy AI that actually works\u2014for small teams that move fast.",
     domain: "axiontechnologies.ca",
-    copyright: "© 2026 Axion Technologies. All rights reserved.",
+    copyright: "\u00a9 2026 Axion Technologies. All rights reserved.",
     legal: "Privacy policy and terms available on request.",
   },
 } as const;

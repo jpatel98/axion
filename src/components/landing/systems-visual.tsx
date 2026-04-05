@@ -23,14 +23,14 @@ export function SystemsVisual() {
       <div className="relative flex flex-wrap items-start justify-between gap-3">
         <div className="max-w-xs">
           <p className="font-mono text-[0.72rem] uppercase tracking-[0.32em] text-accent">
-            Operating layer
+            System overview
           </p>
           <p className="mt-3 text-sm leading-7 text-muted-strong">
-            One cleaner flow from first click to follow-up.
+            One stack. First click to follow-up.
           </p>
         </div>
-        <div className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs uppercase tracking-[0.28em] text-white/75">
-          Built for real operations
+        <div className="rounded-full border border-accent/25 bg-accent/[0.06] px-4 py-2 font-mono text-[0.65rem] uppercase tracking-[0.28em] text-accent/80">
+          status: operational
         </div>
       </div>
 
@@ -42,18 +42,18 @@ export function SystemsVisual() {
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-accent">
           Web presence
         </p>
-        <h3 className="mt-4 text-2xl font-semibold text-white">
-          Website, search, and lead capture.
+        <h3 className="mt-4 text-xl font-semibold text-white">
+          Site &middot; Search &middot; Lead capture
         </h3>
-        <div className="mt-4 flex flex-wrap gap-2 text-sm text-muted-strong">
+        <div className="mt-4 flex flex-wrap gap-2 font-mono text-xs text-muted-strong">
           <span className="rounded-full border border-white/10 px-3 py-1.5">
-            Fast pages
+            &lt;1s load
           </span>
           <span className="rounded-full border border-white/10 px-3 py-1.5">
-            Better inquiries
+            SEO-ready
           </span>
           <span className="rounded-full border border-white/10 px-3 py-1.5">
-            Local visibility
+            auto-capture
           </span>
         </div>
       </motion.div>
@@ -67,10 +67,10 @@ export function SystemsVisual() {
           Operations
         </p>
         <h3 className="mt-4 text-xl font-semibold text-white">
-          Booking, intake, reminders, and admin flow.
+          Booking &rarr; Intake &rarr; Reminders
         </h3>
-        <p className="mt-3 text-sm leading-7 text-muted-strong">
-          Less duplicate entry. Fewer dropped steps.
+        <p className="mt-3 font-mono text-xs leading-6 text-muted-strong">
+          Zero duplicate entry. Zero dropped steps.
         </p>
       </motion.div>
 
@@ -83,19 +83,19 @@ export function SystemsVisual() {
           AI layer
         </p>
         <h3 className="mt-4 text-xl font-semibold text-white">
-          FAQ handling, drafting, and triage.
+          Triage &middot; Draft &middot; Respond
         </h3>
-        <p className="mt-3 text-sm leading-7 text-muted-strong">
-          Use AI where it actually saves time.
+        <p className="mt-3 font-mono text-xs leading-6 text-muted-strong">
+          AI where it saves time. Nowhere else.
         </p>
       </motion.div>
 
       <div className="relative mt-6 flex flex-wrap gap-3">
-        <div className="rounded-full border border-accent/30 bg-accent/10 px-4 py-2 text-xs uppercase tracking-[0.28em] text-accent">
-          Less manual work
+        <div className="rounded-full border border-accent/30 bg-accent/10 px-4 py-2 font-mono text-[0.65rem] uppercase tracking-[0.28em] text-accent">
+          &minus;80% manual work
         </div>
-        <div className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs uppercase tracking-[0.28em] text-white/75">
-          Faster lead response
+        <div className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 font-mono text-[0.65rem] uppercase tracking-[0.28em] text-white/60">
+          response_time: &lt;1h
         </div>
       </div>
     </div>

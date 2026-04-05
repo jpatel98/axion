@@ -56,7 +56,7 @@ export function SiteHeader() {
                 Axion Technologies
               </span>
               <span className="font-mono text-[0.64rem] uppercase tracking-[0.3em] text-accent">
-                Small business systems
+                Build &middot; Automate &middot; Ship
               </span>
             </a>
 
