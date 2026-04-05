@@ -98,14 +98,13 @@ export function ContactForm() {
     >
       <div className="mb-6">
         <p className="font-mono text-[0.72rem] uppercase tracking-[0.32em] text-accent">
-          Secondary path
+          Async option
         </p>
         <h3 className="mt-3 text-xl font-semibold text-white sm:text-2xl">
-          Prefer to send the details instead?
+          Not ready for a call? Drop us a note.
         </h3>
         <p className="mt-3 max-w-lg text-sm leading-7 text-muted">
-          Share a quick overview and we will follow up. If time matters, booking
-          the consultation is still the fastest route.
+          Tell us what&apos;s broken. We&apos;ll get back to you within a day.
         </p>
       </div>
 

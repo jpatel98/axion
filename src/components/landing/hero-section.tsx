@@ -21,9 +21,9 @@ export function HeroSection() {
           ) : null}
 
           <Reveal delay={0.05}>
-            <h1 className="max-w-[12ch] text-5xl font-semibold leading-[0.95] text-white sm:text-6xl lg:text-[4.75rem]">
+            <h1 className="max-w-[14ch] text-5xl font-semibold leading-[0.95] text-white sm:text-6xl lg:text-[4.75rem]">
               {siteContent.hero.title}
-              <span className="mt-3 block font-display text-[0.9em] font-normal italic text-accent">
+              <span className="mt-3 block font-display text-[0.88em] font-normal italic text-accent">
                 {siteContent.hero.emphasis}
               </span>
             </h1>
@@ -36,7 +36,7 @@ export function HeroSection() {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <p className="mt-5 max-w-[40rem] text-sm leading-7 text-white/72 sm:text-[0.95rem]">
+            <p className="mt-5 max-w-[40rem] font-mono text-[0.82rem] leading-7 text-white/50 sm:text-sm">
               {siteContent.hero.audienceLine}
             </p>
           </Reveal>
