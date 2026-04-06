@@ -2,7 +2,6 @@ import { siteContent } from "@/content/site";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
-import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 export function WhyAxionSection() {
   return (
@@ -35,21 +34,15 @@ export function WhyAxionSection() {
         </div>
 
         <Reveal delay={0.06}>
-          <TerminalWindow title="diff :: alternatives">
-            <div className="mb-4">
-              <p className="text-xs uppercase tracking-wider text-muted">
-                comparing options...
-              </p>
-            </div>
-
+          <div className="border border-accent/15 bg-[#030508] p-4 sm:p-6">
             <div className="divide-y divide-accent/10">
               {siteContent.whyAxion.comparisons.map((item) => (
                 <article
                   key={item.label}
                   className="py-4 first:pt-0 last:pb-0"
                 >
-                  <p className="truncate text-xs text-rose-400/80">
-                    --- {item.label.replace("vs. ", "")}
+                  <p className="text-xs font-medium uppercase tracking-wider text-accent/70">
+                    {item.label}
                   </p>
                   <h3 className="mt-2 text-sm font-bold text-white sm:text-base">
                     {item.title}
@@ -60,15 +53,15 @@ export function WhyAxionSection() {
                 </article>
               ))}
               <div className="pt-4">
-                <p className="text-xs text-green-400">
-                  +++ axion
+                <p className="text-xs font-medium uppercase tracking-wider text-green-400">
+                  Axion
                 </p>
                 <p className="mt-1 text-xs text-green-300 sm:text-sm">
                   Practical change. Working software. Fewer problems.
                 </p>
               </div>
             </div>
-          </TerminalWindow>
+          </div>
         </Reveal>
       </SectionInner>
     </SectionShell>

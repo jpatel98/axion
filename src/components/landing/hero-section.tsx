@@ -3,15 +3,14 @@ import { siteConfig } from "@/lib/site-config";
 import { ButtonLink } from "@/components/landing/link-button";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
-import { SystemsVisual } from "@/components/landing/systems-visual";
 import { AsciiArt } from "@/components/terminal/ascii-art";
 import { asciiArt } from "@/content/ascii-art";
 
 export function HeroSection() {
   return (
     <SectionShell id="hero" className="pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pt-34">
-      <SectionInner className="relative grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr]">
-        <div className="max-w-2xl">
+      <SectionInner className="relative">
+        <div className="max-w-3xl">
           <Reveal>
             <AsciiArt
               art={asciiArt.logo}
@@ -28,7 +27,7 @@ export function HeroSection() {
             <Reveal>
               <p className="mt-4 text-[0.65rem] uppercase tracking-[0.2em] sm:text-[0.72rem] sm:tracking-[0.34em]">
                 <span aria-hidden="true" className="text-accent">
-                  ${" "}
+                  {"$ "}
                 </span>
                 <span className="text-muted-strong">
                   {siteContent.hero.eyebrow}
@@ -54,11 +53,21 @@ export function HeroSection() {
 
           <Reveal delay={0.12}>
             <p className="mt-5 max-w-[40rem] text-[0.7rem] leading-6 text-white/40 sm:text-sm sm:leading-7">
-              <span aria-hidden="true" className="text-accent/60">
-                {"// "}
-              </span>
               {siteContent.hero.audienceLine}
             </p>
+          </Reveal>
+
+          <Reveal delay={0.14}>
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border border-accent/15 bg-accent/[0.04] px-5 py-4 text-sm sm:text-base">
+              {siteContent.hero.stats.map((stat, i) => (
+                <span key={stat} className="flex items-center gap-x-6">
+                  {i > 0 && (
+                    <span className="hidden text-accent/25 sm:inline" aria-hidden="true">|</span>
+                  )}
+                  <span className="text-white/90">{stat}</span>
+                </span>
+              ))}
+            </div>
           </Reveal>
 
           <Reveal delay={0.16}>
@@ -71,17 +80,10 @@ export function HeroSection() {
               </ButtonLink>
             </div>
             <p className="mt-4 text-sm leading-7 text-muted">
-              <span aria-hidden="true" className="text-accent/50">
-                {">"}{" "}
-              </span>
               {siteContent.hero.primaryNote}
             </p>
           </Reveal>
         </div>
-
-        <Reveal delay={0.14} className="lg:justify-self-end">
-          <SystemsVisual />
-        </Reveal>
       </SectionInner>
     </SectionShell>
   );

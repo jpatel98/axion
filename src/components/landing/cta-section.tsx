@@ -17,13 +17,8 @@ export function CtaSection({ children }: CtaSectionProps) {
           <div className="relative grid gap-10 lg:grid-cols-[0.98fr_1.02fr]">
             <Reveal>
               <div className="max-w-xl">
-                <p className="text-xs uppercase tracking-[0.2em]">
-                  <span aria-hidden="true" className="text-accent">
-                    ${" "}
-                  </span>
-                  <span className="text-muted-strong">axion</span>
-                  <span className="text-muted"> --</span>
-                  <span className="text-accent">{siteContent.contact.eyebrow.toLowerCase().replace(/\u2019/g, "")}</span>
+                <p className="text-xs uppercase tracking-[0.2em] text-accent">
+                  {siteContent.contact.eyebrow}
                 </p>
                 <h2 className="glow-text mt-4 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
                   {siteContent.contact.title}
@@ -45,9 +40,6 @@ export function CtaSection({ children }: CtaSectionProps) {
                 </div>
 
                 <p className="mt-4 text-sm leading-7 text-muted">
-                  <span aria-hidden="true" className="text-accent/50">
-                    {">"}{" "}
-                  </span>
                   {siteContent.contact.primaryNote}
                 </p>
 
