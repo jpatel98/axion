@@ -27,17 +27,11 @@ export function SectionHeading({
         className,
       )}
     >
-      <p className="text-xs uppercase tracking-[0.2em]">
-        <span aria-hidden="true" className="text-accent">
-          ${" "}
-        </span>
-        <span className={isLight ? "text-slate-500" : "text-muted-strong"}>
-          axion
-        </span>
-        <span className={isLight ? "text-slate-400" : "text-muted"}>
-          {" "}--
-        </span>
-        <span className="text-accent">{eyebrow.toLowerCase()}</span>
+      <p className={cn(
+        "text-xs uppercase tracking-[0.2em]",
+        isLight ? "text-slate-500" : "text-accent",
+      )}>
+        {eyebrow}
       </p>
       <h2
         className={cn(

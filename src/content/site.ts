@@ -2,8 +2,10 @@ export const siteContent = {
   nav: [
     { label: "Services", href: "#services" },
     { label: "Results", href: "#results" },
+    { label: "Pricing", href: "#pricing" },
     { label: "Process", href: "#process" },
     { label: "FAQ", href: "#faq" },
+    { label: "Early Access", href: "#early-access" },
     { label: "Contact", href: "#contact" },
   ],
   headerCta: "Book a Call",
@@ -13,9 +15,14 @@ export const siteContent = {
     title: "We build the systems",
     emphasis: "your business actually runs on.",
     description:
-      "Better websites. Fewer manual processes. AI that does something useful. No fluff, no six-month roadmaps.",
+      "Better websites. Fewer manual processes. AI that actually does something useful \u2014 without the six-figure agency price tag.",
     audienceLine:
-      "For small teams tired of duct-taped tools, outdated sites, and copy-pasting between tabs.",
+      "For small businesses \u2014 clinics, contractors, shops \u2014 tired of duct-taped tools and outdated sites.",
+    stats: [
+      "80% less admin work",
+      "Same-day response time",
+      "Built for teams under 30",
+    ],
     primaryCta: "Book a Call",
     primaryNote: "30 min. We\u2019ll tell you what to fix first.",
     secondaryCta: "See What We Build",
@@ -52,7 +59,7 @@ export const siteContent = {
     ],
     scenarios: [
       {
-        industry: "Contractors",
+        industry: "Renovation Contractor",
         problem:
           "Site looked like it was built in 2015. Leads went to a Gmail inbox and got lost.",
         fix:
@@ -61,12 +68,13 @@ export const siteContent = {
           "3x inquiry quality",
           "Same-day response rate",
           "Actually looks legit",
+          "Follows up automatically \u2014 no more leads going cold",
         ],
       },
       {
-        industry: "Clinics",
+        industry: "Dental & Medical Clinics",
         problem:
-          "Front desk drowning in manual intake, phone reminders, and no-shows.",
+          "Front desk spending hours on calls, intake forms, and chasing down no-shows.",
         fix:
           "Digital intake, automated reminders, waitlist backfill.",
         outcomes: [
@@ -76,7 +84,7 @@ export const siteContent = {
         ],
       },
       {
-        industry: "Professional services",
+        industry: "Consultants & Agencies",
         problem:
           "Client onboarding scattered across email, PDFs, and a shared drive from 2019.",
         fix:
@@ -137,6 +145,54 @@ export const siteContent = {
         outcome: "Clarity instead of guesswork.",
       },
     ],
+  },
+  pricing: {
+    title: "Simple, honest pricing.",
+    description:
+      "No retainers, no surprises. You know what ships and what it costs before we start.",
+    tiers: [
+      {
+        name: "Starter",
+        label: "Most popular starting point",
+        price: "From $1,500",
+        description:
+          "One focused fix. Usually a new or rebuilt website, a booking/intake flow, or a workflow automation.",
+        includes: [
+          "Discovery call",
+          "Scoped deliverable",
+          "2 rounds of revisions",
+          "You own everything",
+        ],
+      },
+      {
+        name: "Systems",
+        label: "For businesses ready to wire it all up",
+        price: "From $3,500",
+        description:
+          "Website + automation + one AI layer. Everything connected, working together.",
+        includes: [
+          "Everything in Starter",
+          "Workflow automation",
+          "AI integration (intake, FAQ, or follow-up)",
+          "30 days of post-launch support",
+        ],
+      },
+      {
+        name: "Ongoing",
+        label: "For businesses that want to keep improving",
+        price: "$500\u2013$1,200/mo",
+        description:
+          "Monthly retainer for continuous improvements, updates, and new automations as your business grows.",
+        includes: [
+          "Priority support",
+          "Monthly builds",
+          "Strategy check-ins",
+          "Cancel any time",
+        ],
+      },
+    ],
+    footnote:
+      "Not sure which fits? The free 30-min call will tell you.",
   },
   whyAxion: {
     title: "How we think about the work.",
@@ -254,6 +310,27 @@ export const siteContent = {
       },
     ],
   },
+  earlyAccess: {
+    title: "Something new is coming.",
+    description:
+      "We\u2019re building a dedicated AI employee for dental and medical offices. Handles patient questions, appointment reminders, and after-hours inquiries \u2014 across text, WhatsApp, and your website.",
+    handles: [
+      "After-hours patient questions",
+      "Appointment reminders and confirmations",
+      "New patient intake",
+      "Insurance and pricing FAQs",
+      "No-show follow-up",
+    ],
+    means: [
+      "Front desk spends time on patients, not phones",
+      "Fewer no-shows, more filled slots",
+      "Patients get answers instantly, not next business day",
+      "Works 24/7, no overtime",
+    ],
+    ctaLabel: "Join the early access list",
+    ctaHref: "mailto:hello@axiontechnologies.ca?subject=Early Access - Dental AI",
+    footnote: "Early access spots are limited. No commitment required.",
+  },
   contact: {
     eyebrow: "Let\u2019s talk",
     title: "Book the call. Or drop us a note.",
@@ -270,7 +347,7 @@ export const siteContent = {
   footer: {
     name: "Axion Technologies",
     tagline:
-      "We build websites, automate workflows, and deploy AI that actually works\u2014for small teams that move fast.",
+      "We build websites, automate workflows, and deploy practical AI \u2014 for small businesses that have better things to do than manage software.",
     domain: "axiontechnologies.ca",
     copyright: "\u00a9 2026 Axion Technologies. All rights reserved.",
     legal: "Privacy policy and terms available on request.",
