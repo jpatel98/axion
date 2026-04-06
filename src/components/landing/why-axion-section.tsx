@@ -22,10 +22,10 @@ export function WhyAxionSection() {
                   <p className="text-xs text-accent">
                     [{String(index + 1).padStart(2, "0")}]
                   </p>
-                  <h3 className="mt-2 text-lg font-bold text-white">
+                  <h3 className="mt-2 text-base font-bold text-white sm:text-lg">
                     {item.title}
                   </h3>
-                  <p className="mt-2 max-w-xl text-sm leading-7 text-muted-strong">
+                  <p className="mt-2 max-w-xl text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                     {item.description}
                   </p>
                 </article>
@@ -48,10 +48,10 @@ export function WhyAxionSection() {
                   key={item.label}
                   className="py-4 first:pt-0 last:pb-0"
                 >
-                  <p className="text-xs text-rose-400/80">
+                  <p className="truncate text-xs text-rose-400/80">
                     --- {item.label.replace("vs. ", "")}
                   </p>
-                  <h3 className="mt-2 text-base font-bold text-white">
+                  <h3 className="mt-2 text-sm font-bold text-white sm:text-base">
                     {item.title}
                   </h3>
                   <p className="mt-1 text-sm leading-7 text-muted-strong">

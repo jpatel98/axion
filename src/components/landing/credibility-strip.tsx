@@ -7,7 +7,7 @@ export function CredibilityStrip() {
     <SectionShell className="py-6 sm:py-8">
       <SectionInner>
         <Reveal>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 py-3 text-[0.65rem] uppercase tracking-[0.2em] sm:text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1.5 py-3 text-[0.55rem] uppercase tracking-[0.05em] sm:gap-x-2 sm:gap-y-2 sm:text-xs sm:tracking-[0.2em]">
             {siteContent.credibility.map((item, index) => (
               <span
                 key={item}

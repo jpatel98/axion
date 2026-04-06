@@ -36,7 +36,7 @@ export function ButtonLink({
         }
       }}
       className={cn(
-        "inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-bold uppercase tracking-wider",
+        "inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wider sm:px-5 sm:py-3 sm:text-sm",
         variant === "primary" &&
           "border border-accent/40 bg-accent/10 text-accent hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(125,211,252,0.15)]",
         variant === "secondary" &&

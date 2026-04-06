@@ -22,23 +22,23 @@ export function ServicesSection() {
                   key={service.title}
                   className="flex h-full flex-col bg-[#030508] p-5 sm:p-6"
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
+                  <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-4">
+                    <div className="min-w-0">
                       <p className="text-xs text-accent">
                         [{String(index + 1).padStart(2, "0")}]
                       </p>
-                      <h3 className="mt-3 text-lg font-bold text-white sm:text-xl">
+                      <h3 className="mt-3 text-base font-bold text-white sm:text-xl">
                         {service.title}
                       </h3>
                     </div>
-                    <span className="border border-accent/20 px-2 py-1 text-[0.65rem] uppercase tracking-wider text-accent/70">
+                    <span className="shrink-0 border border-accent/20 px-2 py-1 text-[0.6rem] uppercase tracking-wider text-accent/70 sm:text-[0.65rem]">
                       &lt;{service.label.toLowerCase()}&gt;
                     </span>
                   </div>
-                  <p className="mt-3 max-w-xl text-sm leading-7 text-muted-strong">
+                  <p className="mt-3 max-w-xl text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                     {service.description}
                   </p>
-                  <p className="mt-4 border-t border-accent/8 pt-4 text-sm leading-7 text-white/90">
+                  <p className="mt-4 border-t border-accent/8 pt-4 text-xs leading-6 text-white/90 sm:text-sm sm:leading-7">
                     <span className="text-accent">{`=> `}</span>
                     {service.outcome}
                   </p>

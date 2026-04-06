@@ -20,16 +20,16 @@ export function ProcessSection() {
             <div className="space-y-6">
               {siteContent.process.steps.map((step, index) => (
                 <div key={step.title}>
-                  <p className="text-sm text-muted-strong">
+                  <p className="truncate text-xs text-muted-strong sm:text-sm">
                     <span className="text-accent">$</span>{" "}
                     axion {step.title.toLowerCase()}
                   </p>
-                  <div className="mt-2 border-l-2 border-accent/15 pl-4">
-                    <p className="text-sm leading-7 text-muted">
+                  <div className="mt-2 border-l-2 border-accent/15 pl-3 sm:pl-4">
+                    <p className="text-xs leading-6 text-muted sm:text-sm sm:leading-7">
                       <span className="text-accent/60">&gt;</span>{" "}
                       {step.description}
                     </p>
-                    <p className="mt-1 text-sm leading-7 text-white/90">
+                    <p className="mt-1 text-xs leading-6 text-white/90 sm:text-sm sm:leading-7">
                       <span className="text-green-400">{`=> `}</span>
                       {step.outcome}
                     </p>
@@ -37,7 +37,7 @@ export function ProcessSection() {
                   {index < siteContent.process.steps.length - 1 && (
                     <p
                       aria-hidden="true"
-                      className="mt-4 text-xs text-accent/15"
+                      className="mt-4 overflow-hidden text-xs text-accent/15"
                     >
                       ─────────────────────────
                     </p>

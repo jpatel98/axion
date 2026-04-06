@@ -38,7 +38,7 @@ export function HeroSection() {
           ) : null}
 
           <Reveal delay={0.05}>
-            <h1 className="glow-text mt-6 max-w-[18ch] text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="glow-text mt-6 max-w-[22ch] text-xl font-bold leading-[1.05] text-white sm:max-w-[18ch] sm:text-4xl md:text-5xl lg:text-6xl">
               {siteContent.hero.title}
               <span className="mt-2 block text-[0.9em] text-accent">
                 {siteContent.hero.emphasis}
@@ -47,13 +47,13 @@ export function HeroSection() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="mt-6 max-w-[34rem] text-sm leading-7 text-muted-strong sm:text-base sm:leading-8">
+            <p className="mt-6 max-w-[34rem] text-xs leading-6 text-muted-strong sm:text-base sm:leading-8">
               {siteContent.hero.description}
             </p>
           </Reveal>
 
           <Reveal delay={0.12}>
-            <p className="mt-5 max-w-[40rem] text-[0.82rem] leading-7 text-white/40 sm:text-sm">
+            <p className="mt-5 max-w-[40rem] text-[0.7rem] leading-6 text-white/40 sm:text-sm sm:leading-7">
               <span aria-hidden="true" className="text-accent/60">
                 {"// "}
               </span>

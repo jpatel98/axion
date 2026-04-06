@@ -8,7 +8,7 @@ export function SiteFooter() {
       <SectionInner>
         <p
           aria-hidden="true"
-          className="mb-6 text-xs text-accent/15"
+          className="mb-6 overflow-hidden text-xs text-accent/15"
         >
           ════════════════════════════════════════
         </p>
@@ -32,7 +32,7 @@ export function SiteFooter() {
             <div className="mt-3 space-y-2 text-sm text-muted-strong">
               <a
                 href={`mailto:${siteConfig.contactEmail}`}
-                className="block hover:text-accent"
+                className="block break-all hover:text-accent"
               >
                 <span aria-hidden="true" className="text-accent/40">
                   {">"}{" "}

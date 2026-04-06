@@ -23,7 +23,7 @@ export function SystemsVisual() {
       title="axion :: status"
       className="mx-auto w-full max-w-[34rem]"
     >
-      <div className="overflow-x-auto text-xs sm:text-sm">
+      <div className="overflow-x-auto text-[0.65rem] sm:text-sm">
         <motion.p
           initial={prefersReducedMotion ? undefined : { opacity: 0 }}
           whileInView={prefersReducedMotion ? undefined : { opacity: 1 }}
@@ -40,7 +40,7 @@ export function SystemsVisual() {
             whileInView={prefersReducedMotion ? undefined : { opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.3 }}
-            className="grid grid-cols-3 gap-x-4 text-muted"
+            className="grid grid-cols-3 gap-x-2 text-muted sm:gap-x-4"
           >
             <span>MODULE</span>
             <span>STATUS</span>
@@ -51,7 +51,7 @@ export function SystemsVisual() {
             whileInView={prefersReducedMotion ? undefined : { opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.4 }}
-            className="text-accent/30"
+            className="overflow-hidden text-accent/30"
           >
             ─────────────────────────────────────
           </motion.p>
@@ -63,7 +63,7 @@ export function SystemsVisual() {
               whileInView={prefersReducedMotion ? undefined : { opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: 0.5 + i * 0.15 }}
-              className="grid grid-cols-3 gap-x-4 leading-7"
+              className="grid grid-cols-3 gap-x-2 leading-7 sm:gap-x-4"
             >
               <span className="text-muted-strong">{row.module}</span>
               <span className="text-green-400">[{row.status}]</span>
