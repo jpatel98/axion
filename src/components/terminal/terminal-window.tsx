@@ -23,7 +23,7 @@ export function TerminalWindow({
           {title}
         </span>
       </div>
-      <div className="p-5 sm:p-6">{children}</div>
+      <div className="p-3 sm:p-5 md:p-6">{children}</div>
     </div>
   );
 }

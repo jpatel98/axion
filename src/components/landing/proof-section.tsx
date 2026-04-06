@@ -23,10 +23,10 @@ export function ProofSection() {
                     <p className="text-xs uppercase tracking-wider text-accent">
                       what_improves
                     </p>
-                    <h3 className="mt-2 text-lg font-bold text-white">
+                    <h3 className="mt-2 text-base font-bold text-white sm:text-lg">
                       {item.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-7 text-muted-strong">
+                    <p className="mt-2 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                       {item.description}
                     </p>
                   </article>
@@ -49,16 +49,16 @@ export function ProofSection() {
 
                     <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
                       <div>
-                        <h3 className="text-base font-bold text-white">
+                        <h3 className="text-sm font-bold text-white sm:text-base">
                           {item.problem}
                         </h3>
-                        <p className="mt-2 text-sm leading-7 text-muted-strong">
+                        <p className="mt-2 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                           <span className="text-accent/50">{`=> `}</span>
                           {item.fix}
                         </p>
                       </div>
 
-                      <ul className="space-y-2 text-sm leading-7 text-white/90">
+                      <ul className="space-y-2 text-xs leading-6 text-white/90 sm:text-sm sm:leading-7">
                         {item.outcomes.map((outcome) => (
                           <li key={outcome} className="flex items-start gap-2">
                             <span className="text-green-400">*</span>

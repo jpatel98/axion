@@ -13,7 +13,7 @@ export function CtaSection({ children }: CtaSectionProps) {
   return (
     <SectionShell id="contact" className="pb-24 pt-20 sm:pt-24">
       <SectionInner>
-        <div className="relative border border-accent/15 bg-[#030508] p-6 sm:p-8 lg:p-12">
+        <div className="relative border border-accent/15 bg-[#030508] p-4 sm:p-6 md:p-8 lg:p-12">
           <div className="relative grid gap-10 lg:grid-cols-[0.98fr_1.02fr]">
             <Reveal>
               <div className="max-w-xl">
@@ -25,10 +25,10 @@ export function CtaSection({ children }: CtaSectionProps) {
                   <span className="text-muted"> --</span>
                   <span className="text-accent">{siteContent.contact.eyebrow.toLowerCase().replace(/\u2019/g, "")}</span>
                 </p>
-                <h2 className="glow-text mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl">
+                <h2 className="glow-text mt-4 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
                   {siteContent.contact.title}
                 </h2>
-                <p className="mt-4 max-w-lg text-sm leading-7 text-muted-strong sm:text-base sm:leading-8">
+                <p className="mt-4 max-w-lg text-xs leading-6 text-muted-strong sm:text-base sm:leading-8">
                   {siteContent.contact.description}
                 </p>
 
@@ -55,7 +55,7 @@ export function CtaSection({ children }: CtaSectionProps) {
                   {siteContent.contact.reassurance.map((item) => (
                     <div key={item} className="flex items-start gap-2">
                       <span className="text-green-400">*</span>
-                      <p className="text-sm leading-7 text-muted-strong">
+                      <p className="text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                         {item}
                       </p>
                     </div>

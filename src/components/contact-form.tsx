@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 const fieldClassName =
-  "w-full border border-accent/15 bg-transparent px-4 py-3 text-sm text-white outline-none placeholder:text-white/25 focus:border-accent/50 focus:bg-accent/[0.03]";
+  "w-full border border-accent/15 bg-transparent px-3 py-2.5 text-xs text-white outline-none placeholder:text-white/25 focus:border-accent/50 focus:bg-accent/[0.03] sm:px-4 sm:py-3 sm:text-sm";
 
 export function ContactForm() {
   const [values, setValues] = useState<LeadFormValues>(initialLeadFormValues);
@@ -232,7 +232,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="inline-flex items-center justify-center border border-accent/30 bg-accent/10 px-5 py-3 text-sm font-bold uppercase tracking-wider text-accent hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(125,211,252,0.15)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center border border-accent/30 bg-accent/10 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-accent hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(125,211,252,0.15)] disabled:cursor-not-allowed disabled:opacity-60 sm:px-5 sm:py-3 sm:text-sm"
           >
             {isPending ? "[ SENDING... ]" : "[ SEND ]"}
           </button>
@@ -240,9 +240,9 @@ export function ContactForm() {
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
             <a
               href={`mailto:${siteConfig.contactEmail}`}
-              className="inline-flex items-center gap-2 border border-accent/10 px-3 py-2 text-xs hover:border-accent/30 hover:text-accent"
+              className="inline-flex items-center gap-2 border border-accent/10 px-3 py-2 text-xs hover:border-accent/30 hover:text-accent break-all"
             >
-              <Mail className="size-3.5" />
+              <Mail className="size-3.5 shrink-0" />
               {siteConfig.contactEmail}
             </a>
           </div>

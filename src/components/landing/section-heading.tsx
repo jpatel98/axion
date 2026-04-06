@@ -41,7 +41,7 @@ export function SectionHeading({
       </p>
       <h2
         className={cn(
-          "glow-text mt-4 text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl",
+          "glow-text mt-4 text-xl font-bold leading-tight sm:text-3xl lg:text-4xl",
           isLight ? "text-slate-950" : "text-white",
         )}
       >
@@ -49,7 +49,7 @@ export function SectionHeading({
       </h2>
       <p
         className={cn(
-          "mt-4 text-sm leading-7 sm:text-base sm:leading-8",
+          "mt-4 text-xs leading-6 sm:text-base sm:leading-8",
           isLight ? "text-slate-600" : "text-muted-strong",
         )}
       >
@@ -58,7 +58,7 @@ export function SectionHeading({
       <div
         aria-hidden="true"
         className={cn(
-          "mt-4 text-xs",
+          "mt-4 overflow-hidden text-xs",
           isLight ? "text-slate-300" : "text-accent/20",
           align === "center" && "mx-auto max-w-xs",
         )}

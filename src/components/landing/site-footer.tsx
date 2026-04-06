@@ -8,7 +8,7 @@ export function SiteFooter() {
       <SectionInner>
         <p
           aria-hidden="true"
-          className="mb-6 text-xs text-accent/15"
+          className="mb-6 overflow-hidden text-xs text-accent/15"
         >
           ════════════════════════════════════════
         </p>
@@ -19,7 +19,7 @@ export function SiteFooter() {
           <p className="text-sm font-bold text-accent">
             AXION<span className="cursor-blink" />
           </p>
-          <p className="mt-3 max-w-md text-sm leading-7 text-muted-strong">
+          <p className="mt-3 max-w-md text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
             {siteContent.footer.tagline}
           </p>
         </div>
@@ -32,7 +32,7 @@ export function SiteFooter() {
             <div className="mt-3 space-y-2 text-sm text-muted-strong">
               <a
                 href={`mailto:${siteConfig.contactEmail}`}
-                className="block hover:text-accent"
+                className="block break-all hover:text-accent"
               >
                 <span aria-hidden="true" className="text-accent/40">
                   {">"}{" "}
@@ -69,8 +69,8 @@ export function SiteFooter() {
         </div>
       </SectionInner>
 
-      <SectionInner className="mt-8 flex flex-col gap-2 border-t border-accent/8 pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-        <p>axion@2026 $ {siteContent.footer.copyright}</p>
+      <SectionInner className="mt-8 flex flex-col gap-2 border-t border-accent/8 pt-6 text-[0.65rem] text-muted sm:flex-row sm:items-center sm:justify-between sm:text-xs">
+        <p className="break-words">axion@2026 $ {siteContent.footer.copyright}</p>
         <p>{siteContent.footer.legal}</p>
       </SectionInner>
     </footer>

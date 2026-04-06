@@ -40,11 +40,12 @@ export function FaqSection() {
                       setOpenIndex((current) => (current === index ? -1 : index))
                     }
                   >
-                    <span className="text-sm text-white sm:text-base">
+                    <span className="text-xs text-white sm:text-base">
                       <span aria-hidden="true" className="text-accent">
                         ${" "}
                       </span>
-                      help &quot;{item.question}&quot;
+                      <span className="hidden sm:inline">help &quot;{item.question}&quot;</span>
+                      <span className="sm:hidden">{item.question}</span>
                     </span>
                     <span className="shrink-0 text-xs text-accent">
                       {isOpen ? "[-]" : "[+]"}
