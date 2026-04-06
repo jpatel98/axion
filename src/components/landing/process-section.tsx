@@ -2,6 +2,7 @@ import { siteContent } from "@/content/site";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
+import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 export function ProcessSection() {
   return (
@@ -15,30 +16,39 @@ export function ProcessSection() {
         />
 
         <Reveal delay={0.04}>
-          <div className="mt-12 overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.02] shadow-[0_30px_80px_rgba(2,7,17,0.34)]">
-            <div className="grid gap-px bg-white/10 lg:grid-cols-4">
+          <TerminalWindow title="axion :: workflow" className="mt-12">
+            <div className="space-y-6">
               {siteContent.process.steps.map((step, index) => (
-                <article
-                  key={step.title}
-                  className="h-full bg-[rgba(8,13,24,0.94)] p-6 sm:p-7"
-                >
-                  <p className="font-mono text-[0.72rem] uppercase tracking-[0.3em] text-accent">
-                    Step 0{index + 1}
+                <div key={step.title}>
+                  <p className="text-sm text-muted-strong">
+                    <span className="text-accent">$</span>{" "}
+                    axion {step.title.toLowerCase()}
                   </p>
-                  <h3 className="mt-4 text-2xl font-semibold text-white">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-muted-strong">
-                    {step.description}
-                  </p>
-                  <p className="mt-6 text-sm leading-7 text-white/90">
-                    <span className="font-medium text-white">Outcome:</span>{" "}
-                    {step.outcome}
-                  </p>
-                </article>
+                  <div className="mt-2 border-l-2 border-accent/15 pl-4">
+                    <p className="text-sm leading-7 text-muted">
+                      <span className="text-accent/60">&gt;</span>{" "}
+                      {step.description}
+                    </p>
+                    <p className="mt-1 text-sm leading-7 text-white/90">
+                      <span className="text-green-400">{`=> `}</span>
+                      {step.outcome}
+                    </p>
+                  </div>
+                  {index < siteContent.process.steps.length - 1 && (
+                    <p
+                      aria-hidden="true"
+                      className="mt-4 text-xs text-accent/15"
+                    >
+                      ─────────────────────────
+                    </p>
+                  )}
+                </div>
               ))}
+              <p className="mt-2 text-sm text-green-400">
+                Process complete. <span className="cursor-blink" />
+              </p>
             </div>
-          </div>
+          </TerminalWindow>
         </Reveal>
       </SectionInner>
     </SectionShell>

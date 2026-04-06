@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
 import { trackBookingClick } from "@/lib/analytics";
@@ -40,102 +40,97 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div
-          className={cn(
-            "rounded-full border px-4 py-3 transition-all sm:px-5",
-            hasScrolled
-              ? "border-white/12 bg-surface/90 shadow-[0_18px_56px_rgba(1,6,16,0.46)] backdrop-blur-xl"
-              : "border-white/10 bg-surface/60 backdrop-blur-md",
-          )}
-        >
-          <div className="flex items-center justify-between gap-4">
-            <a href="#top" className="flex min-w-0 flex-col">
-              <span className="truncate text-base font-semibold text-white">
-                Axion Technologies
-              </span>
-              <span className="font-mono text-[0.64rem] uppercase tracking-[0.3em] text-accent">
-                Build &middot; Automate &middot; Ship
-              </span>
-            </a>
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div
+        className={cn(
+          "border-b px-4 py-3 transition-all sm:px-6 lg:px-8",
+          hasScrolled
+            ? "border-accent/15 bg-[#030508]/95 shadow-[0_18px_56px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+            : "border-accent/8 bg-[#030508]/80 backdrop-blur-md",
+        )}
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+          <a href="#top" className="flex items-baseline gap-1">
+            <span className="text-base font-bold text-accent">
+              AXION
+            </span>
+            <span className="cursor-blink text-accent" />
+          </a>
 
-            <nav className="hidden items-center gap-6 md:flex">
+          <nav className="hidden items-center gap-1 md:flex">
+            {siteContent.nav.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="px-3 py-1.5 text-xs uppercase tracking-wider text-muted-strong hover:text-accent"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="hidden md:block">
+            <a
+              href={siteConfig.bookingUrl}
+              onClick={() => trackBookingClick("header")}
+              className="inline-flex items-center border border-accent/30 bg-accent/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-wider text-accent hover:bg-accent/15"
+            >
+              [ {siteContent.headerCta} ]
+            </a>
+          </div>
+
+          <button
+            type="button"
+            className="inline-flex size-10 items-center justify-center border border-accent/20 bg-accent/[0.03] text-accent md:hidden"
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((current) => !current)}
+          >
+            {isMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+          </button>
+        </div>
+      </div>
+
+      <AnimatePresence initial={false}>
+        {isMenuOpen ? (
+          <motion.div
+            initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? {} : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.18 }}
+            className="border-b border-accent/10 bg-[#030508]/95 px-4 backdrop-blur-xl md:hidden"
+          >
+            <nav className="mx-auto flex max-w-7xl flex-col py-2">
               {siteContent.nav.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-sm text-muted-strong hover:text-white"
+                  className="border-b border-accent/5 px-2 py-3 text-xs uppercase tracking-wider text-muted-strong hover:text-accent"
+                  onClick={() => setIsMenuOpen(false)}
                 >
+                  <span aria-hidden="true" className="text-accent/50">
+                    {">"}{" "}
+                  </span>
                   {item.label}
                 </a>
               ))}
             </nav>
 
-            <div className="hidden md:block">
+            <div className="mx-auto max-w-7xl pb-4">
               <a
                 href={siteConfig.bookingUrl}
-                onClick={() => trackBookingClick("header")}
-                className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3 py-2 text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] hover:-translate-y-0.5 hover:border-accent/45 hover:bg-white/[0.08]"
+                onClick={() => {
+                  trackBookingClick("header");
+                  setIsMenuOpen(false);
+                }}
+                className="inline-flex w-full items-center justify-center border border-accent/30 bg-accent/[0.06] px-4 py-3 text-xs font-bold uppercase tracking-wider text-accent"
               >
-                <span className="px-2">{siteContent.headerCta}</span>
-                <span className="inline-flex size-8 items-center justify-center rounded-full bg-white text-slate-950">
-                  <ArrowUpRight className="size-3.5" />
-                </span>
+                [ {siteContent.headerCta} ]
               </a>
             </div>
-
-            <button
-              type="button"
-              className="inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white md:hidden"
-              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              aria-expanded={isMenuOpen}
-              onClick={() => setIsMenuOpen((current) => !current)}
-            >
-              {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-            </button>
-          </div>
-
-          <AnimatePresence initial={false}>
-            {isMenuOpen ? (
-              <motion.div
-                initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
-                animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-                exit={prefersReducedMotion ? {} : { opacity: 0, y: -8 }}
-                transition={{ duration: 0.18 }}
-                className="mt-4 overflow-hidden rounded-[1.6rem] border border-white/10 bg-surface/95 p-4 backdrop-blur-xl md:hidden"
-              >
-                <nav className="flex flex-col gap-2">
-                  {siteContent.nav.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="rounded-2xl px-3 py-3 text-sm text-muted-strong hover:bg-white/[0.04] hover:text-white"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </nav>
-
-                <a
-                  href={siteConfig.bookingUrl}
-                  onClick={() => {
-                    trackBookingClick("header");
-                    setIsMenuOpen(false);
-                  }}
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white"
-                >
-                  {siteContent.headerCta}
-                  <span className="inline-flex size-7 items-center justify-center rounded-full bg-white text-slate-950">
-                    <ArrowUpRight className="size-3.5" />
-                  </span>
-                </a>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-        </div>
-      </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isMobileCtaVisible ? (
@@ -149,10 +144,9 @@ export function SiteHeader() {
             <a
               href={siteConfig.bookingUrl}
               onClick={() => trackBookingClick("mobile_sticky")}
-              className="mx-auto flex max-w-md items-center justify-center gap-2 rounded-full border border-white/12 bg-surface/95 px-5 py-3.5 text-sm font-semibold text-white shadow-[0_20px_60px_rgba(1,6,16,0.45)] backdrop-blur-xl"
+              className="mx-auto flex max-w-md items-center justify-center border border-accent/25 bg-[#030508]/95 px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-accent shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl"
             >
-              {siteContent.mobileStickyCta}
-              <ArrowUpRight className="size-4" />
+              [ {siteContent.mobileStickyCta} ]
             </a>
           </motion.div>
         ) : null}

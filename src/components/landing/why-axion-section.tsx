@@ -2,6 +2,7 @@ import { siteContent } from "@/content/site";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
+import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 export function WhyAxionSection() {
   return (
@@ -14,17 +15,17 @@ export function WhyAxionSection() {
             description={siteContent.whyAxion.description}
           />
 
-          <div className="mt-8 space-y-6">
+          <div className="mt-8 space-y-5">
             {siteContent.whyAxion.principles.map((item, index) => (
               <Reveal key={item.title} delay={index * 0.04}>
-                <article className="border-b border-white/10 pb-6 last:border-b-0 last:pb-0">
-                  <p className="font-mono text-[0.72rem] uppercase tracking-[0.28em] text-accent">
-                    0{index + 1}
+                <article className="border-b border-accent/10 pb-5 last:border-b-0 last:pb-0">
+                  <p className="text-xs text-accent">
+                    [{String(index + 1).padStart(2, "0")}]
                   </p>
-                  <h3 className="mt-3 text-2xl font-semibold text-white">
+                  <h3 className="mt-2 text-lg font-bold text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-3 max-w-xl text-sm leading-7 text-muted-strong">
+                  <p className="mt-2 max-w-xl text-sm leading-7 text-muted-strong">
                     {item.description}
                   </p>
                 </article>
@@ -34,38 +35,40 @@ export function WhyAxionSection() {
         </div>
 
         <Reveal delay={0.06}>
-          <div className="overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.02] shadow-[0_30px_80px_rgba(2,7,17,0.34)]">
-            <div className="border-b border-white/10 px-6 py-6 sm:px-7">
-              <p className="font-mono text-[0.72rem] uppercase tracking-[0.28em] text-accent">
-                Compared with the usual options
-              </p>
-              <p className="mt-3 max-w-xl text-sm leading-7 text-muted-strong">
-                Axion is built for businesses that need practical change, not
-                more noise around the problem.
+          <TerminalWindow title="diff :: alternatives">
+            <div className="mb-4">
+              <p className="text-xs uppercase tracking-wider text-muted">
+                comparing options...
               </p>
             </div>
 
-            <div className="divide-y divide-white/10">
+            <div className="divide-y divide-accent/10">
               {siteContent.whyAxion.comparisons.map((item) => (
                 <article
                   key={item.label}
-                  className="grid gap-3 px-6 py-6 sm:px-7 md:grid-cols-[10rem_1fr] md:gap-6"
+                  className="py-4 first:pt-0 last:pb-0"
                 >
-                  <p className="font-mono text-[0.7rem] uppercase tracking-[0.28em] text-white/50">
-                    {item.label}
+                  <p className="text-xs text-rose-400/80">
+                    --- {item.label.replace("vs. ", "")}
                   </p>
-                  <div>
-                    <h3 className="text-xl font-semibold text-white">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-muted-strong">
-                      {item.description}
-                    </p>
-                  </div>
+                  <h3 className="mt-2 text-base font-bold text-white">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-7 text-muted-strong">
+                    {item.description}
+                  </p>
                 </article>
               ))}
+              <div className="pt-4">
+                <p className="text-xs text-green-400">
+                  +++ axion
+                </p>
+                <p className="mt-1 text-sm text-green-300">
+                  Practical change. Working software. Fewer problems.
+                </p>
+              </div>
             </div>
-          </div>
+          </TerminalWindow>
         </Reveal>
       </SectionInner>
     </SectionShell>
