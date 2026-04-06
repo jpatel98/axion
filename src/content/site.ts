@@ -9,7 +9,7 @@ export const siteContent = {
   headerCta: "Book a Call",
   mobileStickyCta: "Book a Call",
   hero: {
-    eyebrow: "Websites \u00b7 Automation \u00b7 AI",
+    eyebrow: "web // automation // ai",
     title: "We build the systems",
     emphasis: "your business actually runs on.",
     description:
@@ -22,12 +22,12 @@ export const siteContent = {
     secondaryHref: "#services",
   },
   credibility: [
-    "Ship fast",
-    "Modern stack",
-    "No bloat",
-    "AI that works",
-    "Small team focus",
-    "Transparent scope",
+    "Ship_fast",
+    "Modern_stack",
+    "No_bloat",
+    "AI_works",
+    "Small_team",
+    "Transparent",
   ],
   proof: {
     title: "Real problems we\u2019ve fixed.",

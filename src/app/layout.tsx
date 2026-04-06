@@ -18,7 +18,7 @@ const instrumentSerif = Instrument_Serif({
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +68,7 @@ export default function RootLayout({
       lang="en"
       className={`${manrope.variable} ${instrumentSerif.variable} ${ibmPlexMono.variable} h-full`}
     >
-      <body className="min-h-full font-sans text-foreground antialiased">
+      <body className="min-h-full font-mono text-foreground antialiased">
         {siteConfig.gaMeasurementId ? (
           <>
             <Script

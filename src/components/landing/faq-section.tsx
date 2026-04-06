@@ -1,12 +1,12 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { siteContent } from "@/content/site";
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
+import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number>(0);
@@ -22,33 +22,33 @@ export function FaqSection() {
         />
 
         <Reveal delay={0.04}>
-          <div className="mt-10 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.02] shadow-[0_30px_80px_rgba(2,7,17,0.3)]">
+          <TerminalWindow title="axion :: help" className="mt-10">
             {siteContent.faq.items.map((item, index) => {
               const isOpen = index === openIndex;
 
               return (
                 <div
                   key={item.question}
-                  className={cn(index > 0 && "border-t border-white/10")}
+                  className={cn(index > 0 && "border-t border-accent/10")}
                 >
                   <button
                     type="button"
-                    className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left sm:px-6"
+                    className="flex w-full items-center justify-between gap-4 py-4 text-left"
                     aria-expanded={isOpen}
                     aria-controls={`faq-panel-${index}`}
                     onClick={() =>
                       setOpenIndex((current) => (current === index ? -1 : index))
                     }
                   >
-                    <span className="text-lg font-semibold text-white">
-                      {item.question}
+                    <span className="text-sm text-white sm:text-base">
+                      <span aria-hidden="true" className="text-accent">
+                        ${" "}
+                      </span>
+                      help &quot;{item.question}&quot;
                     </span>
-                    <ChevronDown
-                      className={cn(
-                        "size-5 shrink-0 text-muted transition-transform",
-                        isOpen && "rotate-180 text-accent",
-                      )}
-                    />
+                    <span className="shrink-0 text-xs text-accent">
+                      {isOpen ? "[-]" : "[+]"}
+                    </span>
                   </button>
                   <div
                     id={`faq-panel-${index}`}
@@ -58,7 +58,13 @@ export function FaqSection() {
                     )}
                   >
                     <div className="overflow-hidden">
-                      <p className="border-t border-white/8 px-5 py-5 text-sm leading-7 text-muted-strong sm:px-6">
+                      <p className="border-t border-accent/8 py-4 text-sm leading-7 text-muted-strong">
+                        <span
+                          aria-hidden="true"
+                          className="text-accent/50"
+                        >
+                          {">"}{" "}
+                        </span>
                         {item.answer}
                       </p>
                     </div>
@@ -66,7 +72,7 @@ export function FaqSection() {
                 </div>
               );
             })}
-          </div>
+          </TerminalWindow>
         </Reveal>
       </SectionInner>
     </SectionShell>

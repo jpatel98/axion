@@ -1,4 +1,3 @@
-import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { siteContent } from "@/content/site";
 import { siteConfig } from "@/lib/site-config";
@@ -14,43 +13,49 @@ export function CtaSection({ children }: CtaSectionProps) {
   return (
     <SectionShell id="contact" className="pb-24 pt-20 sm:pt-24">
       <SectionInner>
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[linear-gradient(140deg,rgba(125,211,252,0.12),rgba(8,12,18,0)_32%),linear-gradient(180deg,#0a1120,#09101b)] px-6 py-8 shadow-[0_40px_120px_rgba(1,6,16,0.58)] sm:px-8 sm:py-10 lg:px-12 lg:py-12">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.22),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(67,110,201,0.26),transparent_28%)]" />
+        <div className="relative border border-accent/15 bg-[#030508] p-6 sm:p-8 lg:p-12">
           <div className="relative grid gap-10 lg:grid-cols-[0.98fr_1.02fr]">
             <Reveal>
               <div className="max-w-xl">
-                <p className="font-mono text-[0.72rem] uppercase tracking-[0.32em] text-accent">
-                  {siteContent.contact.eyebrow}
+                <p className="text-xs uppercase tracking-[0.2em]">
+                  <span aria-hidden="true" className="text-accent">
+                    ${" "}
+                  </span>
+                  <span className="text-muted-strong">axion</span>
+                  <span className="text-muted"> --</span>
+                  <span className="text-accent">{siteContent.contact.eyebrow.toLowerCase().replace(/\u2019/g, "")}</span>
                 </p>
-                <h2 className="mt-4 text-4xl font-semibold leading-tight text-white sm:text-5xl">
+                <h2 className="glow-text mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl">
                   {siteContent.contact.title}
                 </h2>
-                <p className="mt-5 max-w-lg text-base leading-8 text-muted-strong sm:text-lg">
+                <p className="mt-4 max-w-lg text-sm leading-7 text-muted-strong sm:text-base sm:leading-8">
                   {siteContent.contact.description}
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-3">
                   <ButtonLink href={siteConfig.bookingUrl} bookingSource="final">
-                    {siteContent.contact.primaryCta}
-                    <ArrowUpRight className="size-4" />
+                    {"[ "}{siteContent.contact.primaryCta}{" ]"}
                   </ButtonLink>
                   <ButtonLink
                     href={`mailto:${siteConfig.contactEmail}`}
                     variant="secondary"
                   >
-                    Email us
+                    {"[ "}Email us{" ]"}
                   </ButtonLink>
                 </div>
 
                 <p className="mt-4 text-sm leading-7 text-muted">
+                  <span aria-hidden="true" className="text-accent/50">
+                    {">"}{" "}
+                  </span>
                   {siteContent.contact.primaryNote}
                 </p>
 
-                <div className="mt-10 space-y-3">
+                <div className="mt-8 space-y-2">
                   {siteContent.contact.reassurance.map((item) => (
-                    <div key={item} className="flex items-start gap-3">
-                      <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
-                      <p className="text-sm font-medium leading-7 text-muted-strong">
+                    <div key={item} className="flex items-start gap-2">
+                      <span className="text-green-400">*</span>
+                      <p className="text-sm leading-7 text-muted-strong">
                         {item}
                       </p>
                     </div>
