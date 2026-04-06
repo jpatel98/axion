@@ -26,7 +26,7 @@ export function HeroSection() {
 
           {siteContent.hero.eyebrow ? (
             <Reveal>
-              <p className="mt-4 text-[0.72rem] uppercase tracking-[0.34em]">
+              <p className="mt-4 text-[0.65rem] uppercase tracking-[0.2em] sm:text-[0.72rem] sm:tracking-[0.34em]">
                 <span aria-hidden="true" className="text-accent">
                   ${" "}
                 </span>
