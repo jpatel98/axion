@@ -54,7 +54,7 @@ export function WhyAxionSection() {
                   <h3 className="mt-2 text-sm font-bold text-white sm:text-base">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-7 text-muted-strong">
+                  <p className="mt-1 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                     {item.description}
                   </p>
                 </article>
@@ -63,7 +63,7 @@ export function WhyAxionSection() {
                 <p className="text-xs text-green-400">
                   +++ axion
                 </p>
-                <p className="mt-1 text-sm text-green-300">
+                <p className="mt-1 text-xs text-green-300 sm:text-sm">
                   Practical change. Working software. Fewer problems.
                 </p>
               </div>

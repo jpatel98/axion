@@ -28,7 +28,7 @@ export function CtaSection({ children }: CtaSectionProps) {
                 <h2 className="glow-text mt-4 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
                   {siteContent.contact.title}
                 </h2>
-                <p className="mt-4 max-w-lg text-sm leading-7 text-muted-strong sm:text-base sm:leading-8">
+                <p className="mt-4 max-w-lg text-xs leading-6 text-muted-strong sm:text-base sm:leading-8">
                   {siteContent.contact.description}
                 </p>
 
@@ -55,7 +55,7 @@ export function CtaSection({ children }: CtaSectionProps) {
                   {siteContent.contact.reassurance.map((item) => (
                     <div key={item} className="flex items-start gap-2">
                       <span className="text-green-400">*</span>
-                      <p className="text-sm leading-7 text-muted-strong">
+                      <p className="text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
                         {item}
                       </p>
                     </div>

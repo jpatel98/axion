@@ -49,7 +49,7 @@ export function SectionHeading({
       </h2>
       <p
         className={cn(
-          "mt-4 text-sm leading-7 sm:text-base sm:leading-8",
+          "mt-4 text-xs leading-6 sm:text-base sm:leading-8",
           isLight ? "text-slate-600" : "text-muted-strong",
         )}
       >

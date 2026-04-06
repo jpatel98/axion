@@ -232,7 +232,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="inline-flex items-center justify-center border border-accent/30 bg-accent/10 px-5 py-3 text-sm font-bold uppercase tracking-wider text-accent hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(125,211,252,0.15)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center border border-accent/30 bg-accent/10 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-accent hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(125,211,252,0.15)] disabled:cursor-not-allowed disabled:opacity-60 sm:px-5 sm:py-3 sm:text-sm"
           >
             {isPending ? "[ SENDING... ]" : "[ SEND ]"}
           </button>
