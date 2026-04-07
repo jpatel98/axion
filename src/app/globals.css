@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030508;
-  --foreground: #d0f0ff;
-  --muted: #5a7a8a;
-  --muted-strong: #8cb4c8;
-  --surface: rgba(5, 10, 18, 0.95);
-  --surface-strong: #060d18;
-  --surface-soft: rgba(8, 16, 28, 0.7);
-  --surface-light: #0a1520;
-  --surface-light-foreground: #d0f0ff;
-  --border-subtle: rgba(125, 211, 252, 0.12);
-  --border-strong: rgba(125, 211, 252, 0.4);
-  --accent: #7dd3fc;
-  --accent-strong: #22d3ee;
-  --accent-soft: rgba(125, 211, 252, 0.14);
-  --shadow-soft: 0 30px 80px rgba(0, 0, 0, 0.6);
+  --background: #0b1121;
+  --foreground: #e2e8f0;
+  --muted: #64748b;
+  --muted-strong: #94a3b8;
+  --surface: #111827;
+  --surface-strong: #0f172a;
+  --surface-soft: rgba(15, 23, 42, 0.7);
+  --surface-light: #1e293b;
+  --surface-light-foreground: #e2e8f0;
+  --border-subtle: rgba(148, 163, 184, 0.12);
+  --border-strong: rgba(148, 163, 184, 0.25);
+  --accent: #3b82f6;
+  --accent-strong: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.1);
+  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
 @theme inline {
@@ -33,8 +33,8 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
-  --font-sans: var(--font-ibm-plex-mono);
-  --font-display: var(--font-ibm-plex-mono);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-instrument-serif);
   --font-mono: var(--font-ibm-plex-mono);
 }
 
@@ -51,42 +51,10 @@ body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
-  text-shadow: 0 0 8px rgba(125, 211, 252, 0.08);
-}
-
-/* Scanline overlay */
-body::before {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  content: "";
-  pointer-events: none;
-  opacity: 0.035;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.4) 2px,
-    rgba(0, 0, 0, 0.4) 4px
-  );
-}
-
-/* Subtle CRT vignette */
-body::after {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  content: "";
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 60%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
 }
 
 ::selection {
-  background: rgba(125, 211, 252, 0.35);
+  background: rgba(59, 130, 246, 0.35);
   color: var(--foreground);
 }
 
@@ -120,39 +88,4 @@ p {
 
 [id] {
   scroll-margin-top: 7rem;
-}
-
-/* Terminal panel -- flat, no gradient */
-.surface-panel {
-  background: rgba(5, 10, 18, 0.9);
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  box-shadow: var(--shadow-soft);
-}
-
-.light-panel {
-  background: rgba(8, 16, 28, 0.95);
-  border: 1px solid rgba(125, 211, 252, 0.08);
-}
-
-/* Glow text utility */
-.glow-text {
-  text-shadow: 0 0 10px rgba(125, 211, 252, 0.3), 0 0 40px rgba(125, 211, 252, 0.1);
-}
-
-/* Blinking cursor */
-@keyframes blink-cursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.cursor-blink::after {
-  content: "_";
-  animation: blink-cursor 1s step-end infinite;
-  color: var(--accent);
-}
-
-/* Terminal window frame */
-.terminal-frame {
-  border: 1px solid rgba(125, 211, 252, 0.2);
-  background: rgba(3, 5, 8, 0.95);
 }

@@ -11,12 +11,10 @@ import { ServicesSection } from "@/components/landing/services-section";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { WhyAxionSection } from "@/components/landing/why-axion-section";
-import { BootSequence } from "@/components/terminal/boot-sequence";
 
 export default function Home() {
   return (
     <>
-      <BootSequence />
       <SiteHeader />
       <main id="top" className="relative overflow-x-clip">
         <HeroSection />

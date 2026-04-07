@@ -16,10 +16,9 @@ import {
 } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
-import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 const fieldClassName =
-  "w-full border border-accent/15 bg-transparent px-3 py-2.5 text-xs text-white outline-none placeholder:text-white/25 focus:border-accent/50 focus:bg-accent/[0.03] sm:px-4 sm:py-3 sm:text-sm";
+  "w-full rounded-lg border border-border-subtle bg-surface-light px-4 py-3 text-sm text-white outline-none placeholder:text-muted focus:border-accent focus:ring-1 focus:ring-accent/30";
 
 export function ContactForm() {
   const [values, setValues] = useState<LeadFormValues>(initialLeadFormValues);
@@ -92,32 +91,20 @@ export function ContactForm() {
   }
 
   return (
-    <TerminalWindow title="contact :: new_message">
+    <div className="rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
       <form onSubmit={handleSubmit} noValidate>
         <div className="mb-6">
-          <p className="text-xs uppercase tracking-[0.2em]">
-            <span aria-hidden="true" className="text-accent">
-              ${" "}
-            </span>
-            <span className="text-muted-strong">compose</span>
-            <span className="text-muted"> --async</span>
-          </p>
-          <h3 className="mt-3 text-lg font-bold text-white sm:text-xl">
+          <h3 className="text-xl font-bold text-white">
             Not ready for a call? Drop us a note.
           </h3>
-          <p className="mt-2 text-sm leading-7 text-muted">
+          <p className="mt-2 text-sm leading-7 text-muted-strong">
             Tell us what&apos;s broken. We&apos;ll get back to you within a day.
           </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <label className="flex flex-col gap-1.5 text-xs uppercase tracking-wider text-muted-strong">
-            <span>
-              <span aria-hidden="true" className="text-accent/50">
-                {">"}{" "}
-              </span>
-              NAME:
-            </span>
+          <label className="flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-strong">Name</span>
             <input
               type="text"
               name="name"
@@ -127,26 +114,21 @@ export function ContactForm() {
               onFocus={handleFieldFocus}
               className={cn(
                 fieldClassName,
-                errors.name && "border-rose-400/70 focus:border-rose-300",
+                errors.name && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
               )}
               placeholder="Your name"
               aria-invalid={Boolean(errors.name)}
               aria-describedby={errors.name ? "name-error" : undefined}
             />
             {errors.name ? (
-              <span id="name-error" className="text-xs normal-case text-rose-300">
+              <span id="name-error" className="text-xs text-rose-400">
                 {errors.name}
               </span>
             ) : null}
           </label>
 
-          <label className="flex flex-col gap-1.5 text-xs uppercase tracking-wider text-muted-strong">
-            <span>
-              <span aria-hidden="true" className="text-accent/50">
-                {">"}{" "}
-              </span>
-              BUSINESS:
-            </span>
+          <label className="flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-strong">Business</span>
             <input
               type="text"
               name="business"
@@ -156,27 +138,22 @@ export function ContactForm() {
               onFocus={handleFieldFocus}
               className={cn(
                 fieldClassName,
-                errors.business && "border-rose-400/70 focus:border-rose-300",
+                errors.business && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
               )}
               placeholder="Company or practice name"
               aria-invalid={Boolean(errors.business)}
               aria-describedby={errors.business ? "business-error" : undefined}
             />
             {errors.business ? (
-              <span id="business-error" className="text-xs normal-case text-rose-300">
+              <span id="business-error" className="text-xs text-rose-400">
                 {errors.business}
               </span>
             ) : null}
           </label>
         </div>
 
-        <label className="mt-4 flex flex-col gap-1.5 text-xs uppercase tracking-wider text-muted-strong">
-          <span>
-            <span aria-hidden="true" className="text-accent/50">
-              {">"}{" "}
-            </span>
-            EMAIL:
-          </span>
+        <label className="mt-4 flex flex-col gap-2">
+          <span className="text-sm font-medium text-muted-strong">Email</span>
           <input
             type="email"
             name="email"
@@ -186,26 +163,21 @@ export function ContactForm() {
             onFocus={handleFieldFocus}
             className={cn(
               fieldClassName,
-              errors.email && "border-rose-400/70 focus:border-rose-300",
+              errors.email && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
             )}
             placeholder={siteConfig.contactEmail}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? "email-error" : undefined}
           />
           {errors.email ? (
-            <span id="email-error" className="text-xs normal-case text-rose-300">
+            <span id="email-error" className="text-xs text-rose-400">
               {errors.email}
             </span>
           ) : null}
         </label>
 
-        <label className="mt-4 flex flex-col gap-1.5 text-xs uppercase tracking-wider text-muted-strong">
-          <span>
-            <span aria-hidden="true" className="text-accent/50">
-              {">"}{" "}
-            </span>
-            MESSAGE:
-          </span>
+        <label className="mt-4 flex flex-col gap-2">
+          <span className="text-sm font-medium text-muted-strong">Message</span>
           <textarea
             name="helpNeeded"
             rows={5}
@@ -215,34 +187,34 @@ export function ContactForm() {
             className={cn(
               fieldClassName,
               "resize-none",
-              errors.helpNeeded && "border-rose-400/70 focus:border-rose-300",
+              errors.helpNeeded && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
             )}
             placeholder="Outdated site, too much manual admin, poor lead follow-up, disconnected tools, AI questions..."
             aria-invalid={Boolean(errors.helpNeeded)}
             aria-describedby={errors.helpNeeded ? "helpNeeded-error" : undefined}
           />
           {errors.helpNeeded ? (
-            <span id="helpNeeded-error" className="text-xs normal-case text-rose-300">
+            <span id="helpNeeded-error" className="text-xs text-rose-400">
               {errors.helpNeeded}
             </span>
           ) : null}
         </label>
 
-        <div className="mt-6 flex flex-col gap-4 border-t border-accent/10 pt-6">
+        <div className="mt-6 flex flex-col gap-4 border-t border-border-subtle pt-6">
           <button
             type="submit"
             disabled={isPending}
-            className="inline-flex items-center justify-center border border-accent/30 bg-accent/10 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-accent hover:bg-accent/20 hover:shadow-[0_0_20px_rgba(125,211,252,0.15)] disabled:cursor-not-allowed disabled:opacity-60 sm:px-5 sm:py-3 sm:text-sm"
+            className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white shadow-md hover:bg-accent-strong hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isPending ? "[ SENDING... ]" : "[ SEND ]"}
+            {isPending ? "Sending..." : "Send Message"}
           </button>
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
             <a
               href={`mailto:${siteConfig.contactEmail}`}
-              className="inline-flex items-center gap-2 border border-accent/10 px-3 py-2 text-xs hover:border-accent/30 hover:text-accent break-all"
+              className="inline-flex items-center gap-2 rounded-lg border border-border-subtle px-3 py-2 text-sm text-muted-strong hover:border-accent hover:text-accent break-all"
             >
-              <Mail className="size-3.5 shrink-0" />
+              <Mail className="size-4 shrink-0" />
               {siteConfig.contactEmail}
             </a>
           </div>
@@ -251,22 +223,17 @@ export function ContactForm() {
         {message ? (
           <div
             className={cn(
-              "mt-5 border p-4 text-sm",
+              "mt-5 rounded-lg border p-4 text-sm",
               messageTone === "success" &&
-                "border-green-400/30 bg-green-400/5 text-green-300",
+                "border-emerald-400/30 bg-emerald-400/5 text-emerald-300",
               messageTone === "error" &&
                 "border-rose-400/30 bg-rose-400/5 text-rose-300",
             )}
           >
-            <p>
-              <span className="font-bold">
-                {messageTone === "success" ? "[OK] " : "[ERR] "}
-              </span>
-              {message}
-            </p>
+            <p>{message}</p>
           </div>
         ) : null}
       </form>
-    </TerminalWindow>
+    </div>
   );
 }

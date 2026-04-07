@@ -28,14 +28,14 @@ export function SectionHeading({
       )}
     >
       <p className={cn(
-        "text-xs uppercase tracking-[0.2em]",
-        isLight ? "text-slate-500" : "text-accent",
+        "text-sm font-semibold uppercase tracking-[0.1em]",
+        isLight ? "text-blue-600" : "text-accent",
       )}>
         {eyebrow}
       </p>
       <h2
         className={cn(
-          "glow-text mt-4 text-xl font-bold leading-tight sm:text-3xl lg:text-4xl",
+          "mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl lg:text-4xl",
           isLight ? "text-slate-950" : "text-white",
         )}
       >
@@ -43,22 +43,12 @@ export function SectionHeading({
       </h2>
       <p
         className={cn(
-          "mt-4 text-xs leading-6 sm:text-base sm:leading-8",
+          "mt-4 text-base leading-7 sm:text-lg sm:leading-8",
           isLight ? "text-slate-600" : "text-muted-strong",
         )}
       >
         {description}
       </p>
-      <div
-        aria-hidden="true"
-        className={cn(
-          "mt-4 overflow-hidden text-xs",
-          isLight ? "text-slate-300" : "text-accent/20",
-          align === "center" && "mx-auto max-w-xs",
-        )}
-      >
-        ────────────────────────────
-      </div>
     </div>
   );
 }

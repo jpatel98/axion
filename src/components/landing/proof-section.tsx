@@ -15,14 +15,14 @@ export function ProofSection() {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[0.4fr_0.6fr]">
           <Reveal delay={0.04}>
-            <div className="border border-accent/15 bg-[#030508] p-4 sm:p-6">
-              <div className="divide-y divide-accent/10">
+            <div className="h-full rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
+              <div className="divide-y divide-border-subtle">
                 {siteContent.proof.sharedOutcomes.map((item) => (
                   <article key={item.title} className="py-5 first:pt-0 last:pb-0">
                     <h3 className="text-base font-bold text-white sm:text-lg">
                       {item.title}
                     </h3>
-                    <p className="mt-2 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
+                    <p className="mt-2 text-sm leading-7 text-muted-strong">
                       {item.description}
                     </p>
                   </article>
@@ -32,14 +32,14 @@ export function ProofSection() {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div className="border border-accent/15 bg-[#030508] p-4 sm:p-6">
-              <div className="divide-y divide-accent/10">
+            <div className="rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
+              <div className="divide-y divide-border-subtle">
                 {siteContent.proof.scenarios.map((item) => (
                   <article
                     key={item.industry}
                     className="py-5 first:pt-0 last:pb-0"
                   >
-                    <p className="text-xs font-medium uppercase tracking-wider text-accent">
+                    <p className="text-sm font-semibold uppercase tracking-wider text-accent">
                       {item.industry}
                     </p>
 
@@ -48,16 +48,15 @@ export function ProofSection() {
                         <h3 className="text-sm font-bold text-white sm:text-base">
                           {item.problem}
                         </h3>
-                        <p className="mt-2 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
-                          <span className="text-accent/50">{"=> "}</span>
+                        <p className="mt-2 text-sm leading-7 text-muted-strong">
                           {item.fix}
                         </p>
                       </div>
 
-                      <ul className="space-y-2 text-xs leading-6 text-white/90 sm:text-sm sm:leading-7">
+                      <ul className="space-y-2 text-sm leading-7 text-foreground">
                         {item.outcomes.map((outcome) => (
                           <li key={outcome} className="flex items-start gap-2">
-                            <span className="text-green-400">*</span>
+                            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" />
                             <span>{outcome}</span>
                           </li>
                         ))}

@@ -17,26 +17,26 @@ export function PricingSection() {
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {siteContent.pricing.tiers.map((tier, index) => (
             <Reveal key={tier.name} delay={index * 0.06}>
-              <article className="flex h-full flex-col border border-accent/15 bg-[#030508] p-5 sm:p-6">
-                <p className="text-xs uppercase tracking-wider text-accent/70">
+              <article className="flex h-full flex-col rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
+                <p className="text-xs font-semibold uppercase tracking-wider text-accent">
                   {tier.label}
                 </p>
-                <h3 className="mt-3 text-xl font-bold text-white sm:text-2xl">
+                <h3 className="mt-3 text-2xl font-bold text-white">
                   {tier.name}
                 </h3>
-                <p className="mt-2 text-lg font-bold text-accent">
+                <p className="mt-2 text-xl font-bold text-accent">
                   {tier.price}
                 </p>
-                <p className="mt-3 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
+                <p className="mt-3 text-sm leading-7 text-muted-strong">
                   {tier.description}
                 </p>
-                <ul className="mt-5 flex-1 space-y-2 border-t border-accent/8 pt-5">
+                <ul className="mt-6 flex-1 space-y-3 border-t border-border-subtle pt-6">
                   {tier.includes.map((item) => (
                     <li
                       key={item}
-                      className="flex items-start gap-2 text-xs leading-6 text-white/90 sm:text-sm sm:leading-7"
+                      className="flex items-start gap-2.5 text-sm leading-7 text-foreground"
                     >
-                      <span className="text-green-400">*</span>
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400" />
                       <span>{item}</span>
                     </li>
                   ))}
