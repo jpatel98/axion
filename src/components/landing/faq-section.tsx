@@ -22,7 +22,7 @@ export function FaqSection() {
         />
 
         <Reveal delay={0.04}>
-          <div className="mt-10 divide-y divide-border-subtle rounded-2xl border border-border-subtle bg-surface-strong">
+          <div className="mt-10 divide-y divide-border-subtle rounded-xl border border-border-subtle bg-surface">
             {siteContent.faq.items.map((item, index) => {
               const isOpen = index === openIndex;
 
@@ -37,12 +37,17 @@ export function FaqSection() {
                       setOpenIndex((current) => (current === index ? -1 : index))
                     }
                   >
-                    <span className="text-sm font-semibold text-white sm:text-base">
-                      {item.question}
+                    <span className="flex items-baseline gap-4">
+                      <span className="shrink-0 font-mono text-xs text-muted">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-sm font-medium text-foreground sm:text-base">
+                        {item.question}
+                      </span>
                     </span>
                     <ChevronDown
                       className={cn(
-                        "size-5 shrink-0 text-muted transition-transform duration-200",
+                        "size-4 shrink-0 text-muted transition-transform duration-200",
                         isOpen && "rotate-180",
                       )}
                     />
@@ -55,7 +60,7 @@ export function FaqSection() {
                     )}
                   >
                     <div className="overflow-hidden">
-                      <p className="px-6 pb-5 text-sm leading-7 text-muted-strong">
+                      <p className="px-6 pb-5 pl-[3.75rem] text-sm leading-7 text-muted-strong">
                         {item.answer}
                       </p>
                     </div>

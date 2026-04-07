@@ -5,7 +5,6 @@ type SectionHeadingProps = {
   title: string;
   description: string;
   align?: "left" | "center";
-  theme?: "dark" | "light";
   className?: string;
 };
 
@@ -14,11 +13,8 @@ export function SectionHeading({
   title,
   description,
   align = "left",
-  theme = "dark",
   className,
 }: SectionHeadingProps) {
-  const isLight = theme === "light";
-
   return (
     <div
       className={cn(
@@ -27,26 +23,13 @@ export function SectionHeading({
         className,
       )}
     >
-      <p className={cn(
-        "text-sm font-semibold uppercase tracking-[0.1em]",
-        isLight ? "text-blue-600" : "text-accent",
-      )}>
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
         {eyebrow}
       </p>
-      <h2
-        className={cn(
-          "mt-3 text-2xl font-bold leading-tight tracking-tight sm:text-3xl lg:text-4xl",
-          isLight ? "text-slate-950" : "text-white",
-        )}
-      >
+      <h2 className="mt-4 font-display text-3xl italic leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
         {title}
       </h2>
-      <p
-        className={cn(
-          "mt-4 text-base leading-7 sm:text-lg sm:leading-8",
-          isLight ? "text-slate-600" : "text-muted-strong",
-        )}
-      >
+      <p className="mt-4 text-base leading-7 text-muted-strong sm:text-lg sm:leading-8">
         {description}
       </p>
     </div>

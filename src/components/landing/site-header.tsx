@@ -1,11 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
 import { trackBookingClick } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-config";
+import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -13,6 +14,7 @@ export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileCtaVisible, setIsMobileCtaVisible] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     function handleScroll() {
@@ -45,13 +47,13 @@ export function SiteHeader() {
         className={cn(
           "border-b px-4 py-3 transition-all sm:px-6 lg:px-8",
           hasScrolled
-            ? "border-border-subtle bg-background/95 shadow-lg backdrop-blur-xl"
-            : "border-transparent bg-background/80 backdrop-blur-md",
+            ? "border-border-subtle bg-background/90 shadow-sm backdrop-blur-xl"
+            : "border-transparent bg-background/60 backdrop-blur-md",
         )}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <a href="#top" className="flex items-baseline gap-2">
-            <span className="text-lg font-bold tracking-tight text-white">
+          <a href="#top" className="flex items-baseline gap-1.5">
+            <span className="font-display text-2xl italic text-foreground">
               Axion
             </span>
           </a>
@@ -61,32 +63,50 @@ export function SiteHeader() {
               <a
                 key={item.label}
                 href={item.href}
-                className="rounded-lg px-3 py-2 text-sm text-muted-strong hover:bg-surface-light hover:text-white"
+                className="rounded-md px-3 py-1.5 text-sm text-muted-strong hover:text-foreground"
               >
                 {item.label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-3 md:flex">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="inline-flex size-9 items-center justify-center rounded-full border border-border-subtle text-muted-strong hover:text-foreground"
+              aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+            >
+              {theme === "light" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+            </button>
             <a
               href={siteConfig.bookingUrl}
               onClick={() => trackBookingClick("header")}
-              className="inline-flex items-center rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-strong"
+              className="inline-flex items-center rounded-full bg-foreground px-5 py-2 text-sm font-medium text-background hover:opacity-90"
             >
               {siteContent.headerCta}
             </a>
           </div>
 
-          <button
-            type="button"
-            className="inline-flex size-10 items-center justify-center rounded-lg border border-border-subtle text-muted-strong hover:bg-surface-light hover:text-white md:hidden"
-            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={isMenuOpen}
-            onClick={() => setIsMenuOpen((current) => !current)}
-          >
-            {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="inline-flex size-9 items-center justify-center rounded-full border border-border-subtle text-muted-strong"
+              aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+            >
+              {theme === "light" ? <Moon className="size-4" /> : <Sun className="size-4" />}
+            </button>
+            <button
+              type="button"
+              className="inline-flex size-9 items-center justify-center rounded-full border border-border-subtle text-muted-strong"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((current) => !current)}
+            >
+              {isMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -104,7 +124,7 @@ export function SiteHeader() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="border-b border-border-subtle/50 px-2 py-3 text-sm text-muted-strong hover:text-white"
+                  className="border-b border-border-subtle/50 px-2 py-3 text-sm text-muted-strong hover:text-foreground"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -119,7 +139,7 @@ export function SiteHeader() {
                   trackBookingClick("header");
                   setIsMenuOpen(false);
                 }}
-                className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-4 py-3 text-sm font-semibold text-white hover:bg-accent-strong"
+                className="inline-flex w-full items-center justify-center rounded-full bg-foreground px-4 py-3 text-sm font-medium text-background"
               >
                 {siteContent.headerCta}
               </a>
@@ -140,7 +160,7 @@ export function SiteHeader() {
             <a
               href={siteConfig.bookingUrl}
               onClick={() => trackBookingClick("mobile_sticky")}
-              className="mx-auto flex max-w-md items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl hover:bg-accent-strong"
+              className="mx-auto flex max-w-md items-center justify-center rounded-full bg-foreground px-5 py-3.5 text-sm font-medium text-background shadow-lg"
             >
               {siteContent.mobileStickyCta}
             </a>

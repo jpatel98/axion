@@ -13,60 +13,46 @@ export function ProofSection() {
           description={siteContent.proof.description}
         />
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-[0.4fr_0.6fr]">
-          <Reveal delay={0.04}>
-            <div className="h-full rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
-              <div className="divide-y divide-border-subtle">
-                {siteContent.proof.sharedOutcomes.map((item) => (
-                  <article key={item.title} className="py-5 first:pt-0 last:pb-0">
-                    <h3 className="text-base font-bold text-white sm:text-lg">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-7 text-muted-strong">
-                      {item.description}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </Reveal>
+        <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          {siteContent.proof.sharedOutcomes.map((item, index) => (
+            <Reveal key={item.title} delay={index * 0.04}>
+              <article className="h-full rounded-xl border border-border-subtle bg-surface p-6 sm:p-8">
+                <p className="font-mono text-xs text-muted">{String(index + 1).padStart(2, "0")}</p>
+                <h3 className="mt-3 font-display text-xl italic text-foreground sm:text-2xl">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-muted-strong">
+                  {item.description}
+                </p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
 
-          <Reveal delay={0.08}>
-            <div className="rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
-              <div className="divide-y divide-border-subtle">
-                {siteContent.proof.scenarios.map((item) => (
-                  <article
-                    key={item.industry}
-                    className="py-5 first:pt-0 last:pb-0"
-                  >
-                    <p className="text-sm font-semibold uppercase tracking-wider text-accent">
-                      {item.industry}
-                    </p>
-
-                    <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
-                      <div>
-                        <h3 className="text-sm font-bold text-white sm:text-base">
-                          {item.problem}
-                        </h3>
-                        <p className="mt-2 text-sm leading-7 text-muted-strong">
-                          {item.fix}
-                        </p>
-                      </div>
-
-                      <ul className="space-y-2 text-sm leading-7 text-foreground">
-                        {item.outcomes.map((outcome) => (
-                          <li key={outcome} className="flex items-start gap-2">
-                            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" />
-                            <span>{outcome}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
-          </Reveal>
+        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          {siteContent.proof.scenarios.map((item, index) => (
+            <Reveal key={item.industry} delay={0.12 + index * 0.04}>
+              <article className="h-full rounded-xl border border-border-subtle bg-surface-dark p-6 text-surface-dark-foreground sm:p-8">
+                <p className="font-mono text-xs uppercase tracking-wider opacity-60">
+                  {item.industry}
+                </p>
+                <h3 className="mt-3 text-base font-semibold sm:text-lg">
+                  {item.problem}
+                </h3>
+                <p className="mt-3 text-sm leading-7 opacity-70">
+                  {item.fix}
+                </p>
+                <ul className="mt-4 space-y-2 border-t border-white/10 pt-4">
+                  {item.outcomes.map((outcome) => (
+                    <li key={outcome} className="flex items-start gap-2 text-sm leading-6">
+                      <span className="mt-1.5 size-1 shrink-0 rounded-full bg-current opacity-40" />
+                      <span>{outcome}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </SectionInner>
     </SectionShell>

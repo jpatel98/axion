@@ -4,16 +4,19 @@ import { SectionInner, SectionShell } from "@/components/landing/section-shell";
 
 export function CredibilityStrip() {
   return (
-    <SectionShell className="py-6 sm:py-8">
+    <SectionShell className="py-6 sm:py-10">
       <SectionInner>
         <Reveal>
-          <div className="flex flex-wrap items-center justify-center gap-3 py-3">
-            {siteContent.credibility.map((item) => (
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-y border-border-subtle py-6">
+            {siteContent.credibility.map((item, index) => (
               <span
                 key={item}
-                className="rounded-full border border-border-subtle bg-surface-light/50 px-4 py-1.5 text-xs font-medium text-muted-strong sm:text-sm"
+                className="flex items-center gap-x-8 font-mono text-xs uppercase tracking-[0.15em] text-muted sm:text-sm"
               >
-                {item.replace(/_/g, " ")}
+                {index > 0 && (
+                  <span className="hidden text-border-strong sm:inline" aria-hidden="true">/</span>
+                )}
+                {item}
               </span>
             ))}
           </div>

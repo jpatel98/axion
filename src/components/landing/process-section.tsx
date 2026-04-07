@@ -14,14 +14,14 @@ export function ProcessSection() {
           align="center"
         />
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {siteContent.process.steps.map((step, index) => (
             <Reveal key={step.title} delay={index * 0.06}>
-              <article className="h-full rounded-2xl border border-border-subtle bg-surface-strong p-6">
-                <p className="text-sm font-bold text-accent">
+              <article className="h-full rounded-xl border border-border-subtle bg-surface p-6">
+                <p className="font-display text-4xl italic text-border-strong">
                   {String(index + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-3 text-lg font-bold text-white">
+                <h3 className="mt-4 text-lg font-semibold text-foreground">
                   {step.title}
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-muted-strong">

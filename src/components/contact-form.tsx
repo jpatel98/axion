@@ -18,7 +18,7 @@ import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 const fieldClassName =
-  "w-full rounded-lg border border-border-subtle bg-surface-light px-4 py-3 text-sm text-white outline-none placeholder:text-muted focus:border-accent focus:ring-1 focus:ring-accent/30";
+  "w-full rounded-lg border border-border-subtle bg-background px-4 py-3 text-sm text-foreground outline-none placeholder:text-muted focus:border-border-strong focus:ring-1 focus:ring-border-strong/30";
 
 export function ContactForm() {
   const [values, setValues] = useState<LeadFormValues>(initialLeadFormValues);
@@ -91,10 +91,10 @@ export function ContactForm() {
   }
 
   return (
-    <div className="rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
+    <div className="rounded-xl border border-border-subtle bg-surface p-6 sm:p-8">
       <form onSubmit={handleSubmit} noValidate>
         <div className="mb-6">
-          <h3 className="text-xl font-bold text-white">
+          <h3 className="font-display text-xl italic text-foreground sm:text-2xl">
             Not ready for a call? Drop us a note.
           </h3>
           <p className="mt-2 text-sm leading-7 text-muted-strong">
@@ -121,7 +121,7 @@ export function ContactForm() {
               aria-describedby={errors.name ? "name-error" : undefined}
             />
             {errors.name ? (
-              <span id="name-error" className="text-xs text-rose-400">
+              <span id="name-error" className="text-xs text-rose-500">
                 {errors.name}
               </span>
             ) : null}
@@ -145,7 +145,7 @@ export function ContactForm() {
               aria-describedby={errors.business ? "business-error" : undefined}
             />
             {errors.business ? (
-              <span id="business-error" className="text-xs text-rose-400">
+              <span id="business-error" className="text-xs text-rose-500">
                 {errors.business}
               </span>
             ) : null}
@@ -170,7 +170,7 @@ export function ContactForm() {
             aria-describedby={errors.email ? "email-error" : undefined}
           />
           {errors.email ? (
-            <span id="email-error" className="text-xs text-rose-400">
+            <span id="email-error" className="text-xs text-rose-500">
               {errors.email}
             </span>
           ) : null}
@@ -194,7 +194,7 @@ export function ContactForm() {
             aria-describedby={errors.helpNeeded ? "helpNeeded-error" : undefined}
           />
           {errors.helpNeeded ? (
-            <span id="helpNeeded-error" className="text-xs text-rose-400">
+            <span id="helpNeeded-error" className="text-xs text-rose-500">
               {errors.helpNeeded}
             </span>
           ) : null}
@@ -204,7 +204,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white shadow-md hover:bg-accent-strong hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isPending ? "Sending..." : "Send Message"}
           </button>
@@ -212,7 +212,7 @@ export function ContactForm() {
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
             <a
               href={`mailto:${siteConfig.contactEmail}`}
-              className="inline-flex items-center gap-2 rounded-lg border border-border-subtle px-3 py-2 text-sm text-muted-strong hover:border-accent hover:text-accent break-all"
+              className="inline-flex items-center gap-2 rounded-lg border border-border-subtle px-3 py-2 text-sm text-muted-strong hover:border-border-strong hover:text-foreground break-all"
             >
               <Mail className="size-4 shrink-0" />
               {siteConfig.contactEmail}
@@ -225,9 +225,9 @@ export function ContactForm() {
             className={cn(
               "mt-5 rounded-lg border p-4 text-sm",
               messageTone === "success" &&
-                "border-emerald-400/30 bg-emerald-400/5 text-emerald-300",
+                "border-emerald-500/30 bg-emerald-500/5 text-emerald-700 dark:text-emerald-300",
               messageTone === "error" &&
-                "border-rose-400/30 bg-rose-400/5 text-rose-300",
+                "border-rose-500/30 bg-rose-500/5 text-rose-700 dark:text-rose-300",
             )}
           >
             <p>{message}</p>

@@ -18,12 +18,12 @@ export function ServicesSection() {
             {siteContent.services.items.map((service, index) => (
               <article
                 key={service.title}
-                className="flex h-full flex-col rounded-2xl border border-border-subtle bg-surface-strong p-6"
+                className="group flex h-full flex-col rounded-xl border border-border-subtle bg-surface p-6 transition-colors hover:border-border-strong"
               >
-                <p className="text-sm font-semibold text-accent">
+                <p className="font-mono text-xs text-muted">
                   {String(index + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-3 text-lg font-bold text-white">
+                <h3 className="mt-3 font-display text-xl italic text-foreground">
                   {service.title}
                 </h3>
                 <p className="mt-3 flex-1 text-sm leading-7 text-muted-strong">

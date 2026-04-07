@@ -13,14 +13,14 @@ export function CtaSection({ children }: CtaSectionProps) {
   return (
     <SectionShell id="contact" className="pb-24 pt-20 sm:pt-24">
       <SectionInner>
-        <div className="relative rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8 md:p-10 lg:p-14">
+        <div className="relative rounded-2xl border border-border-subtle bg-surface p-6 sm:p-8 md:p-10 lg:p-14">
           <div className="relative grid gap-10 lg:grid-cols-[0.98fr_1.02fr]">
             <Reveal>
               <div className="max-w-xl">
-                <p className="text-sm font-semibold uppercase tracking-[0.1em] text-accent">
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
                   {siteContent.contact.eyebrow}
                 </p>
-                <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+                <h2 className="mt-4 font-display text-3xl italic leading-tight tracking-tight text-foreground sm:text-4xl">
                   {siteContent.contact.title}
                 </h2>
                 <p className="mt-4 max-w-lg text-base leading-7 text-muted-strong sm:text-lg sm:leading-8">
@@ -39,14 +39,14 @@ export function CtaSection({ children }: CtaSectionProps) {
                   </ButtonLink>
                 </div>
 
-                <p className="mt-4 text-sm text-muted">
+                <p className="mt-4 font-mono text-xs text-muted sm:text-sm">
                   {siteContent.contact.primaryNote}
                 </p>
 
                 <div className="mt-8 space-y-3">
                   {siteContent.contact.reassurance.map((item) => (
                     <div key={item} className="flex items-start gap-2.5">
-                      <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" />
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-foreground opacity-30" />
                       <p className="text-sm leading-7 text-muted-strong">
                         {item}
                       </p>

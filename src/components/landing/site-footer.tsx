@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="border-t border-border-subtle py-12">
       <SectionInner className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-lg font-bold tracking-tight text-white">
+          <p className="font-display text-2xl italic text-foreground">
             Axion
           </p>
           <p className="mt-3 max-w-md text-sm leading-7 text-muted-strong">
@@ -17,19 +17,19 @@ export function SiteFooter() {
 
         <div className="grid gap-8 sm:grid-cols-2">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+            <p className="font-mono text-xs uppercase tracking-wider text-muted">
               Contact
             </p>
             <div className="mt-4 space-y-2 text-sm text-muted-strong">
               <a
                 href={`mailto:${siteConfig.contactEmail}`}
-                className="block break-all hover:text-accent"
+                className="block break-all hover:text-foreground"
               >
                 {siteConfig.contactEmail}
               </a>
               <a
                 href={siteConfig.siteUrl}
-                className="block hover:text-accent"
+                className="block hover:text-foreground"
               >
                 {siteContent.footer.domain}
               </a>
@@ -37,12 +37,12 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+            <p className="font-mono text-xs uppercase tracking-wider text-muted">
               Navigate
             </p>
             <div className="mt-4 space-y-2 text-sm text-muted-strong">
               {siteContent.nav.map((item) => (
-                <a key={item.label} href={item.href} className="block hover:text-accent">
+                <a key={item.label} href={item.href} className="block hover:text-foreground">
                   {item.label}
                 </a>
               ))}

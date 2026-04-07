@@ -36,11 +36,11 @@ export function ButtonLink({
         }
       }}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold sm:text-base",
+        "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium sm:text-base",
         variant === "primary" &&
-          "bg-accent text-white shadow-md hover:bg-accent-strong hover:shadow-lg",
+          "bg-foreground text-background hover:opacity-90",
         variant === "secondary" &&
-          "border border-border-strong bg-transparent text-muted-strong hover:border-accent hover:text-white",
+          "border border-border-strong text-foreground hover:bg-accent-soft",
         className,
       )}
     >

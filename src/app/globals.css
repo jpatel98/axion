@@ -1,21 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b1121;
-  --foreground: #e2e8f0;
-  --muted: #64748b;
-  --muted-strong: #94a3b8;
-  --surface: #111827;
-  --surface-strong: #0f172a;
-  --surface-soft: rgba(15, 23, 42, 0.7);
-  --surface-light: #1e293b;
-  --surface-light-foreground: #e2e8f0;
-  --border-subtle: rgba(148, 163, 184, 0.12);
-  --border-strong: rgba(148, 163, 184, 0.25);
-  --accent: #3b82f6;
-  --accent-strong: #60a5fa;
-  --accent-soft: rgba(59, 130, 246, 0.1);
-  --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.4);
+  --background: #f5f2eb;
+  --foreground: #1a1a1a;
+  --muted: #8a8580;
+  --muted-strong: #5c5856;
+  --surface: #ffffff;
+  --surface-strong: #f0ede6;
+  --surface-soft: rgba(255, 255, 255, 0.7);
+  --surface-light: #eae7e0;
+  --surface-light-foreground: #1a1a1a;
+  --surface-dark: #1a1a1a;
+  --surface-dark-foreground: #f5f2eb;
+  --border-subtle: rgba(26, 26, 26, 0.1);
+  --border-strong: rgba(26, 26, 26, 0.2);
+  --accent: #1a1a1a;
+  --accent-strong: #000000;
+  --accent-soft: rgba(26, 26, 26, 0.06);
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.dark {
+  --background: #111111;
+  --foreground: #e8e6e1;
+  --muted: #7a7672;
+  --muted-strong: #a8a4a0;
+  --surface: #1a1a1a;
+  --surface-strong: #161616;
+  --surface-soft: rgba(26, 26, 26, 0.7);
+  --surface-light: #222222;
+  --surface-light-foreground: #e8e6e1;
+  --surface-dark: #0a0a0a;
+  --surface-dark-foreground: #e8e6e1;
+  --border-subtle: rgba(232, 230, 225, 0.1);
+  --border-strong: rgba(232, 230, 225, 0.2);
+  --accent: #e8e6e1;
+  --accent-strong: #ffffff;
+  --accent-soft: rgba(232, 230, 225, 0.06);
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 @theme inline {
@@ -28,6 +50,8 @@
   --color-surface-soft: var(--surface-soft);
   --color-surface-light: var(--surface-light);
   --color-surface-light-foreground: var(--surface-light-foreground);
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-dark-foreground: var(--surface-dark-foreground);
   --color-border-subtle: var(--border-subtle);
   --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
@@ -53,9 +77,25 @@ body {
   color: var(--foreground);
 }
 
+/* Dot grid pattern */
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: radial-gradient(circle, var(--border-subtle) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 ::selection {
-  background: rgba(59, 130, 246, 0.35);
+  background: rgba(26, 26, 26, 0.15);
   color: var(--foreground);
+}
+
+.dark ::selection {
+  background: rgba(232, 230, 225, 0.2);
 }
 
 a,
@@ -88,4 +128,19 @@ p {
 
 [id] {
   scroll-margin-top: 7rem;
+}
+
+/* Decorative crosshair marks */
+.cross-mark {
+  position: relative;
+}
+.cross-mark::before {
+  content: "+";
+  position: absolute;
+  top: -0.75rem;
+  left: -0.75rem;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--muted);
+  opacity: 0.5;
 }
