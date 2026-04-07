@@ -9,15 +9,17 @@ export const siteConfig = {
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@axiontechnologies.ca",
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "",
   title:
-    "Axion Technologies | Modern websites, better systems, practical AI for small business",
+    "Axion Technologies | Software Factory Powered by AI Agents for Small Business",
   description:
-    "Axion Technologies helps small and growing businesses modernize their website, reduce manual work, and build practical digital systems without bloated consulting.",
+    "Axion is a software factory powered by autonomous AI agents. We build websites, automate workflows, and deploy intelligent systems for small businesses \u2014 faster and cheaper than any agency.",
   keywords: [
-    "small business website design",
-    "AI automation for small business",
-    "digital transformation for small business",
-    "business process automation",
-    "modern websites for local businesses",
-    "small business automation consulting",
+    "AI software factory",
+    "autonomous AI agents for small business",
+    "AI-powered website builder",
+    "small business automation",
+    "AI agents for clinics",
+    "business process automation AI",
+    "small business software development",
+    "AI workflow automation",
   ],
 } as const;
