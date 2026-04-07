@@ -14,25 +14,22 @@ export function ServicesSection() {
         />
 
         <Reveal delay={0.04}>
-          <div className="mt-12 grid gap-px bg-accent/10 border border-accent/15 lg:grid-cols-2">
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteContent.services.items.map((service, index) => (
               <article
                 key={service.title}
-                className="flex h-full flex-col bg-[#030508] p-5 sm:p-6"
+                className="flex h-full flex-col rounded-2xl border border-border-subtle bg-surface-strong p-6"
               >
-                <div>
-                  <p className="text-xs text-accent">
-                    [{String(index + 1).padStart(2, "0")}]
-                  </p>
-                  <h3 className="mt-3 text-base font-bold text-white sm:text-xl">
-                    {service.title}
-                  </h3>
-                </div>
-                <p className="mt-3 max-w-xl text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
+                <p className="text-sm font-semibold text-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 text-lg font-bold text-white">
+                  {service.title}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-7 text-muted-strong">
                   {service.description}
                 </p>
-                <p className="mt-4 border-t border-accent/8 pt-4 text-xs leading-6 text-white/90 sm:text-sm sm:leading-7">
-                  <span className="text-accent">{"=> "}</span>
+                <p className="mt-4 border-t border-border-subtle pt-4 text-sm font-medium text-foreground">
                   {service.outcome}
                 </p>
               </article>

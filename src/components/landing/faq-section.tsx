@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { siteContent } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -12,7 +13,7 @@ export function FaqSection() {
 
   return (
     <SectionShell id="faq">
-      <SectionInner className="max-w-5xl">
+      <SectionInner className="max-w-4xl">
         <SectionHeading
           eyebrow="FAQ"
           title={siteContent.faq.title}
@@ -21,49 +22,47 @@ export function FaqSection() {
         />
 
         <Reveal delay={0.04}>
-          <div className="mt-10 border border-accent/15 bg-[#030508]">
-            <div className="p-3 sm:p-5 md:p-6">
-              {siteContent.faq.items.map((item, index) => {
-                const isOpen = index === openIndex;
+          <div className="mt-10 divide-y divide-border-subtle rounded-2xl border border-border-subtle bg-surface-strong">
+            {siteContent.faq.items.map((item, index) => {
+              const isOpen = index === openIndex;
 
-                return (
-                  <div
-                    key={item.question}
-                    className={cn(index > 0 && "border-t border-accent/10")}
+              return (
+                <div key={item.question}>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+                    aria-expanded={isOpen}
+                    aria-controls={`faq-panel-${index}`}
+                    onClick={() =>
+                      setOpenIndex((current) => (current === index ? -1 : index))
+                    }
                   >
-                    <button
-                      type="button"
-                      className="flex w-full items-center justify-between gap-4 py-4 text-left"
-                      aria-expanded={isOpen}
-                      aria-controls={`faq-panel-${index}`}
-                      onClick={() =>
-                        setOpenIndex((current) => (current === index ? -1 : index))
-                      }
-                    >
-                      <span className="text-xs font-medium text-white sm:text-base">
-                        {item.question}
-                      </span>
-                      <span className="shrink-0 text-xs text-accent">
-                        {isOpen ? "[-]" : "[+]"}
-                      </span>
-                    </button>
-                    <div
-                      id={`faq-panel-${index}`}
+                    <span className="text-sm font-semibold text-white sm:text-base">
+                      {item.question}
+                    </span>
+                    <ChevronDown
                       className={cn(
-                        "grid transition-[grid-template-rows] duration-300 ease-out",
-                        isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                        "size-5 shrink-0 text-muted transition-transform duration-200",
+                        isOpen && "rotate-180",
                       )}
-                    >
-                      <div className="overflow-hidden">
-                        <p className="border-t border-accent/8 py-4 text-sm leading-7 text-muted-strong">
-                          {item.answer}
-                        </p>
-                      </div>
+                    />
+                  </button>
+                  <div
+                    id={`faq-panel-${index}`}
+                    className={cn(
+                      "grid transition-[grid-template-rows] duration-300 ease-out",
+                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                    )}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="px-6 pb-5 text-sm leading-7 text-muted-strong">
+                        {item.answer}
+                      </p>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         </Reveal>
       </SectionInner>

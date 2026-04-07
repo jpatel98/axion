@@ -6,7 +6,7 @@ import { SectionInner, SectionShell } from "@/components/landing/section-shell";
 export function WhyAxionSection() {
   return (
     <SectionShell id="why-axion">
-      <SectionInner className="grid gap-10 lg:grid-cols-[0.88fr_1.12fr]">
+      <SectionInner className="grid gap-12 lg:grid-cols-[0.88fr_1.12fr]">
         <div>
           <SectionHeading
             eyebrow="Why Axion"
@@ -14,17 +14,17 @@ export function WhyAxionSection() {
             description={siteContent.whyAxion.description}
           />
 
-          <div className="mt-8 space-y-5">
+          <div className="mt-8 space-y-6">
             {siteContent.whyAxion.principles.map((item, index) => (
               <Reveal key={item.title} delay={index * 0.04}>
-                <article className="border-b border-accent/10 pb-5 last:border-b-0 last:pb-0">
-                  <p className="text-xs text-accent">
-                    [{String(index + 1).padStart(2, "0")}]
+                <article className="border-b border-border-subtle pb-6 last:border-b-0 last:pb-0">
+                  <p className="text-sm font-semibold text-accent">
+                    {String(index + 1).padStart(2, "0")}
                   </p>
-                  <h3 className="mt-2 text-base font-bold text-white sm:text-lg">
+                  <h3 className="mt-2 text-lg font-bold text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-2 max-w-xl text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
+                  <p className="mt-2 text-sm leading-7 text-muted-strong">
                     {item.description}
                   </p>
                 </article>
@@ -34,29 +34,29 @@ export function WhyAxionSection() {
         </div>
 
         <Reveal delay={0.06}>
-          <div className="border border-accent/15 bg-[#030508] p-4 sm:p-6">
-            <div className="divide-y divide-accent/10">
+          <div className="rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
+            <div className="divide-y divide-border-subtle">
               {siteContent.whyAxion.comparisons.map((item) => (
                 <article
                   key={item.label}
-                  className="py-4 first:pt-0 last:pb-0"
+                  className="py-5 first:pt-0 last:pb-0"
                 >
-                  <p className="text-xs font-medium uppercase tracking-wider text-accent/70">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted">
                     {item.label}
                   </p>
-                  <h3 className="mt-2 text-sm font-bold text-white sm:text-base">
+                  <h3 className="mt-2 text-base font-bold text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-1 text-xs leading-6 text-muted-strong sm:text-sm sm:leading-7">
+                  <p className="mt-1 text-sm leading-7 text-muted-strong">
                     {item.description}
                   </p>
                 </article>
               ))}
-              <div className="pt-4">
-                <p className="text-xs font-medium uppercase tracking-wider text-green-400">
+              <div className="pt-5">
+                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
                   Axion
                 </p>
-                <p className="mt-1 text-xs text-green-300 sm:text-sm">
+                <p className="mt-1 text-sm font-medium text-emerald-300">
                   Practical change. Working software. Fewer problems.
                 </p>
               </div>

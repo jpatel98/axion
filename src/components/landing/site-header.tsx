@@ -45,16 +45,15 @@ export function SiteHeader() {
         className={cn(
           "border-b px-4 py-3 transition-all sm:px-6 lg:px-8",
           hasScrolled
-            ? "border-accent/15 bg-[#030508]/95 shadow-[0_18px_56px_rgba(0,0,0,0.5)] backdrop-blur-xl"
-            : "border-accent/8 bg-[#030508]/80 backdrop-blur-md",
+            ? "border-border-subtle bg-background/95 shadow-lg backdrop-blur-xl"
+            : "border-transparent bg-background/80 backdrop-blur-md",
         )}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <a href="#top" className="flex items-baseline gap-1">
-            <span className="text-base font-bold text-accent">
-              AXION
+          <a href="#top" className="flex items-baseline gap-2">
+            <span className="text-lg font-bold tracking-tight text-white">
+              Axion
             </span>
-            <span className="cursor-blink text-accent" />
           </a>
 
           <nav className="hidden items-center gap-1 md:flex">
@@ -62,7 +61,7 @@ export function SiteHeader() {
               <a
                 key={item.label}
                 href={item.href}
-                className="px-3 py-1.5 text-xs uppercase tracking-wider text-muted-strong hover:text-accent"
+                className="rounded-lg px-3 py-2 text-sm text-muted-strong hover:bg-surface-light hover:text-white"
               >
                 {item.label}
               </a>
@@ -73,20 +72,20 @@ export function SiteHeader() {
             <a
               href={siteConfig.bookingUrl}
               onClick={() => trackBookingClick("header")}
-              className="inline-flex items-center border border-accent/30 bg-accent/[0.06] px-4 py-2 text-xs font-bold uppercase tracking-wider text-accent hover:bg-accent/15"
+              className="inline-flex items-center rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-strong"
             >
-              [ {siteContent.headerCta} ]
+              {siteContent.headerCta}
             </a>
           </div>
 
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center border border-accent/20 bg-accent/[0.03] text-accent md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-lg border border-border-subtle text-muted-strong hover:bg-surface-light hover:text-white md:hidden"
             aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((current) => !current)}
           >
-            {isMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+            {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
       </div>
@@ -98,19 +97,16 @@ export function SiteHeader() {
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={prefersReducedMotion ? {} : { opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="border-b border-accent/10 bg-[#030508]/95 px-4 backdrop-blur-xl md:hidden"
+            className="border-b border-border-subtle bg-background/95 px-4 backdrop-blur-xl md:hidden"
           >
             <nav className="mx-auto flex max-w-7xl flex-col py-2">
               {siteContent.nav.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="border-b border-accent/5 px-2 py-3 text-xs uppercase tracking-wider text-muted-strong hover:text-accent"
+                  className="border-b border-border-subtle/50 px-2 py-3 text-sm text-muted-strong hover:text-white"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <span aria-hidden="true" className="text-accent/50">
-                    {">"}{" "}
-                  </span>
                   {item.label}
                 </a>
               ))}
@@ -123,9 +119,9 @@ export function SiteHeader() {
                   trackBookingClick("header");
                   setIsMenuOpen(false);
                 }}
-                className="inline-flex w-full items-center justify-center border border-accent/30 bg-accent/[0.06] px-4 py-3 text-xs font-bold uppercase tracking-wider text-accent"
+                className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-4 py-3 text-sm font-semibold text-white hover:bg-accent-strong"
               >
-                [ {siteContent.headerCta} ]
+                {siteContent.headerCta}
               </a>
             </div>
           </motion.div>
@@ -144,9 +140,9 @@ export function SiteHeader() {
             <a
               href={siteConfig.bookingUrl}
               onClick={() => trackBookingClick("mobile_sticky")}
-              className="mx-auto flex max-w-md items-center justify-center border border-accent/25 bg-[#030508]/95 px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-accent shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+              className="mx-auto flex max-w-md items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl hover:bg-accent-strong"
             >
-              [ {siteContent.mobileStickyCta} ]
+              {siteContent.mobileStickyCta}
             </a>
           </motion.div>
         ) : null}
