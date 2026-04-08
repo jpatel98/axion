@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { siteContent } from "@/content/site";
 import { siteConfig } from "@/lib/site-config";
 import { ButtonLink } from "@/components/landing/link-button";
@@ -37,14 +38,14 @@ export function HeroSection() {
           </Reveal>
 
           <Reveal delay={0.14}>
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 rounded-xl border border-border-subtle bg-surface-light/50 px-6 py-5">
+            <div className="mt-10 flex flex-col gap-3 rounded-xl border border-border-subtle bg-surface-light/50 px-6 py-5 sm:flex-row sm:items-center sm:gap-6">
               {siteContent.hero.stats.map((stat, i) => (
-                <span key={stat} className="flex items-center gap-x-8">
+                <Fragment key={stat}>
                   {i > 0 && (
-                    <span className="hidden h-8 w-px bg-border-subtle sm:block" aria-hidden="true" />
+                    <span className="hidden h-8 w-px shrink-0 bg-border-subtle sm:block" aria-hidden="true" />
                   )}
                   <span className="text-sm font-semibold text-white sm:text-base">{stat}</span>
-                </span>
+                </Fragment>
               ))}
             </div>
           </Reveal>
