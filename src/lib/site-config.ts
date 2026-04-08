@@ -4,7 +4,7 @@ export const siteConfig = {
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://axiontechnologies.ca",
   bookingUrl:
     process.env.NEXT_PUBLIC_BOOKING_URL ??
-    "https://cal.com/your-handle/consultation",
+    "https://calendly.com/jigarpatel2/call-with-axion-technologies",
   contactEmail:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "hello@axiontechnologies.ca",
   gaMeasurementId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "",
