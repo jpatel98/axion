@@ -44,7 +44,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
   background: var(--background);
 }
 
@@ -89,5 +88,4 @@ p {
 
 section[id] {
   scroll-margin-top: 4rem;
-  scroll-snap-align: start;
 }
