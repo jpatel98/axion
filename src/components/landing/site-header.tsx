@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
 import { trackBookingClick } from "@/lib/analytics";
@@ -50,8 +51,16 @@ export function SiteHeader() {
         )}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <a href="#top" className="flex items-baseline gap-2">
-            <span className="text-lg font-bold tracking-tight text-white">
+          <a href="#top" className="flex min-w-0 items-center gap-3">
+            <Image
+              src="/axion-logo-icon.png"
+              alt="Axion Technologies logo"
+              width={40}
+              height={40}
+              className="h-10 w-10 shrink-0 object-contain"
+              priority
+            />
+            <span className="truncate text-lg font-bold tracking-tight text-white">
               Axion
             </span>
           </a>

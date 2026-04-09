@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { siteContent } from "@/content/site";
 import { siteConfig } from "@/lib/site-config";
 import { SectionInner } from "@/components/landing/section-shell";
@@ -7,10 +8,14 @@ export function SiteFooter() {
     <footer className="border-t border-border-subtle py-12">
       <SectionInner className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="text-lg font-bold tracking-tight text-white">
-            Axion
-          </p>
-          <p className="mt-3 max-w-md text-sm leading-7 text-muted-strong">
+          <Image
+            src="/axion-logo-stacked.png"
+            alt={`${siteContent.footer.name} logo`}
+            width={300}
+            height={276}
+            className="h-auto w-full max-w-[16rem] object-contain"
+          />
+          <p className="mt-4 max-w-md text-sm leading-7 text-muted-strong">
             {siteContent.footer.tagline}
           </p>
         </div>
@@ -27,10 +32,7 @@ export function SiteFooter() {
               >
                 {siteConfig.contactEmail}
               </a>
-              <a
-                href={siteConfig.siteUrl}
-                className="block hover:text-accent"
-              >
+              <a href={siteConfig.siteUrl} className="block hover:text-accent">
                 {siteContent.footer.domain}
               </a>
             </div>
