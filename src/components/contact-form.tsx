@@ -220,19 +220,19 @@ export function ContactForm() {
           </div>
         </div>
 
-        {message ? (
-          <div
-            className={cn(
-              "mt-5 rounded-lg border p-4 text-sm",
-              messageTone === "success" &&
-                "border-emerald-400/30 bg-emerald-400/5 text-emerald-300",
-              messageTone === "error" &&
-                "border-rose-400/30 bg-rose-400/5 text-rose-300",
-            )}
-          >
-            <p>{message}</p>
-          </div>
-        ) : null}
+        <div
+          role="status"
+          aria-live="polite"
+          className={cn(
+            message ? "mt-5 rounded-lg border p-4 text-sm" : "sr-only",
+            message && messageTone === "success" &&
+              "border-emerald-400/30 bg-emerald-400/5 text-emerald-300",
+            message && messageTone === "error" &&
+              "border-rose-400/30 bg-rose-400/5 text-rose-300",
+          )}
+        >
+          {message ? <p>{message}</p> : null}
+        </div>
       </form>
     </div>
   );

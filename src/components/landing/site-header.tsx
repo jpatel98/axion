@@ -50,13 +50,13 @@ export function SiteHeader() {
         )}
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <a href="#top" className="flex min-w-0 items-center">
+          <a href="#main-content" className="flex min-w-0 items-center" aria-label="Axion — Back to top">
             <span className="truncate text-lg font-bold tracking-tight text-white">
               Axion
             </span>
           </a>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
             {siteContent.nav.map((item) => (
               <a
                 key={item.label}
@@ -99,7 +99,7 @@ export function SiteHeader() {
             transition={{ duration: 0.18 }}
             className="border-b border-border-subtle bg-background/95 px-4 backdrop-blur-xl md:hidden"
           >
-            <nav className="mx-auto flex max-w-7xl flex-col py-2">
+            <nav aria-label="Main" className="mx-auto flex max-w-7xl flex-col py-2">
               {siteContent.nav.map((item) => (
                 <a
                   key={item.label}

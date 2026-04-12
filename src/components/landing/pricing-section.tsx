@@ -36,7 +36,7 @@ export function PricingSection() {
                       key={item}
                       className="flex items-start gap-2.5 text-sm leading-7 text-foreground"
                     >
-                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400" />
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}

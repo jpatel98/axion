@@ -15,8 +15,11 @@ import { WhyAxionSection } from "@/components/landing/why-axion-section";
 export default function Home() {
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <SiteHeader />
-      <main id="top" className="relative overflow-x-clip">
+      <main id="main-content" className="relative overflow-x-clip">
         <HeroSection />
         <CredibilityStrip />
         <ProofSection />

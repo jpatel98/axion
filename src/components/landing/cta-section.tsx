@@ -46,7 +46,7 @@ export function CtaSection({ children }: CtaSectionProps) {
                 <div className="mt-8 space-y-3">
                   {siteContent.contact.reassurance.map((item) => (
                     <div key={item} className="flex items-start gap-2.5">
-                      <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" />
+                      <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden="true" />
                       <p className="text-sm leading-7 text-muted-strong">
                         {item}
                       </p>

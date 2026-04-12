@@ -56,7 +56,7 @@ export function ProofSection() {
                       <ul className="space-y-2 text-sm leading-7 text-foreground">
                         {item.outcomes.map((outcome) => (
                           <li key={outcome} className="flex items-start gap-2">
-                            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" />
+                            <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden="true" />
                             <span>{outcome}</span>
                           </li>
                         ))}

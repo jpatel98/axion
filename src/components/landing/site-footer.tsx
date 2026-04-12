@@ -38,7 +38,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div>
+          <nav aria-label="Footer">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted">
               Navigate
             </p>
@@ -49,7 +49,7 @@ export function SiteFooter() {
                 </a>
               ))}
             </div>
-          </div>
+          </nav>
         </div>
       </SectionInner>
 

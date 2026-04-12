@@ -15,7 +15,7 @@ export function TerminalWindow({
     <div
       className={cn("overflow-hidden border border-accent/20 bg-[#030508]", className)}
     >
-      <div className="flex items-center gap-2 border-b border-accent/10 bg-accent/[0.03] px-4 py-2">
+      <div className="flex items-center gap-2 border-b border-accent/10 bg-accent/[0.03] px-4 py-2" aria-hidden="true">
         <span className="size-2.5 rounded-full bg-[#ff5f57]" />
         <span className="size-2.5 rounded-full bg-[#febc2e]" />
         <span className="size-2.5 rounded-full bg-[#28c840]" />

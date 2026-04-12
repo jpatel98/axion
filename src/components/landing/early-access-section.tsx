@@ -26,7 +26,7 @@ export function EarlyAccessSection() {
                     key={item}
                     className="flex items-start gap-2.5 text-sm leading-7 text-muted-strong"
                   >
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" />
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -43,7 +43,7 @@ export function EarlyAccessSection() {
                     key={item}
                     className="flex items-start gap-2.5 text-sm leading-7 text-muted-strong"
                   >
-                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400" />
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400" aria-hidden="true" />
                     <span>{item}</span>
                   </li>
                 ))}

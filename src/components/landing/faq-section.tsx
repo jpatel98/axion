@@ -30,6 +30,7 @@ export function FaqSection() {
                 <div key={item.question}>
                   <button
                     type="button"
+                    id={`faq-heading-${index}`}
                     className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
                     aria-expanded={isOpen}
                     aria-controls={`faq-panel-${index}`}
@@ -41,6 +42,7 @@ export function FaqSection() {
                       {item.question}
                     </span>
                     <ChevronDown
+                      aria-hidden="true"
                       className={cn(
                         "size-5 shrink-0 text-muted transition-transform duration-200",
                         isOpen && "rotate-180",
@@ -49,6 +51,9 @@ export function FaqSection() {
                   </button>
                   <div
                     id={`faq-panel-${index}`}
+                    role="region"
+                    aria-labelledby={`faq-heading-${index}`}
+                    aria-hidden={!isOpen}
                     className={cn(
                       "grid transition-[grid-template-rows] duration-300 ease-out",
                       isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",

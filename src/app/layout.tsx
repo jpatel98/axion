@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
 import Script from "next/script";
+import { siteContent } from "@/content/site";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
@@ -51,6 +52,19 @@ const jsonLdLocalBusiness = {
     name: "Canada",
   },
   priceRange: "$$",
+};
+
+const jsonLdFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: siteContent.faq.items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
 };
 
 export const metadata: Metadata = {
@@ -123,6 +137,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify([jsonLdOrganization, jsonLdLocalBusiness]),
+          }}
+        />
+        <Script
+          id="json-ld-faq"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(jsonLdFaq),
           }}
         />
         {children}
