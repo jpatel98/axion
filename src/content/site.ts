@@ -15,12 +15,12 @@ export const siteContent = {
     title: "Your business deserves software",
     emphasis: "that works as hard as you do.",
     description:
-      "Axion is a software factory powered by Claude-powered agents. You own everything. We build websites, automate operations, and deploy intelligent systems \u2014 faster and cheaper than any agency.",
+      "Axion is a software factory powered by autonomous AI agents. You own everything. We build websites, automate operations, and deploy intelligent systems \u2014 faster and cheaper than any agency.",
     audienceLine:
       "For clinics, contractors, and growing businesses that need real software \u2014 not another Wix template.",
     stats: [
       "Ships in days, not months",
-      "Claude-powered agents work around the clock",
+      "AI agents work around the clock",
       "Built for teams under 30",
     ],
     primaryCta: "Book a Call",
@@ -29,7 +29,7 @@ export const siteContent = {
     secondaryHref: "#services",
   },
     credibility: [
-    "Claude-powered agents",
+    "Autonomous AI agents",
     "Ships in days, not months",
     "You own everything",
     "Purpose-built, zero friction",
