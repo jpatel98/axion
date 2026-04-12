@@ -95,7 +95,7 @@ export function ContactForm() {
       <form onSubmit={handleSubmit} noValidate>
         <div className="mb-6">
           <h3 className="text-xl font-bold text-white">
-            Not ready for a call? Drop us a note.
+            Prefer to start in writing? Tell us what you need.
           </h3>
           <p className="mt-2 text-sm leading-7 text-muted-strong">
             Tell us what&apos;s broken. We&apos;ll get back to you within a day.
@@ -206,7 +206,7 @@ export function ContactForm() {
             disabled={isPending}
             className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white shadow-md hover:bg-accent-strong hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isPending ? "Sending..." : "Send Message"}
+            {isPending ? "Reaching out to the team…" : "Send Message"}
           </button>
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">

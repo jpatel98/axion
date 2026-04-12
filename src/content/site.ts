@@ -15,12 +15,12 @@ export const siteContent = {
     title: "Your business deserves software",
     emphasis: "that works as hard as you do.",
     description:
-      "Axion is a software factory powered by autonomous AI agents. We build websites, automate operations, and deploy intelligent systems \u2014 faster and cheaper than any agency.",
+      "Axion is a software factory powered by Claude-powered agents. You own everything. We build websites, automate operations, and deploy intelligent systems \u2014 faster and cheaper than any agency.",
     audienceLine:
       "For clinics, contractors, and growing businesses that need real software \u2014 not another Wix template.",
     stats: [
-      "10x faster than agencies",
-      "AI agents work around the clock",
+      "Ships in days, not months",
+      "Claude-powered agents work around the clock",
       "Built for teams under 30",
     ],
     primaryCta: "Book a Call",
@@ -28,16 +28,16 @@ export const siteContent = {
     secondaryCta: "See What We Ship",
     secondaryHref: "#services",
   },
-  credibility: [
-    "Agent-powered",
-    "Ships in days",
+    credibility: [
+    "Claude-powered agents",
+    "Ships in days, not months",
     "You own everything",
-    "No bloat",
-    "Always improving",
+    "Purpose-built, zero friction",
+    "Improved weekly based on real usage",
     "Transparent pricing",
   ],
   proof: {
-    title: "What the factory has shipped.",
+    title: "What We Ship.",
     description:
       "Real businesses, real problems. Our agents diagnose the bottleneck, we scope the fix, and the factory ships working software \u2014 fast.",
     sharedOutcomes: [
@@ -74,12 +74,12 @@ export const siteContent = {
       {
         industry: "Dental & Medical Clinics",
         problem:
-          "Front desk spending hours on calls, intake forms, and chasing down no-shows.",
+          "Front desk reclaims ~6 hours/week by removing repetitive intake and reminder work.",
         fix:
           "Deployed digital intake, AI-powered reminders, and automated waitlist backfill.",
         outcomes: [
           "40% less front-desk time",
-          "Fewer no-shows",
+          "30–40% fewer no-shows with automated reminders",
           "Patients notice the difference",
         ],
       },
@@ -98,7 +98,7 @@ export const siteContent = {
     ],
   },
   services: {
-    title: "What the factory ships.",
+    title: "What We Ship.",
     description:
       "Our AI agents handle the heavy lifting. You get working software \u2014 not wireframes, not proposals, not slide decks.",
     items: [
@@ -296,7 +296,7 @@ export const siteContent = {
       {
         question: "How fast do you actually ship?",
         answer:
-          "Most Starter projects ship within 5\u201310 business days. Systems projects in 2\u20134 weeks. That\u2019s 3\u201310x faster than a traditional agency.",
+          "We ship in days, not months. Most Starter projects are done in days, and systems projects are typically delivered in under 2 weeks.",
       },
       {
         question: "I don\u2019t know what I need. Is that okay?",
@@ -327,8 +327,8 @@ export const siteContent = {
       "No-show follow-up",
     ],
     means: [
-      "Front desk spends time on patients, not phones",
-      "Fewer no-shows, more filled slots",
+      "Front desk reclaims ~6 hours/week",
+      "30–40% fewer no-shows with automated reminders",
       "Patients get answers instantly, not next business day",
       "Works 24/7, no overtime",
     ],
@@ -345,14 +345,14 @@ export const siteContent = {
     primaryNote: "Free. 30 min. No obligations.",
     reassurance: [
       "Walk away with a clear action plan",
-      "Scoped for small teams and real budgets",
+      "Starting at $1,500 — no six-figure surprises",
       "We build it. You own it. No lock-in.",
     ],
   },
   footer: {
     name: "Axion Technologies",
     tagline:
-      "A software factory powered by autonomous AI agents \u2014 building websites, automations, and intelligent systems for small businesses that move fast.",
+      "AI agents + human strategy = production software in days, not months. Built for ambitious small teams.",
     domain: "axiontechnologies.ca",
     copyright: "\u00a9 2026 Axion Technologies. All rights reserved.",
     legal: "Privacy policy and terms available on request.",

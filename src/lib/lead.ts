@@ -85,7 +85,7 @@ export async function submitLead(
         status: "error",
         message:
           payload.message ??
-          "Something went wrong while sending the form. Please try again.",
+          "Something went sideways. Try the email link below or reload and try again.",
         fieldErrors:
           payload.status === "error" ? payload.fieldErrors : undefined,
       };
@@ -96,7 +96,7 @@ export async function submitLead(
     return {
       status: "error",
       message:
-        "Something went wrong while sending the form. Please try again or use booking or email instead.",
+        "Something went sideways. Try the email link below or reload and try again.",
     };
   }
 }
