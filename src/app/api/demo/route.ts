@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET — returns the current trial status without consuming a use.
-export async function GET(request: NextRequest) {
+export async function GET() {
   const cookieStore = await cookies();
   const headerStore = await headers();
 

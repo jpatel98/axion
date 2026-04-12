@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { ArrowUpRight, Paperclip, Upload, X } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { ExtractedInvoice } from "@/lib/invoice-extract";
 
@@ -85,13 +86,13 @@ export function DemoForm({ initialRemaining, max }: Props) {
         <p className="mt-2 text-sm text-muted">
           Ready to automate this for your whole business?
         </p>
-        <a
+        <Link
           href="/#contact"
           className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:border-accent/45"
         >
           Book a free consultation
           <ArrowUpRight className="size-4" />
-        </a>
+        </Link>
       </div>
     );
   }
@@ -172,13 +173,13 @@ export function DemoForm({ initialRemaining, max }: Props) {
               Try another invoice
             </button>
           ) : null}
-          <a
+          <Link
             href="/#contact"
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-5 py-3 text-sm font-semibold text-accent hover:-translate-y-0.5 hover:bg-accent/15"
           >
             Automate this
             <ArrowUpRight className="size-4" />
-          </a>
+          </Link>
         </div>
       </div>
     );

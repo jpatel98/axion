@@ -1,6 +1,7 @@
 import { cookies, headers } from "next/headers";
 import { supabase } from "@/lib/supabase";
 import { DemoForm } from "./demo-form";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -62,14 +63,14 @@ export default async function DemoPage() {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <a href="/" className="inline-flex flex-col items-center">
+          <Link href="/" className="inline-flex flex-col items-center">
             <span className="font-semibold text-white text-lg">
               Axion Technologies
             </span>
             <span className="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.3em] text-accent">
               Invoice extraction demo
             </span>
-          </a>
+          </Link>
         </div>
 
         <div className="mb-6 text-center">
