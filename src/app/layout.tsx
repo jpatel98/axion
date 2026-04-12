@@ -21,6 +21,38 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "700"],
 });
 
+const jsonLdOrganization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteConfig.name,
+  url: siteConfig.siteUrl,
+  description: siteConfig.description,
+  logo: `${siteConfig.siteUrl}/axion-logo-full.png`,
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: siteConfig.contactEmail,
+    availableLanguage: ["en"],
+  },
+  sameAs: [],
+};
+
+const jsonLdLocalBusiness = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: siteConfig.name,
+  url: siteConfig.siteUrl,
+  description: siteConfig.description,
+  email: siteConfig.contactEmail,
+  image: `${siteConfig.siteUrl}/axion-logo-full.png`,
+  serviceType: "Software development and AI automation services",
+  areaServed: {
+    "@type": "Country",
+    name: "Canada",
+  },
+  priceRange: "$$",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: siteConfig.title,
@@ -86,6 +118,13 @@ export default function RootLayout({
             </Script>
           </>
         ) : null}
+        <Script
+          id="json-ld-organization"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([jsonLdOrganization, jsonLdLocalBusiness]),
+          }}
+        />
         {children}
       </body>
     </html>
