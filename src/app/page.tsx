@@ -1,7 +1,5 @@
 import { ContactForm } from "@/components/contact-form";
 import { CtaSection } from "@/components/landing/cta-section";
-import { CredibilityStrip } from "@/components/landing/credibility-strip";
-import { EarlyAccessSection } from "@/components/landing/early-access-section";
 import { FaqSection } from "@/components/landing/faq-section";
 import { HeroSection } from "@/components/landing/hero-section";
 import { PricingSection } from "@/components/landing/pricing-section";
@@ -18,14 +16,12 @@ export default function Home() {
       <SiteHeader />
       <main id="top" className="relative overflow-x-clip">
         <HeroSection />
-        <CredibilityStrip />
         <ProofSection />
         <ServicesSection />
         <PricingSection />
         <WhyAxionSection />
         <ProcessSection />
         <FaqSection />
-        <EarlyAccessSection />
         <CtaSection>
           <ContactForm />
         </CtaSection>

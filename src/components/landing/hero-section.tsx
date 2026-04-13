@@ -19,7 +19,7 @@ export function HeroSection() {
           <Reveal delay={0.05}>
             <h1 className="mt-6 max-w-[20ch] text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               {siteContent.hero.title}{" "}
-              <span className="text-accent">
+              <span className="font-display font-normal italic text-accent">
                 {siteContent.hero.emphasis}
               </span>
             </h1>

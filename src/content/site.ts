@@ -5,7 +5,6 @@ export const siteContent = {
     { label: "Pricing", href: "#pricing" },
     { label: "Process", href: "#process" },
     { label: "FAQ", href: "#faq" },
-    { label: "Early Access", href: "#early-access" },
     { label: "Contact", href: "#contact" },
   ],
   headerCta: "Book a Call",
@@ -37,7 +36,7 @@ export const siteContent = {
     "Transparent pricing",
   ],
   proof: {
-    title: "What We Ship.",
+    title: "Real problems. Solved fast.",
     description:
       "Real businesses, real problems. Our agents diagnose the bottleneck, we scope the fix, and the factory ships working software \u2014 fast.",
     sharedOutcomes: [

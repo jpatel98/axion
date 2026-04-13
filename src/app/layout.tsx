@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Instrument_Serif, Manrope } from "next/font/google";
+import { Instrument_Serif, Manrope } from "next/font/google";
 import Script from "next/script";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
@@ -15,11 +15,6 @@ const instrumentSerif = Instrument_Serif({
   weight: "400",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
 
 const jsonLdOrganization = {
   "@context": "https://schema.org",
@@ -98,7 +93,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${instrumentSerif.variable} ${ibmPlexMono.variable} h-full`}
+      className={`${manrope.variable} ${instrumentSerif.variable} h-full`}
     >
       <body className="min-h-full font-sans text-foreground antialiased">
         {siteConfig.gaMeasurementId ? (

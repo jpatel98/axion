@@ -29,7 +29,7 @@ export function SectionHeading({
     >
       <p className={cn(
         "text-sm font-semibold uppercase tracking-[0.1em]",
-        isLight ? "text-blue-600" : "text-accent",
+        isLight ? "text-amber-600" : "text-accent",
       )}>
         {eyebrow}
       </p>
