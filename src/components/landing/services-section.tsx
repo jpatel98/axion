@@ -1,5 +1,4 @@
 import { siteContent } from "@/content/site";
-import { GlowCard } from "@/components/landing/glow-card";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
@@ -17,25 +16,23 @@ export function ServicesSection() {
         <Reveal delay={0.04}>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {siteContent.services.items.map((service, index) => (
-              <GlowCard
+              <article
                 key={service.title}
-                className="h-full rounded-2xl border border-border-subtle hover:border-accent/45"
+                className="flex h-full flex-col rounded-2xl border border-border-subtle bg-surface-strong p-6"
               >
-                <article className="flex h-full flex-col p-6">
-                  <p className="text-sm font-semibold text-accent">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-3 text-lg font-bold text-white">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm leading-7 text-muted-strong">
-                    {service.description}
-                  </p>
-                  <p className="mt-4 border-t border-border-subtle pt-4 text-sm font-medium text-foreground">
-                    {service.outcome}
-                  </p>
-                </article>
-              </GlowCard>
+                <p className="text-sm font-semibold text-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 text-lg font-bold text-white">
+                  {service.title}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-7 text-muted-strong">
+                  {service.description}
+                </p>
+                <p className="mt-4 border-t border-border-subtle pt-4 text-sm font-medium text-foreground">
+                  {service.outcome}
+                </p>
+              </article>
             ))}
           </div>
         </Reveal>
