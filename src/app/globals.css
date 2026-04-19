@@ -88,3 +88,115 @@ p {
 section[id] {
   scroll-margin-top: 4rem;
 }
+
+/* Mouse-tracking amber glow sweep on cards */
+.glow-card {
+  position: relative;
+  isolation: isolate;
+  transition:
+    border-color 200ms ease,
+    transform 200ms ease;
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    240px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(245, 158, 11, 0.14),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 240ms ease;
+  z-index: 0;
+}
+.glow-card > * {
+  position: relative;
+  z-index: 1;
+}
+.glow-card:hover::before {
+  opacity: 1;
+}
+.glow-card:hover {
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .glow-card:hover {
+    transform: none;
+  }
+  .glow-card::before {
+    transition: none;
+  }
+}
+
+/* Featured ring: rotating amber conic gradient border */
+@property --ring-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.featured-ring {
+  position: relative;
+}
+.featured-ring::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--ring-angle, 0deg),
+    rgba(245, 158, 11, 0.9),
+    transparent 30%,
+    transparent 70%,
+    rgba(245, 158, 11, 0.9)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: axion-ring-spin 6s linear infinite;
+}
+@keyframes axion-ring-spin {
+  to {
+    --ring-angle: 360deg;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .featured-ring::after {
+    animation: none;
+  }
+}
+
+/* Process step connector: horizontal amber line that draws in on scroll */
+.process-connector {
+  position: absolute;
+  top: 2.75rem;
+  left: 12.5%;
+  right: 12.5%;
+  height: 1px;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 1.6s cubic-bezier(0.21, 1, 0.3, 1);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(245, 158, 11, 0.6) 10%,
+    rgba(245, 158, 11, 0.6) 90%,
+    transparent
+  );
+  z-index: 0;
+}
+.process-connector.drawn {
+  transform: scaleX(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .process-connector {
+    transition: none;
+    transform: scaleX(1);
+  }
+}
