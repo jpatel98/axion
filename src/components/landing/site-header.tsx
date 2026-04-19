@@ -51,8 +51,8 @@ export function SiteHeader() {
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <a href="#top" className="flex min-w-0 items-center">
-            <span className="truncate text-lg font-bold tracking-tight text-white">
-              Axion
+            <span className="truncate text-xl font-extrabold tracking-[-0.03em] text-white">
+              Axion<span className="text-accent">.</span>
             </span>
           </a>
 

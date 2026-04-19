@@ -21,7 +21,10 @@ export function CtaSection({ children }: CtaSectionProps) {
                   {siteContent.contact.eyebrow}
                 </p>
                 <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
-                  {siteContent.contact.title}
+                  {siteContent.contact.title}{" "}
+                  <span className="font-display font-normal italic text-accent">
+                    {siteContent.contact.emphasis}
+                  </span>
                 </h2>
                 <p className="mt-4 max-w-lg text-base leading-7 text-muted-strong sm:text-lg sm:leading-8">
                   {siteContent.contact.description}

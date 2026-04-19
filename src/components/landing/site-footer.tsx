@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { siteContent } from "@/content/site";
 import { siteConfig } from "@/lib/site-config";
 import { SectionInner } from "@/components/landing/section-shell";
@@ -8,13 +7,9 @@ export function SiteFooter() {
     <footer className="border-t border-border-subtle py-12">
       <SectionInner className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <Image
-            src="/axion-logo-stacked.png"
-            alt={`${siteContent.footer.name} logo`}
-            width={300}
-            height={276}
-            className="h-auto w-full max-w-[16rem] object-contain"
-          />
+          <div className="text-3xl font-extrabold tracking-[-0.03em] text-white">
+            Axion<span className="text-accent">.</span>
+          </div>
           <p className="mt-4 max-w-md text-sm leading-7 text-muted-strong">
             {siteContent.footer.tagline}
           </p>
