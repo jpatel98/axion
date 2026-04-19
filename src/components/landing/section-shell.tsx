@@ -17,14 +17,7 @@ export function SectionShell({
   id,
 }: SectionShellProps) {
   return (
-    <section
-      id={id}
-      className={cn(
-        "relative py-20 sm:py-24",
-        id && "flex min-h-dvh flex-col justify-center",
-        className,
-      )}
-    >
+    <section id={id} className={cn("relative py-20 sm:py-24", className)}>
       {children}
     </section>
   );

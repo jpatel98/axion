@@ -337,7 +337,8 @@ export const siteContent = {
   },
   contact: {
     eyebrow: "Let\u2019s talk",
-    title: "See what the factory can build for you.",
+    title: "See what the factory can",
+    emphasis: "build for you.",
     description:
       "30 minutes. We\u2019ll audit what you have, show you what our agents can do, and tell you what to fix first. No pitch deck.",
     primaryCta: "Book a Call",
