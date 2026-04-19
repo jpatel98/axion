@@ -2,7 +2,6 @@ import { siteContent } from "@/content/site";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
-import { cn } from "@/lib/utils";
 
 export function PricingSection() {
   return (
@@ -18,12 +17,7 @@ export function PricingSection() {
         <div className="mt-12 grid gap-6 lg:grid-cols-3">
           {siteContent.pricing.tiers.map((tier, index) => (
             <Reveal key={tier.name} delay={index * 0.06}>
-              <article
-                className={cn(
-                  "flex h-full flex-col rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8",
-                  index === 1 && "featured-ring",
-                )}
-              >
+              <article className="flex h-full flex-col rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8">
                 <p className="text-xs font-semibold uppercase tracking-wider text-accent">
                   {tier.label}
                 </p>
