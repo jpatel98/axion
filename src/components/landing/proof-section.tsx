@@ -5,13 +5,31 @@ import { SectionInner, SectionShell } from "@/components/landing/section-shell";
 
 export function ProofSection() {
   return (
-    <SectionShell id="results">
+    <SectionShell id="outcomes">
       <SectionInner>
         <SectionHeading
-          eyebrow="Results"
+          eyebrow="Outcomes"
           title={siteContent.proof.title}
           description={siteContent.proof.description}
         />
+
+        <div className="mt-12 grid gap-4 md:grid-cols-3">
+          {siteContent.proof.sharedOutcomes.map((item, index) => (
+            <Reveal key={item.title} delay={index * 0.04}>
+              <article className="h-full rounded-2xl border border-border-subtle bg-surface-strong p-6">
+                <p className="text-sm font-semibold text-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 text-lg font-bold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-muted-strong">
+                  {item.description}
+                </p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {siteContent.proof.scenarios.map((item, index) => (

@@ -1,14 +1,14 @@
 import { Fragment } from "react";
 import { siteContent } from "@/content/site";
-import { siteConfig } from "@/lib/site-config";
 import { ButtonLink } from "@/components/landing/link-button";
 import { Reveal } from "@/components/landing/reveal";
 import { SectionInner, SectionShell } from "@/components/landing/section-shell";
+import { SystemsVisual } from "@/components/landing/systems-visual";
 
 export function HeroSection() {
   return (
     <SectionShell id="hero" className="pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pt-36">
-      <SectionInner className="relative">
+      <SectionInner className="relative grid items-center gap-12 lg:grid-cols-[0.95fr_0.78fr]">
         <div className="max-w-3xl">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">
@@ -52,7 +52,10 @@ export function HeroSection() {
 
           <Reveal delay={0.16}>
             <div className="mt-8 flex flex-wrap gap-4">
-              <ButtonLink href={siteConfig.bookingUrl} bookingSource="hero">
+              <ButtonLink
+                href="#assessment"
+                trackingEvent="hero_assessment_cta_click"
+              >
                 {siteContent.hero.primaryCta}
               </ButtonLink>
               <ButtonLink href={siteContent.hero.secondaryHref} variant="secondary">
@@ -64,6 +67,11 @@ export function HeroSection() {
             </p>
           </Reveal>
         </div>
+        <Reveal delay={0.18}>
+          <div className="hidden lg:block">
+            <SystemsVisual />
+          </div>
+        </Reveal>
       </SectionInner>
     </SectionShell>
   );

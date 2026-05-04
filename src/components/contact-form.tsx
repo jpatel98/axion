@@ -95,10 +95,10 @@ export function ContactForm() {
       <form onSubmit={handleSubmit} noValidate>
         <div className="mb-6">
           <h3 className="text-xl font-bold text-white">
-            Prefer to start in writing? Tell us what you need.
+            Start the assessment intake.
           </h3>
           <p className="mt-2 text-sm leading-7 text-muted-strong">
-            Tell us what&apos;s broken. We&apos;ll get back to you within a day.
+            Tell us what you want to improve, what tools you use, and where work gets stuck.
           </p>
         </div>
 
@@ -140,7 +140,7 @@ export function ContactForm() {
                 fieldClassName,
                 errors.business && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
               )}
-              placeholder="Company or practice name"
+              placeholder="Company name"
               aria-invalid={Boolean(errors.business)}
               aria-describedby={errors.business ? "business-error" : undefined}
             />
@@ -176,26 +176,124 @@ export function ContactForm() {
           ) : null}
         </label>
 
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <label className="flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-strong">Team size</span>
+            <input
+              type="text"
+              name="teamSize"
+              autoComplete="off"
+              value={values.teamSize}
+              onChange={(event) => updateField("teamSize", event.target.value)}
+              onFocus={handleFieldFocus}
+              className={cn(
+                fieldClassName,
+                errors.teamSize && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
+              )}
+              placeholder="Example: 12 employees"
+              aria-invalid={Boolean(errors.teamSize)}
+              aria-describedby={errors.teamSize ? "teamSize-error" : undefined}
+            />
+            {errors.teamSize ? (
+              <span id="teamSize-error" className="text-xs text-rose-400">
+                {errors.teamSize}
+              </span>
+            ) : null}
+          </label>
+
+          <label className="flex flex-col gap-2">
+            <span className="text-sm font-medium text-muted-strong">Industry</span>
+            <input
+              type="text"
+              name="industry"
+              autoComplete="organization-title"
+              value={values.industry}
+              onChange={(event) => updateField("industry", event.target.value)}
+              onFocus={handleFieldFocus}
+              className={cn(
+                fieldClassName,
+                errors.industry && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
+              )}
+              placeholder="Home services, real estate, finance..."
+              aria-invalid={Boolean(errors.industry)}
+              aria-describedby={errors.industry ? "industry-error" : undefined}
+            />
+            {errors.industry ? (
+              <span id="industry-error" className="text-xs text-rose-400">
+                {errors.industry}
+              </span>
+            ) : null}
+          </label>
+        </div>
+
         <label className="mt-4 flex flex-col gap-2">
-          <span className="text-sm font-medium text-muted-strong">Message</span>
+          <span className="text-sm font-medium text-muted-strong">Primary goal</span>
           <textarea
-            name="helpNeeded"
-            rows={5}
-            value={values.helpNeeded}
-            onChange={(event) => updateField("helpNeeded", event.target.value)}
+            name="goal"
+            rows={3}
+            value={values.goal}
+            onChange={(event) => updateField("goal", event.target.value)}
             onFocus={handleFieldFocus}
             className={cn(
               fieldClassName,
               "resize-none",
-              errors.helpNeeded && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
+              errors.goal && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
             )}
-            placeholder="Outdated site, too much manual admin, poor lead follow-up, disconnected tools, AI questions..."
-            aria-invalid={Boolean(errors.helpNeeded)}
-            aria-describedby={errors.helpNeeded ? "helpNeeded-error" : undefined}
+            placeholder="Example: save 5 hours of admin work per week, respond to leads faster, reduce repeated internal questions..."
+            aria-invalid={Boolean(errors.goal)}
+            aria-describedby={errors.goal ? "goal-error" : undefined}
           />
-          {errors.helpNeeded ? (
-            <span id="helpNeeded-error" className="text-xs text-rose-400">
-              {errors.helpNeeded}
+          {errors.goal ? (
+            <span id="goal-error" className="text-xs text-rose-400">
+              {errors.goal}
+            </span>
+          ) : null}
+        </label>
+
+        <label className="mt-4 flex flex-col gap-2">
+          <span className="text-sm font-medium text-muted-strong">Current software stack</span>
+          <textarea
+            name="currentTools"
+            rows={3}
+            value={values.currentTools}
+            onChange={(event) => updateField("currentTools", event.target.value)}
+            onFocus={handleFieldFocus}
+            className={cn(
+              fieldClassName,
+              "resize-none",
+              errors.currentTools && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
+            )}
+            placeholder="CRM, booking tool, spreadsheets, email, accounting, project management, documents..."
+            aria-invalid={Boolean(errors.currentTools)}
+            aria-describedby={errors.currentTools ? "currentTools-error" : undefined}
+          />
+          {errors.currentTools ? (
+            <span id="currentTools-error" className="text-xs text-rose-400">
+              {errors.currentTools}
+            </span>
+          ) : null}
+        </label>
+
+        <label className="mt-4 flex flex-col gap-2">
+          <span className="text-sm font-medium text-muted-strong">Biggest bottlenecks</span>
+          <textarea
+            name="bottlenecks"
+            rows={5}
+            value={values.bottlenecks}
+            onChange={(event) => updateField("bottlenecks", event.target.value)}
+            onFocus={handleFieldFocus}
+            className={cn(
+              fieldClassName,
+              "resize-none",
+              errors.bottlenecks && "border-rose-400/70 focus:border-rose-400 focus:ring-rose-400/30",
+            )}
+            placeholder="Where does work slow down? What gets copied manually? What falls through the cracks? What does the team answer over and over?"
+            aria-invalid={Boolean(errors.bottlenecks)}
+            aria-describedby={errors.bottlenecks ? "bottlenecks-error" : undefined}
+          />
+          {errors.bottlenecks ? (
+            <span id="bottlenecks-error" className="text-xs text-rose-400">
+              {errors.bottlenecks}
             </span>
           ) : null}
         </label>
@@ -206,7 +304,7 @@ export function ContactForm() {
             disabled={isPending}
             className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-white shadow-md hover:bg-accent-strong hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isPending ? "Reaching out to the team…" : "Send Message"}
+            {isPending ? "Sending assessment intake..." : "Send Assessment Intake"}
           </button>
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-muted">

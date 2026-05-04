@@ -4,8 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
-import { trackBookingClick } from "@/lib/analytics";
-import { siteConfig } from "@/lib/site-config";
+import { trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
@@ -19,17 +18,17 @@ export function SiteHeader() {
       setHasScrolled(window.scrollY > 16);
 
       const hero = document.getElementById("hero");
-      const contact = document.getElementById("contact");
+      const assessment = document.getElementById("assessment");
 
-      if (!hero || !contact) {
+      if (!hero || !assessment) {
         setIsMobileCtaVisible(false);
         return;
       }
 
       const heroBottom = hero.getBoundingClientRect().bottom;
-      const contactTop = contact.getBoundingClientRect().top;
+      const assessmentTop = assessment.getBoundingClientRect().top;
       setIsMobileCtaVisible(
-        heroBottom < 160 && contactTop > window.innerHeight * 0.8,
+        heroBottom < 160 && assessmentTop > window.innerHeight * 0.8,
       );
     }
 
@@ -70,8 +69,8 @@ export function SiteHeader() {
 
           <div className="hidden md:block">
             <a
-              href={siteConfig.bookingUrl}
-              onClick={() => trackBookingClick("header")}
+              href="#assessment"
+              onClick={() => trackEvent("header_assessment_cta_click")}
               className="inline-flex items-center rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-strong"
             >
               {siteContent.headerCta}
@@ -114,9 +113,11 @@ export function SiteHeader() {
 
             <div className="mx-auto max-w-7xl pb-4">
               <a
-                href={siteConfig.bookingUrl}
+                href="#assessment"
                 onClick={() => {
-                  trackBookingClick("header");
+                  trackEvent("header_assessment_cta_click", {
+                    location: "mobile_menu",
+                  });
                   setIsMenuOpen(false);
                 }}
                 className="inline-flex w-full items-center justify-center rounded-lg bg-accent px-4 py-3 text-sm font-semibold text-white hover:bg-accent-strong"
@@ -138,8 +139,8 @@ export function SiteHeader() {
             className="fixed inset-x-0 bottom-0 z-40 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] md:hidden"
           >
             <a
-              href={siteConfig.bookingUrl}
-              onClick={() => trackBookingClick("mobile_sticky")}
+              href="#assessment"
+              onClick={() => trackEvent("mobile_sticky_assessment_cta_click")}
               className="mx-auto flex max-w-md items-center justify-center rounded-xl bg-accent px-5 py-3.5 text-sm font-semibold text-white shadow-xl backdrop-blur-xl hover:bg-accent-strong"
             >
               {siteContent.mobileStickyCta}

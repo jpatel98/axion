@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     return NextResponse.json<LeadSubmitResult>({
       status: "success",
       message:
-        "Thanks. Your details were sent successfully. We will follow up shortly.",
+        "Thanks. Your assessment intake was sent successfully. We will follow up shortly.",
     });
   } catch {
     return NextResponse.json<LeadSubmitResult>(

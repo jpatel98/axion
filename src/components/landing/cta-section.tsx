@@ -11,7 +11,7 @@ type CtaSectionProps = {
 
 export function CtaSection({ children }: CtaSectionProps) {
   return (
-    <SectionShell id="contact" className="pb-24 pt-20 sm:pt-24">
+    <SectionShell id="assessment" className="pb-24 pt-20 sm:pt-24">
       <SectionInner>
         <div className="relative rounded-2xl border border-border-subtle bg-surface-strong p-6 sm:p-8 md:p-10 lg:p-14">
           <div className="relative grid gap-10 lg:grid-cols-[0.98fr_1.02fr]">

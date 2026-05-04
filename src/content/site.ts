@@ -1,358 +1,359 @@
 export const siteContent = {
   nav: [
+    { label: "Assessment", href: "#assessment" },
+    { label: "Outcomes", href: "#outcomes" },
     { label: "Services", href: "#services" },
-    { label: "Results", href: "#results" },
-    { label: "Pricing", href: "#pricing" },
     { label: "Process", href: "#process" },
+    { label: "Pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "#contact" },
   ],
-  headerCta: "Book a Call",
-  mobileStickyCta: "Book a Call",
+  headerCta: "Get an AI Assessment",
+  mobileStickyCta: "Get Free Assessment",
   hero: {
-    eyebrow: "The software factory for small business",
-    title: "Your business deserves software",
-    emphasis: "that works as hard as you do.",
+    eyebrow: "Free AI assessments for growing businesses",
+    title: "Find the fastest ways to save time, make more money, and",
+    emphasis: "unlock new capabilities.",
     description:
-      "Axion is a software factory powered by autonomous AI agents. You own everything. We build websites, automate operations, and deploy intelligent systems \u2014 faster and cheaper than any agency.",
+      "Axion reviews your day-to-day operations, spots high-impact quick wins, and shows you exactly what to automate or improve first.",
     audienceLine:
-      "For clinics, contractors, and growing businesses that need real software \u2014 not another Wix template.",
+      "Built for service businesses, real estate teams, brokerages, finance teams, and operators with 5 to 50 employees.",
     stats: [
-      "Ships in days, not months",
-      "AI agents work around the clock",
-      "Built for teams under 30",
+      "Free for the first 10 businesses",
+      "Quick wins mapped in plain English",
+      "No hard sell",
     ],
-    primaryCta: "Book a Call",
-    primaryNote: "30 min. We\u2019ll map out what to automate first.",
-    secondaryCta: "See What We Ship",
-    secondaryHref: "#services",
+    primaryCta: "Start Free Assessment",
+    primaryNote: "Tell us where work gets stuck. We\u2019ll review it before we talk.",
+    secondaryCta: "See Outcomes",
+    secondaryHref: "#outcomes",
   },
-    credibility: [
-    "Autonomous AI agents",
-    "Ships in days, not months",
-    "You own everything",
-    "Purpose-built, zero friction",
-    "Improved weekly based on real usage",
-    "Transparent pricing",
+  credibility: [
+    "Save time",
+    "Increase revenue",
+    "Create new capabilities",
+    "Fix the process before automating",
+    "You own what we build",
+    "Clear scope before implementation",
   ],
   proof: {
-    title: "Real problems. Solved fast.",
+    title: "Where the assessment finds leverage.",
     description:
-      "Real businesses, real problems. Our agents diagnose the bottleneck, we scope the fix, and the factory ships working software \u2014 fast.",
+      "The goal is not to sell AI. The goal is to find where work is slow, where revenue leaks, and where a small system can create outsized impact.",
     sharedOutcomes: [
       {
-        title: "A digital front door that converts",
+        title: "Save time",
         description:
-          "Modern sites built by our agents \u2014 fast, SEO-ready, and designed to turn visitors into leads on day one.",
+          "Reduce repetitive admin, handoffs, status checks, and copy-paste work that quietly drains the week.",
       },
       {
-        title: "Operations on autopilot",
+        title: "Make more money",
         description:
-          "AI agents handle follow-ups, reminders, and intake \u2014 so your team focuses on the work that actually pays.",
+          "Improve response speed, follow-up, lead routing, quoting, and customer communication where revenue is won or lost.",
       },
       {
-        title: "Systems that talk to each other",
+        title: "Create new capabilities",
         description:
-          "No more copying data between tabs. Everything connected, everything automated, everything tracked.",
+          "Give the team tools they did not have before: searchable knowledge, smarter intake, better reporting, and always-on support.",
       },
     ],
     scenarios: [
       {
-        industry: "Renovation Contractor",
+        industry: "Home Services",
         problem:
-          "Site looked like it was built in 2015. Leads went to a Gmail inbox and got lost.",
+          "Leads arrive from forms, calls, referrals, and ads, but follow-up depends on whoever sees the message first.",
         fix:
-          "Our agents built a new site, structured intake flow, and automated follow-up sequence \u2014 shipped in 5 days.",
+          "Assessment maps the intake path, quoting steps, and missed follow-ups so the first quick win is obvious.",
         outcomes: [
-          "3x inquiry quality",
-          "Same-day response rate",
-          "Actually looks legit",
-          "AI agent follows up automatically \u2014 no leads go cold",
+          "Faster lead response",
+          "Cleaner job qualification",
+          "Less manual scheduling",
+          "Fewer leads sitting in inboxes",
         ],
       },
       {
-        industry: "Dental & Medical Clinics",
+        industry: "Real Estate Teams",
         problem:
-          "Front desk reclaims ~6 hours/week by removing repetitive intake and reminder work.",
+          "Client updates, listing tasks, documents, and reminders are scattered across texts, email, CRM notes, and spreadsheets.",
         fix:
-          "Deployed digital intake, AI-powered reminders, and automated waitlist backfill.",
+          "Assessment identifies which handoffs can be simplified before adding automation or a knowledge system.",
         outcomes: [
-          "40% less front-desk time",
-          "30–40% fewer no-shows with automated reminders",
-          "Patients notice the difference",
+          "Clearer client communication",
+          "Reusable listing workflows",
+          "Less repetitive admin",
+          "Better visibility across active deals",
         ],
       },
       {
-        industry: "Consultants & Agencies",
+        industry: "Brokerages & Financial Services",
         problem:
-          "Client onboarding scattered across email, PDFs, and a shared drive from 2019.",
+          "Teams answer the same internal questions, hunt for documents, and rely on senior staff to remember process details.",
         fix:
-          "One automated onboarding flow. Documents, signatures, and next steps \u2014 handled by agents.",
+          "Assessment shows where a trained internal knowledge base or workflow tool can remove repetitive questions.",
         outcomes: [
-          "Onboarding in days, not weeks",
-          "Nothing falls through",
-          "Clients feel handled",
+          "Fewer repeated questions",
+          "Faster onboarding",
+          "Cleaner document lookup",
+          "Less dependence on one person\u2019s memory",
         ],
       },
     ],
   },
   services: {
-    title: "What We Ship.",
+    title: "What happens after the assessment.",
     description:
-      "Our AI agents handle the heavy lifting. You get working software \u2014 not wireframes, not proposals, not slide decks.",
+      "The assessment identifies quick wins first. If there is a strong fit, we turn the highest-impact opportunities into working systems.",
     items: [
       {
-        label: "Web",
-        title: "Websites & Landing Pages",
+        label: "Assess",
+        title: "AI Assessment",
         description:
-          "Our agents build fast, modern sites that rank well and convert. Designed, coded, and deployed \u2014 typically within a week.",
-        outcome: "A site that works as hard as your best salesperson.",
+          "We review your goals, tools, team size, and day-to-day bottlenecks so we can find practical improvements instead of guessing.",
+        outcome: "A plain-English map of what to fix first.",
       },
       {
-        label: "Automation",
-        title: "Workflow Automation",
+        label: "Quick wins",
+        title: "Process Optimization",
         description:
-          "AI agents connect your forms, CRM, email, and calendar. They map your workflow, find the waste, and wire it up.",
-        outcome: "Hours of admin work eliminated, every week.",
+          "Before automating a messy workflow, we simplify it. A 15-step manual process often becomes a cleaner 7-step process first.",
+        outcome: "Less waste before software gets involved.",
       },
       {
-        label: "Agents",
-        title: "AI Agents & Assistants",
+        label: "Automate",
+        title: "Custom Automations",
         description:
-          "Custom AI agents that handle intake, answer FAQs, follow up with leads, and manage appointments \u2014 24/7.",
-        outcome: "An employee that never sleeps, never forgets.",
+          "We connect forms, CRM, email, calendars, documents, and notifications so routine work moves without constant human nudging.",
+        outcome: "More follow-through with less manual effort.",
       },
       {
-        label: "Systems",
+        label: "Knowledge",
+        title: "Company Knowledge Systems",
+        description:
+          "We build searchable internal knowledge bases trained on your company information, processes, documents, and common questions.",
+        outcome: "Your team gets answers without interrupting experts.",
+      },
+      {
+        label: "Revenue",
+        title: "Lead & Sales Systems",
+        description:
+          "We improve inquiry capture, qualification, quoting, follow-up, and customer communication around revenue-critical moments.",
+        outcome: "Faster response and fewer missed opportunities.",
+      },
+      {
+        label: "Tools",
         title: "Internal Tools & Dashboards",
         description:
-          "Lightweight tools built for how your team actually works. Trackers, dashboards, and process tools \u2014 no enterprise bloat.",
-        outcome: "Visibility and control without the six-figure price tag.",
-      },
-      {
-        label: "Search",
-        title: "SEO & Local Presence",
-        description:
-          "Our agents optimize your page structure, speed, and local listings. Show up when customers search for what you do.",
-        outcome: "Found first. Chosen first.",
-      },
-      {
-        label: "Strategy",
-        title: "Systems Audit & Roadmap",
-        description:
-          "Not sure where to start? Our agents audit your tools and workflows. We deliver a prioritized roadmap of what to fix and automate.",
-        outcome: "Clarity in 48 hours, not 6 weeks.",
+          "When spreadsheets and off-the-shelf tools no longer fit, we build lightweight dashboards and tools around how the team works.",
+        outcome: "Better visibility without enterprise bloat.",
       },
     ],
   },
   pricing: {
-    title: "Factory-direct pricing.",
+    title: "Assessment-first pricing.",
     description:
-      "Because AI agents do the heavy lifting, we ship faster and charge less. No retainers, no surprises.",
+      "Start with the assessment. Only build when the opportunity is clear enough to justify the work.",
     tiers: [
       {
-        name: "Starter",
-        label: "Most popular starting point",
+        name: "AI Assessment",
+        label: "First 10 businesses",
+        price: "Free",
+        description:
+          "A focused review of your goals, tools, workflows, and bottlenecks. We identify quick wins and recommend what to fix first.",
+        includes: [
+          "Detailed intake review",
+          "Workflow and tool assessment",
+          "Quick-win opportunity map",
+          "No upfront build commitment",
+        ],
+      },
+      {
+        name: "Quick Win Build",
+        label: "Low effort, high impact",
         price: "From $1,500",
         description:
-          "One focused build. Usually a new website, a booking/intake flow, or a workflow automation \u2014 shipped in days, not months.",
+          "One focused implementation from the assessment: intake cleanup, follow-up automation, knowledge base, reporting, or workflow fix.",
         includes: [
-          "Discovery call",
-          "Agent-powered build",
-          "2 rounds of revisions",
-          "You own everything",
+          "Defined scope and timeline",
+          "Process cleanup before automation",
+          "Working implementation",
+          "You own what we build",
         ],
       },
       {
-        name: "Systems",
-        label: "For businesses ready to wire it all up",
+        name: "Systems Build",
+        label: "For deeper operational change",
         price: "From $3,500",
         description:
-          "Website + automation + one AI agent. Everything connected, everything working together.",
+          "A broader build for teams ready to connect workflows, customer touchpoints, internal knowledge, and reporting into one system.",
         includes: [
-          "Everything in Starter",
-          "Workflow automation",
-          "Custom AI agent (intake, FAQ, or follow-up)",
+          "Everything in Quick Win",
+          "Multiple workflow automations",
+          "Custom knowledge or internal tool",
           "30 days of post-launch support",
-        ],
-      },
-      {
-        name: "Ongoing",
-        label: "Your always-on software team",
-        price: "$500\u2013$1,200/mo",
-        description:
-          "Continuous improvements, new automations, and agent updates as your business grows. Like having a dev team on retainer.",
-        includes: [
-          "Priority support",
-          "Monthly builds & agent improvements",
-          "Strategy check-ins",
-          "Cancel any time",
         ],
       },
     ],
     footnote:
-      "Not sure which fits? The free 30-min call will tell you.",
+      "The assessment comes first so the build scope is based on leverage, not guesswork.",
   },
   whyAxion: {
-    title: "Why a software factory?",
+    title: "Why assessment first?",
     description:
-      "Traditional agencies sell time. We sell output. Our AI agents do in hours what used to take weeks \u2014 so you get better software, faster, for less.",
+      "Most businesses do not need more tools. They need a clear view of which broken process is costing the most time, money, or capability.",
     principles: [
       {
-        title: "Agents do the heavy lifting",
+        title: "Start with the bottleneck",
         description:
-          "Our AI agents handle research, code, testing, and deployment. Humans guide strategy and quality. You get the best of both.",
+          "We look at how work actually moves through the business before recommending any software, automation, or AI layer.",
       },
       {
-        title: "Ship fast, improve always",
+        title: "Fix before automating",
         description:
-          "V1 ships in days, not quarters. Then we iterate. Every cycle makes your systems smarter and your team faster.",
+          "A bad process automated quickly is still a bad process. We simplify the workflow first, then automate the parts that remain.",
       },
       {
-        title: "Built for real people",
+        title: "Sell outcomes, not tooling",
         description:
-          "If your team won\u2019t use it, it\u2019s the wrong solution. We build tools people actually adopt \u2014 no training manual required.",
+          "The assessment is judged by practical impact: time saved, revenue improved, or a new capability the team did not have before.",
       },
     ],
     comparisons: [
       {
         label: "vs. doing nothing",
         title: "The mess becomes the process.",
-        description:
-          "Manual workarounds pile up until they feel normal. Meanwhile, your competitors are automating.",
+        description: "Manual workarounds pile up until they feel normal.",
       },
       {
         label: "vs. a freelancer",
         title: "One piece gets fixed. The system doesn\u2019t.",
         description:
-          "Great for a one-off task. Not great when the whole workflow needs to be rewired.",
+          "Useful for a task. Less useful when the workflow itself needs to be redesigned.",
       },
       {
         label: "vs. a big agency",
         title: "Six figures and a Gantt chart.",
         description:
-          "Massive scope, slow delivery, and half the budget goes to project managers \u2014 not code.",
+          "Too much ceremony when you need to find and ship the highest-leverage fix.",
       },
       {
         label: "vs. DIY AI tools",
         title: "More subscriptions, same mess.",
         description:
-          "Without agents connecting the pieces, AI is just another tab you forget to check.",
+          "Without a process view, another tool becomes another tab your team has to manage.",
       },
     ],
   },
   process: {
-    title: "How the factory works.",
+    title: "How the assessment works.",
     description:
-      "Four steps. AI agents handle the build. Humans handle the strategy. You get working software, fast.",
+      "A low-friction path from rough business pain to a clear implementation opportunity.",
     steps: [
       {
-        title: "Diagnose",
+        title: "Intake",
         description:
-          "Our agents audit your site, tools, and workflows. We identify what\u2019s broken, what\u2019s costing you time, and what to fix first.",
-        outcome: "A clear priority map in 48 hours.",
+          "You tell us your goals, current tools, team size, and where work gets stuck. The form does the first layer of qualification.",
+        outcome: "No vague discovery call.",
       },
       {
-        title: "Scope",
+        title: "Assess",
         description:
-          "We define exactly what ships, when it ships, and what it costs. You approve before anything starts.",
-        outcome: "A plan you can hold us to.",
+          "We review the workflow and identify quick wins: low-effort, high-impact changes that save time, improve revenue, or unlock capability.",
+        outcome: "A clear opportunity map.",
       },
       {
-        title: "Build",
+        title: "Design",
         description:
-          "AI agents design, develop, and deploy. You see working software weekly \u2014 not slide decks quarterly.",
-        outcome: "Production-ready software, not prototypes.",
+          "If the assessment shows a strong fit, we design the simplest useful solution and scope what should ship first.",
+        outcome: "A build you can understand.",
       },
       {
-        title: "Iterate",
+        title: "Implement",
         description:
-          "Agents monitor, optimize, and improve what\u2019s live. Each cycle makes your systems faster and smarter.",
-        outcome: "Gets better every week.",
+          "We build the approved quick win, test it with the team, and improve it based on real usage.",
+        outcome: "Working systems, not theory.",
       },
     ],
   },
   faq: {
     title: "Common questions.",
     description:
-      "Straight answers about how the factory works.",
+      "Straight answers about the assessment and what happens after it.",
     items: [
       {
-        question: "What do you mean by \u201csoftware factory\u201d?",
+        question: "What is an AI Assessment?",
         answer:
-          "We\u2019ve built a system where AI agents handle the bulk of research, development, and deployment. This means we ship faster, charge less, and maintain quality \u2014 because the agents don\u2019t sleep, don\u2019t forget, and don\u2019t bill by the hour.",
+          "It is a practical review of your workflows, tools, goals, and bottlenecks. We look for specific places where automation, better process design, or a custom system could save time, increase revenue, or create a useful new capability.",
       },
       {
-        question: "Is this only for big companies?",
+        question: "Is the assessment really free?",
         answer:
-          "The opposite. We built this specifically for small teams \u2014 1 to 30 people. Clinics, contractors, shops, consultants. Businesses that need real software but can\u2019t afford a six-figure agency.",
+          "Yes. The first 10 assessments are free so we can learn from real businesses, build useful case studies, and identify where this model creates the most value.",
       },
       {
-        question: "What kind of AI agents do you deploy?",
+        question: "What businesses are a good fit?",
         answer:
-          "Practical ones. Agents that answer patient questions, follow up with leads, handle intake forms, process documents, and manage appointment reminders. Not chatbots for the sake of chatbots.",
+          "Teams with 5 to 50 employees are usually the best fit, especially home services, real estate, business brokerages, finance teams, and service businesses with repetitive admin or follow-up work.",
       },
       {
-        question: "How fast do you actually ship?",
+        question: "Do I need to know what I want built?",
         answer:
-          "We ship in days, not months. Most Starter projects are done in days, and systems projects are typically delivered in under 2 weeks.",
+          "No. The point of the assessment is to figure that out. If you can describe where work feels slow, expensive, or messy, we can help identify what should be fixed first.",
       },
       {
-        question: "I don\u2019t know what I need. Is that okay?",
+        question: "Do you only build AI tools?",
         answer:
-          "Totally. Most clients start with \u201csomething feels broken.\u201d Our agents will audit your setup, and we\u2019ll figure out the highest-impact fix together.",
+          "No. Sometimes the right answer is process cleanup, a simple automation, a better form, a dashboard, or a knowledge base. AI is only useful when it improves the business outcome.",
       },
       {
-        question: "Will my team actually use this?",
+        question: "What happens after the assessment?",
         answer:
-          "That\u2019s the whole point. We don\u2019t build things that require a training manual. If it\u2019s too complicated, it\u2019s wrong.",
+          "You get a clear view of the quick wins. If there is a strong implementation opportunity, we scope the first build with a clear price and timeline. If not, you still leave with a useful map of what to improve.",
       },
       {
         question: "Do I own what you build?",
         answer:
-          "Yes. 100%. The code, the agents, the automations \u2014 it\u2019s all yours. No vendor lock-in, no hostage pricing.",
+          "Yes. Anything we build for you is yours. No vendor lock-in, no hostage pricing, and no mystery system you cannot move away from.",
       },
     ],
   },
   earlyAccess: {
-    title: "Meet your next employee.",
+    title: "Advanced intake is coming.",
     description:
-      "We\u2019re building a dedicated AI agent for dental and medical offices. It handles patient questions, appointment reminders, and after-hours inquiries \u2014 across text, WhatsApp, and your website. Always on, never calls in sick.",
+      "We\u2019re building a 24/7 intake agent that can interview prospects, ask about their day-to-day operations, and generate an assessment transcript before the first human call.",
     handles: [
-      "After-hours patient questions",
-      "Appointment reminders and confirmations",
-      "New patient intake",
-      "Insurance and pricing FAQs",
-      "No-show follow-up",
+      "Business goals and constraints",
+      "Current tools and software stack",
+      "Team size and operating model",
+      "Manual handoffs and bottlenecks",
+      "Quick-win assessment notes",
     ],
     means: [
-      "Front desk reclaims ~6 hours/week",
-      "30–40% fewer no-shows with automated reminders",
-      "Patients get answers instantly, not next business day",
-      "Works 24/7, no overtime",
+      "Prospects can start any time",
+      "Scoping calls move faster",
+      "The first conversation starts with context",
+      "Assessment notes are captured consistently",
     ],
     ctaLabel: "Join the early access list",
-    ctaHref: "mailto:hello@axiontechnologies.ca?subject=Early Access - Dental AI Agent",
+    ctaHref: "mailto:hello@axiontechnologies.ca?subject=Early Access - Assessment Intake Agent",
     footnote: "Early access spots are limited. No commitment required.",
   },
   contact: {
-    eyebrow: "Let\u2019s talk",
-    title: "See what the factory can",
-    emphasis: "build for you.",
+    eyebrow: "Start here",
+    title: "Get a free",
+    emphasis: "AI Assessment.",
     description:
-      "30 minutes. We\u2019ll audit what you have, show you what our agents can do, and tell you what to fix first. No pitch deck.",
-    primaryCta: "Book a Call",
-    primaryNote: "Free. 30 min. No obligations.",
+      "Share your goals, tools, and bottlenecks. We\u2019ll review the intake and come back with the highest-leverage places to save time, improve revenue, or create new capabilities.",
+    primaryCta: "Book Assessment Call",
+    primaryNote: "Free for the first 10 businesses.",
     reassurance: [
-      "Walk away with a clear action plan",
-      "Starting at $1,500 — no six-figure surprises",
-      "We build it. You own it. No lock-in.",
+      "No hard-sell discovery call",
+      "Assessment before implementation",
+      "Clear quick wins before you spend anything",
     ],
   },
   footer: {
     name: "Axion Technologies",
     tagline:
-      "AI agents + human strategy = production software in days, not months. Built for ambitious small teams.",
+      "Assessment-led consulting for growing businesses that want to save time, increase revenue, and build new capabilities.",
     domain: "axiontechnologies.ca",
     copyright: "\u00a9 2026 Axion Technologies. All rights reserved.",
     legal: "Privacy policy and terms available on request.",

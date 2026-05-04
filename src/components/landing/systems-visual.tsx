@@ -4,15 +4,15 @@ import { motion, useReducedMotion } from "framer-motion";
 import { TerminalWindow } from "@/components/terminal/terminal-window";
 
 const statusRows = [
-  { module: "web_presence", status: "ONLINE", latency: "<1s" },
-  { module: "operations", status: "ONLINE", latency: "auto" },
-  { module: "ai_layer", status: "ONLINE", latency: "<1h" },
+  { module: "intake", status: "READY", latency: "2m" },
+  { module: "workflow_map", status: "READY", latency: "48h" },
+  { module: "quick_wins", status: "READY", latency: "ranked" },
 ];
 
 const statsRows = [
-  { label: "MANUAL_WORK", value: "-80%" },
-  { label: "RESPONSE_TIME", value: "<1h" },
-  { label: "UPTIME", value: "99.9%" },
+  { label: "GOAL", value: "save_time" },
+  { label: "GOAL", value: "grow_revenue" },
+  { label: "GOAL", value: "new_capability" },
 ];
 
 export function SystemsVisual() {
@@ -31,7 +31,7 @@ export function SystemsVisual() {
           transition={{ duration: 0.3, delay: 0.1 }}
           className="text-muted-strong"
         >
-          <span className="text-accent">$</span> axion status --all
+          <span className="text-accent">$</span> axion assess --quick-wins
         </motion.p>
 
         <div className="mt-4">
@@ -42,9 +42,9 @@ export function SystemsVisual() {
             transition={{ duration: 0.3, delay: 0.3 }}
             className="grid grid-cols-3 gap-x-2 text-muted sm:gap-x-4"
           >
-            <span>MODULE</span>
+            <span>STEP</span>
             <span>STATUS</span>
-            <span>LATENCY</span>
+            <span>OUTPUT</span>
           </motion.div>
           <motion.p
             initial={prefersReducedMotion ? undefined : { opacity: 0 }}
@@ -75,7 +75,7 @@ export function SystemsVisual() {
         <div className="mt-5 border-t border-accent/10 pt-4">
           {statsRows.map((stat, i) => (
             <motion.p
-              key={stat.label}
+              key={stat.value}
               initial={prefersReducedMotion ? undefined : { opacity: 0 }}
               whileInView={prefersReducedMotion ? undefined : { opacity: 1 }}
               viewport={{ once: true }}
@@ -95,7 +95,7 @@ export function SystemsVisual() {
           transition={{ duration: 0.3, delay: 1.35 }}
           className="mt-4 text-green-400"
         >
-          All systems operational. <span className="cursor-blink" />
+          Assessment funnel ready. <span className="cursor-blink" />
         </motion.p>
       </div>
     </TerminalWindow>

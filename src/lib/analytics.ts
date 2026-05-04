@@ -41,25 +41,25 @@ export function trackBookingClick(source: BookingSource) {
   trackEvent(bookingEventMap[source], {
     source,
     destination: siteConfig.bookingUrl,
-    cta_label: "Book a Consultation",
+    cta_label: "Book Assessment Call",
   });
 }
 
 export function trackFormStart() {
-  trackEvent("contact_form_start", {
-    form_id: "homepage_contact_form",
+  trackEvent("assessment_intake_start", {
+    form_id: "homepage_assessment_intake",
   });
 }
 
 export function trackFormSubmitSuccess() {
-  trackEvent("contact_form_submit_success", {
-    form_id: "homepage_contact_form",
+  trackEvent("assessment_intake_submit_success", {
+    form_id: "homepage_assessment_intake",
   });
 }
 
 export function trackFormSubmitError(reason: string) {
-  trackEvent("contact_form_submit_error", {
-    form_id: "homepage_contact_form",
+  trackEvent("assessment_intake_submit_error", {
+    form_id: "homepage_assessment_intake",
     reason,
   });
 }

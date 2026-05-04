@@ -15,6 +15,14 @@ const instrumentSerif = Instrument_Serif({
   weight: "400",
 });
 
+const jsonLdWebsite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: siteConfig.name,
+  url: siteConfig.siteUrl,
+  description: siteConfig.description,
+  inLanguage: "en-CA",
+};
 
 const jsonLdOrganization = {
   "@context": "https://schema.org",
@@ -22,30 +30,37 @@ const jsonLdOrganization = {
   name: siteConfig.name,
   url: siteConfig.siteUrl,
   description: siteConfig.description,
-  logo: `${siteConfig.siteUrl}/axion-logo-full.png`,
+  logo: `${siteConfig.siteUrl}/axion-logo-stacked.png`,
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
     email: siteConfig.contactEmail,
     availableLanguage: ["en"],
   },
-  sameAs: [],
 };
 
-const jsonLdLocalBusiness = {
+const jsonLdProfessionalService = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": "ProfessionalService",
   name: siteConfig.name,
   url: siteConfig.siteUrl,
   description: siteConfig.description,
   email: siteConfig.contactEmail,
-  image: `${siteConfig.siteUrl}/axion-logo-full.png`,
-  serviceType: "Software development and AI automation services",
+  image: `${siteConfig.siteUrl}/axion-logo-stacked.png`,
+  serviceType: "Website development, workflow automation, and practical AI systems",
   areaServed: {
     "@type": "Country",
     name: "Canada",
   },
   priceRange: "$$",
+  knowsAbout: [
+    "Website design",
+    "Workflow automation",
+    "Business process automation",
+    "AI automation",
+    "Internal tools",
+    "SEO for local businesses",
+  ],
 };
 
 export const metadata: Metadata = {
@@ -54,6 +69,13 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],
   applicationName: siteConfig.name,
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+  },
   alternates: {
     canonical: "/",
   },
@@ -117,7 +139,11 @@ export default function RootLayout({
           id="json-ld-organization"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([jsonLdOrganization, jsonLdLocalBusiness]),
+            __html: JSON.stringify([
+              jsonLdWebsite,
+              jsonLdOrganization,
+              jsonLdProfessionalService,
+            ]),
           }}
         />
         {children}

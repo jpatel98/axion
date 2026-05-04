@@ -2,7 +2,11 @@ export type LeadFormValues = {
   name: string;
   business: string;
   email: string;
-  helpNeeded: string;
+  teamSize: string;
+  industry: string;
+  goal: string;
+  currentTools: string;
+  bottlenecks: string;
 };
 
 export type LeadFormErrors = Partial<Record<keyof LeadFormValues, string>>;
@@ -22,7 +26,11 @@ export const initialLeadFormValues: LeadFormValues = {
   name: "",
   business: "",
   email: "",
-  helpNeeded: "",
+  teamSize: "",
+  industry: "",
+  goal: "",
+  currentTools: "",
+  bottlenecks: "",
 };
 
 export function normalizeLeadForm(values: unknown): LeadFormValues {
@@ -36,8 +44,13 @@ export function normalizeLeadForm(values: unknown): LeadFormValues {
     name: typeof payload.name === "string" ? payload.name.trim() : "",
     business: typeof payload.business === "string" ? payload.business.trim() : "",
     email: typeof payload.email === "string" ? payload.email.trim() : "",
-    helpNeeded:
-      typeof payload.helpNeeded === "string" ? payload.helpNeeded.trim() : "",
+    teamSize: typeof payload.teamSize === "string" ? payload.teamSize.trim() : "",
+    industry: typeof payload.industry === "string" ? payload.industry.trim() : "",
+    goal: typeof payload.goal === "string" ? payload.goal.trim() : "",
+    currentTools:
+      typeof payload.currentTools === "string" ? payload.currentTools.trim() : "",
+    bottlenecks:
+      typeof payload.bottlenecks === "string" ? payload.bottlenecks.trim() : "",
   };
 }
 
@@ -58,8 +71,24 @@ export function validateLeadForm(values: LeadFormValues): LeadFormErrors {
     errors.email = "Please enter a valid email address.";
   }
 
-  if (values.helpNeeded.length < 20) {
-    errors.helpNeeded =
+  if (!values.teamSize) {
+    errors.teamSize = "Please add your approximate team size.";
+  }
+
+  if (!values.industry) {
+    errors.industry = "Please add your industry.";
+  }
+
+  if (values.goal.length < 12) {
+    errors.goal = "Please add the main outcome you want from the assessment.";
+  }
+
+  if (values.currentTools.length < 8) {
+    errors.currentTools = "Please list the main tools your team uses today.";
+  }
+
+  if (values.bottlenecks.length < 20) {
+    errors.bottlenecks =
       "A short overview helps. Please add at least a sentence or two.";
   }
 
